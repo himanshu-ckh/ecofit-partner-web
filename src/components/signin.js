@@ -81,6 +81,9 @@ const styles = theme => ({
     fontWeight: 500,
     display: 'flex',
     flexDirection: 'column',
+  },
+  signInForm: {
+
   }
 });
 
@@ -92,7 +95,16 @@ class SignIn extends React.Component {
 
   constructor(props,context) {
     super(props,context);
-    this.state = {email: ' ', password: ' ', user: { },  redirect: true};
+    this.state = {
+      email: ' ',
+      password: ' ',
+      user: { },
+      redirect: true,
+      setNewPasswordForm: false,
+      signInForm: true,
+      newPassword: ' ',
+      confirmNewPassword: ' ',
+  };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -101,13 +113,19 @@ class SignIn extends React.Component {
   }
 
   checkSignIn = () => {
+    //alert("akjsldaskhdlkashdlakld");
     Auth.signIn(this.state.email, this.state.password)
     .then(user => {
-      //this.setState({ user: user })
+      this.setState({ user: user });
       console.log('successful sign in!');
-      alert("hizbsasd");
+      if(user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        this.setState({setNewPasswordForm: true, signInForm: false});
+      }
+      else{
+        this.props.history.push("/");
+      }
       console.log(JSON.stringify(user));
-      alert("askjhd")
+      // alert("askjhd")
       //this.props.history.push("/joinus");
     })
     .catch(err => {
@@ -117,15 +135,30 @@ class SignIn extends React.Component {
 
   signin = () => {
     this.checkSignIn();
-    alert("hello");
   }
 
-  render(){
+  setNewPassword = () => {
+    if(this.state.newPassword == this.state.confirmNewPassword){
+      Auth.completeNewPassword(
+            this.state.user,               // the Cognito User Object
+            this.state.newPassword,       // the new password
+        ).then(user => {
+            // at this time the user is logged in if no MFA required
+            console.log(user);
+            this.props.history.push("partnerprofile");
+        }).catch(e => {
+          console.log(e);
+        });
+    }
+    else{
+      alert("Password did not match. Please check again");
+    }
+  }
 
-    const { classes } = this.props;
-
-  return (
-    <div>
+  displaySignInForm = (classes) => {
+    if(this.state.signInForm == true){
+    return(
+    <div className={classes.signInForm}>
     <main className={classes.main}>
       <CssBaseline />
       <Paper className={classes.paper}>
@@ -135,7 +168,7 @@ class SignIn extends React.Component {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={this.signin}>
+        <form className={classes.form}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input className={classes.email} onChange={this.handleChange} id="email" name="email" autoComplete="email" autoFocus />
@@ -149,11 +182,12 @@ class SignIn extends React.Component {
             label="Remember me"
           />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={this.signin}
           >
             Sign in
           </Button>
@@ -173,10 +207,60 @@ class SignIn extends React.Component {
     </div>
   );
 }
+  else{
+    return(
+    <div className={classes.setNewPasswordForm}>
+    <main className={classes.main}>
+      <CssBaseline />
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Set new password
+        </Typography>
+        <form className={classes.form}>
+        <FormControl margin="normal" required fullWidth>
+          <InputLabel htmlFor="password">Enter new password</InputLabel>
+          <Input className={classes.password} onChange={this.handleChange} name="newPassword" type="password" id="password" />
+        </FormControl>
+        <FormControl margin="normal" required fullWidth>
+          <InputLabel htmlFor="password">Renter password</InputLabel>
+          <Input className={classes.password} onChange={this.handleChange} name="confirmNewPassword" type="password" id="password" />
+        </FormControl>
+
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={this.setNewPassword}
+          >
+            Reset Password
+          </Button>
+        </form>
+      </Paper>
+    </main>
+    </div>
+  );
+}
+  }
+
+  render(){
+
+    const { classes } = this.props;
+
+  return (
+    <div>
+    {this.displaySignInForm(classes)}
+    </div>
+  );
+}
 }
 
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+export default withRouter((withStyles(styles)(SignIn)));
