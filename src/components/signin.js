@@ -145,7 +145,7 @@ class SignIn extends React.Component {
         ).then(user => {
             // at this time the user is logged in if no MFA required
             console.log(user);
-            this.props.history.push("partnerprofile");
+            this.props.history.push("/");
         }).catch(e => {
           console.log(e);
         });
