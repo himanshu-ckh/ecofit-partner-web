@@ -17,12 +17,12 @@ const styles = theme => ({
   card: {
     display: 'flex',
     marginTop: 10,
-    width: '75%',
+    width: '85%',
     marginLeft: 10,
     height: '40%',
     maxHeight: '100%',
     marginBottom: 20,
-    marginLeft: '17%'
+    marginLeft: '7%'
   },
   main: {
     display: 'inlineBlock',
@@ -60,13 +60,13 @@ class VisitHistory extends React.Component {
         <Card className={classes.card}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
-            <Typography variant="subtitle1" color="textSecondary">
+            <Typography variant="subtitle1" color="black">
               Name: {p.name}
             </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
+            <Typography variant="subtitle1" color="black">
               Visit Date: 8th April 2019
             </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
+            <Typography variant="subtitle1" color="black">
               Age: 22
             </Typography>
           </CardContent>

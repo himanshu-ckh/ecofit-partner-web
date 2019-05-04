@@ -7,6 +7,7 @@ import FirstTimeNewPassword from './components/newpassword';
 import VisitHistory from './components/visithistory';
 import MainProfilePage from './components/mainprofilepage';
 import UpComing from './components/upcoming';
+import ForgotPassword from './components/forgotpassword';
 import './App.css';
 
 import Amplify, { Auth, API } from 'aws-amplify'
@@ -17,11 +18,10 @@ const Routes = ({childProps}) => (
   <Switch>
     <Route exact path='/partnersignin' render={() => (<PartnersLoginPage/>)}/>
     <Route exact path='/joinus' render={() => (<JoinUsPage/>)}/>
-    <ProtectedRoute exact
-    path='/'
-    render={() => (<PartnerProfile/>)}
-    props={childProps}/>
+  
+    <Route exact path='/' render={() => (<PartnerProfile/>)}/>
     <Route exact path='/firsttimenewpassword' render={() => (<FirstTimeNewPassword/>)}/>
+    <Route exact path='/forgotpassword' render={() => (<ForgotPassword/>)}/>
   </Switch>
 );
 

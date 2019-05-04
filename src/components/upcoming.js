@@ -17,12 +17,12 @@ const styles = theme => ({
   card: {
     display: 'flex',
     marginTop: 10,
-    width: '75%',
+    width: '85%',
     marginLeft: 10,
     height: '40%',
     maxHeight: '100%',
     marginBottom: 20,
-    marginLeft: '17%'
+    marginLeft: '7%'
   },
   main: {
     display: 'inlineBlock',

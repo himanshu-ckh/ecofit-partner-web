@@ -24,7 +24,7 @@ import Amplify, { Auth, API } from 'aws-amplify'
 const styles = theme => ({
   main: {
     width: 'auto',
-    marginTop: 120,
+    marginTop: 3,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {

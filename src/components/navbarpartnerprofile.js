@@ -30,13 +30,18 @@ const styles = {
   navbardiv: {
     display: 'inline-block',
     width: '100%',
+  },
+  logoutbutton: {
+    color: 'white',
+    justifyContent: 'right',
+    marginRight: 20,
   }
 };
 
 class Navbarpage extends React.Component{
 
   logout = () =>{
-    alert("yes");
+    alert("Do you want to logout?");
     Auth.signOut()
     .then(data => {
       console.log(data)
@@ -59,7 +64,7 @@ class Navbarpage extends React.Component{
             </Button>
             <Button type="button" className={classes.button}> <Link className={classes.links} style={{ textDecoration: 'none' }} to='/partners'> Gyms</Link>
             </Button>
-            <Button type="button" className={classes.button} onClick={this.logout}>Logout
+            <Button type="button" className={classes.logoutbutton} onClick={this.logout}>Logout
             </Button>
           </Typography>
         </Toolbar>

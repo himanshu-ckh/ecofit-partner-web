@@ -24,6 +24,7 @@ import '../App.css';
 
 const styles = theme => ({
   main:{
+    marginRight: '6%',
     width: '100%',
     display: 'flex',
     flexWrap: 'wrap',
@@ -32,8 +33,13 @@ const styles = theme => ({
     maxWidth: '100%',
     width: 350,
     maxHeight: '100%',
-    marginLeft: '7%',
+    marginLeft: '2%',
     marginTop: '1%',
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: '300',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
   cardmain: {
     height: 450,
@@ -42,11 +48,16 @@ const styles = theme => ({
     float:'left',
   },
   sidetab:{
-    width: 740,
-    maxWidth: '80%',
-    marginRight: '4%',
+    width: 640,
+    maxWidth: '100%',
+    marginRight: '5%',
     marginTop: '1%',
-    marginLeft: '4%'
+    marginLeft: '1%',
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 640,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
   media: {
     height: 300,
@@ -63,6 +74,11 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  colorgrey: {
+    backgroundColor: '#DCDCDC',
+    maxWidth: '100%',
+    width: '100%'
+  }
 });
 
 class PartnerProfile extends React.Component {
@@ -76,7 +92,7 @@ class PartnerProfile extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <div className={classes.colorgrey}>
       <NavbarPartnerProfile />
       <div className={classes.main}>
       <div className={classes.card}>

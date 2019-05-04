@@ -14,18 +14,9 @@
 	background: url(staticfiles/Preloader_2.gif) center no-repeat #fff;
 }
 
-.videoTag {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -100;
-    transform: translateX(-50%) translateY(-50%);
-    background-size: cover;
-    transition: 1s opacity;
+.partnerlogin {
+  height: 100%;
+  background-color: #DCDCDC;
 }
 
 .content {
