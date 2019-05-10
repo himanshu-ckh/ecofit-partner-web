@@ -42,8 +42,6 @@ function Navbarpage(props) {
             </Button>
             <Button type="button" className={classes.button}> <Link className={classes.links} style={{ textDecoration: 'none' }} to='/joinus'>Join</Link>
             </Button>
-            <Button type="button" className={classes.button}> <Link className={classes.links} style={{ textDecoration: 'none' }} to='/partners'> Gyms</Link>
-            </Button>
           </Typography>
         </Toolbar>
       </AppBar>

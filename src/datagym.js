@@ -1,4 +1,4 @@
-import img1 from './staticfiles/img1.jpeg';
+import img1 from './staticfiles/golds.png';
 import img2 from './staticfiles/img1.jpeg';
 import img3 from './staticfiles/img1.jpeg';
 
@@ -8,6 +8,8 @@ var DATAGYM = [
     name: 'Himanshu Chaudhary',
     phoneNumber: '9943639427',
     email:'himanshu.c.k.h@gmail.com ',
+    address: 'Electronic City Phase 1',
+    city: 'Bangalore',
     image:{img1},
   }
 ]

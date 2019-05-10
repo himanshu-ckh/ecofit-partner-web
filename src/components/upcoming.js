@@ -4,13 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Data from '../upcomingvisit.js';
-import img1 from '../staticfiles/img3.jpeg';
 
 
 const styles = theme => ({
@@ -18,7 +13,6 @@ const styles = theme => ({
     display: 'flex',
     marginTop: 10,
     width: '85%',
-    marginLeft: 10,
     height: '40%',
     maxHeight: '100%',
     marginBottom: 20,
@@ -73,7 +67,7 @@ class UpComing extends React.Component {
         </div>
         <CardMedia
           className={classes.cover}
-          image={img1}
+          image={p.image}
           title="User Image"
         />
       </Card>

@@ -1,25 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import NavbarPartnerProfile from './navbarpartnerprofile';
 import SideTab from './sidetab';
-import img from '../staticfiles/golds.png';
 import '../App.css';
+import DATAGYM from '../datagym.js';
+import axios, {post} from 'axios';
 
 
 const styles = theme => ({
@@ -82,11 +73,79 @@ const styles = theme => ({
 });
 
 class PartnerProfile extends React.Component {
-  state = { expanded: false };
+  constructor (props) {
+    super(props);
+    this.state = {
+      expanded: false, 
+      Data: DATAGYM,
+      image: ''
+    }
+  }
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
+
+  renderGymProfileOnPartnerPage = (classes) => {
+    return(
+    <div className={classes.main}>
+      <div className={classes.card}>
+      {this.state.Data.map(p =>
+      <Card className={classes.cardmain}>
+        <CardMedia
+          className={classes.media}
+          image={p.image}
+          title="Gym Image"
+          
+        />
+        {/* <input type="file" name =" file" onChange={(e) => this.onChange(e)} /> */}
+        <CardContent>
+        <Typography className={classes.cardcontent} component="p">
+          {p.name}
+        </Typography>
+      </CardContent>
+        <CardContent>
+          <Typography className={classes.cardcontent} component="p">
+            {p.address}
+          </Typography>
+          </CardContent>
+          <CardContent>
+          <Typography className={classes.cardcontent} component="p">
+            {p.phoneNumber}
+          </Typography>
+        </CardContent>
+        <CardContent>
+        <Typography className={classes.cardcontent} component="p">
+          {p.city}
+        </Typography>
+        
+      </CardContent>
+      </Card>
+      
+      )}
+      </div>
+      <div className={classes.sidetab}>
+      <SideTab />
+      </div>
+      </div>
+    )
+  }
+
+  // onChange(e) {
+  //   let files = e.target.files;
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(files[0]);
+  //   reader.onload= (e) =>{
+  //     console.log(e.target.result);
+  //     const url = "aws url";
+  //     const formData = {file: e.target.result}; 
+  //     return post(url, formData)
+  //     .then(response =>{
+  //       console.log("result", response);
+  //     })
+  //   } 
+  // }
+    
 
   render() {
     const { classes } = this.props;
@@ -94,40 +153,9 @@ class PartnerProfile extends React.Component {
     return (
       <div className={classes.colorgrey}>
       <NavbarPartnerProfile />
-      <div className={classes.main}>
-      <div className={classes.card}>
-      <Card className={classes.cardmain}>
-        <CardMedia
-          className={classes.media}
-          image={img}
-          title="Gym Image"
-        />
-        <CardContent>
-        <Typography className={classes.cardcontent} component="p">
-          Golds Gym EC
-        </Typography>
-      </CardContent>
-        <CardContent>
-          <Typography className={classes.cardcontent} component="p">
-            Electonic cityPhase 1
-          </Typography>
-          </CardContent>
-          <CardContent>
-          <Typography className={classes.cardcontent} component="p">
-            9943639427
-          </Typography>
-        </CardContent>
-        <CardContent>
-        <Typography className={classes.cardcontent} component="p">
-          Bangalore
-        </Typography>
-      </CardContent>
-      </Card>
-      </div>
-      <div className={classes.sidetab}>
-      <SideTab />
-      </div>
-      </div>
+      
+      {this.renderGymProfileOnPartnerPage(classes)}
+      
       </div>
     );
   }

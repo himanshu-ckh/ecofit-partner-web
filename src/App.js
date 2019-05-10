@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import PartnersLoginPage from './components/partnersloginpage';
 import JoinUsPage from './components/joinuspage';
 import PartnerProfile from './components/partnerprofile';
 import FirstTimeNewPassword from './components/newpassword';
-import VisitHistory from './components/visithistory';
-import MainProfilePage from './components/mainprofilepage';
-import UpComing from './components/upcoming';
 import ForgotPassword from './components/forgotpassword';
 import './App.css';
 
-import Amplify, { Auth, API } from 'aws-amplify'
+import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from './aws-exports'
 Amplify.configure(AWSConfig)
 
 const Routes = ({childProps}) => (
   <Switch>
-    <Route exact path='/partnersignin' render={() => (<PartnersLoginPage/>)}/>
+    <Route exact path='/partnersignin'
+    render={() => (<PartnersLoginPage/>)}/>
+
     <Route exact path='/joinus' render={() => (<JoinUsPage/>)}/>
-  
-    <Route exact path='/' render={() => (<PartnerProfile/>)}/>
+
+    <ProtectedRoute exact
+    path='/'
+    render={() => (<PartnerProfile/>)}
+    props={childProps}/>
+
     <Route exact path='/firsttimenewpassword' render={() => (<FirstTimeNewPassword/>)}/>
+
     <Route exact path='/forgotpassword' render={() => (<ForgotPassword/>)}/>
   </Switch>
 );
@@ -49,11 +53,13 @@ class App extends Component {
   this.state ={
     authState: {
       isLoggedIn: false,
-    }
+    },
+    
   };
   this.checkCurrentAuthenticatedUser();
 
 }
+
 
 checkCurrentAuthenticatedUser = () =>{
   Auth.currentAuthenticatedUser()
@@ -67,7 +73,7 @@ checkCurrentAuthenticatedUser = () =>{
   render() {
     const childProps = {
       isLoggedIn: this.state.authState.isLoggedIn,
-      onUSerSignIn: this.handleUserSignIn
+      onUserSignIn: this.handleUserSignIn,
     }
     return (
       <div className="App">

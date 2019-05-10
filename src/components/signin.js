@@ -13,12 +13,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
-import PartnerProfile from './partnerprofile';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import JoinUsPage from './joinuspage';
 
-import Amplify, { Auth, API } from 'aws-amplify'
+import  { Auth } from 'aws-amplify'
 
 
 const styles = theme => ({
@@ -104,20 +101,28 @@ class SignIn extends React.Component {
       signInForm: true,
       newPassword: ' ',
       confirmNewPassword: ' ',
+      // isAuthenticated: false
   };
     this.handleChange = this.handleChange.bind(this);
   }
+
+  // userHasAuthenticated = authenticated => {
+  //   this.setState({ isAuthenticated: authenticated });
+  // }
 
   handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
   }
 
-  checkSignIn = () => {
+  checkSignIn = async event => {
+    
     //alert("akjsldaskhdlkashdlakld");
-    Auth.signIn(this.state.email, this.state.password)
+    try {
+    await Auth.signIn(this.state.email, this.state.password)
     .then(user => {
       this.setState({ user: user });
       console.log('successful sign in!');
+      // this.userHasAuthenticated(true);
       if(user.challengeName === "NEW_PASSWORD_REQUIRED") {
         this.setState({setNewPasswordForm: true, signInForm: false});
       }
@@ -128,9 +133,10 @@ class SignIn extends React.Component {
       // alert("askjhd")
       //this.props.history.push("/joinus");
     })
-    .catch(err => {
+  }
+    catch(err) {
       console.log('error signing in!: ', err);
-  })
+  }
   }
 
   signin = () => {
@@ -138,7 +144,7 @@ class SignIn extends React.Component {
   }
 
   setNewPassword = () => {
-    if(this.state.newPassword == this.state.confirmNewPassword){
+    if(this.state.newPassword === this.state.confirmNewPassword){
       Auth.completeNewPassword(
             this.state.user,               // the Cognito User Object
             this.state.newPassword,       // the new password
@@ -156,7 +162,7 @@ class SignIn extends React.Component {
   }
 
   displaySignInForm = (classes) => {
-    if(this.state.signInForm == true){
+    if(this.state.signInForm === true){
     return(
     <div className={classes.signInForm}>
     <main className={classes.main}>

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
 import '../App.css';
-import sample from '../staticfiles/partnerloginpage.mp4';
 import SignIn from './signin';
 import Navbar from './navbar';
 

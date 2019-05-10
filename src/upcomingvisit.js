@@ -1,6 +1,5 @@
 import img1 from './staticfiles/img1.jpeg';
-import img2 from './staticfiles/img1.jpeg';
-import img3 from './staticfiles/img1.jpeg';
+import img2 from './staticfiles/img2.jpeg';
 
 var DATA = [
   {
@@ -14,19 +13,22 @@ var DATA = [
     id: 2,
     name: 'Shubham Bansal',
     phoneNumber: '9943639427',
-    email:'himanshu.c.k.h@gmail.com'
+    email:'himanshu.c.k.h@gmail.com',
+    image:{img2},
   },
   {
     id: 3,
     name: 'Kartik Sachdeva',
     phoneNumber: '9943639427',
-    email:'himanshu.c.k.h@gmail.com '
+    email:'himanshu.c.k.h@gmail.com ',
+    image:{img1},
   },
   {
     id: 4,
     name: 'Rishabh Thakur',
     phoneNumber: '9943639427',
-    email:'himanshu.c.k.h@gmail.com '
+    email:'himanshu.c.k.h@gmail.com ',
+    image:{img1},
   }
 ]
 
