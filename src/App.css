@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  height: 1200px;
+  background-color: #DCDCDC;
 }
 
 .no-js #loader { display: none;  }
@@ -15,7 +17,6 @@
 }
 
 .partnerlogin {
-  height: 100%;
   background-color: #DCDCDC;
 }
 

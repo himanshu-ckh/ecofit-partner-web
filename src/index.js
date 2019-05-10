@@ -19,6 +19,6 @@ const breakpoints = {
 
 ReactDOM.render(
   <ReactBreakpoints breakpoints={breakpoints}>
-  <BrowserRouter><App /></BrowserRouter>,
+  <BrowserRouter><App /></BrowserRouter>
   </ReactBreakpoints>,
   document.getElementById('root'))

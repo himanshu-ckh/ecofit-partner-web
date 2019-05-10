@@ -19,9 +19,12 @@ import  { Auth } from 'aws-amplify'
 
 
 const styles = theme => ({
+  mainpage: {
+    marginTop: '15%',
+  },
   main: {
     width: 'auto',
-    marginTop: 3,
+    marginTop: theme.spacing.unit * 3,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -99,11 +102,12 @@ class SignIn extends React.Component {
       redirect: true,
       setNewPasswordForm: false,
       signInForm: true,
-      newPassword: ' ',
-      confirmNewPassword: ' ',
+      newPassword: '',
+      confirmNewPassword: '',
       // isAuthenticated: false
   };
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeSetNewPassword = this.handleChangeSetNewPassword.bind(this);
   }
 
   // userHasAuthenticated = authenticated => {
@@ -111,6 +115,11 @@ class SignIn extends React.Component {
   // }
 
   handleChange(event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+
+  handleChangeSetNewPassword(event) {
+    event.preventDefault();
     this.setState({[event.target.name]: event.target.value});
   }
 
@@ -141,6 +150,7 @@ class SignIn extends React.Component {
 
   signin = () => {
     this.checkSignIn();
+    console.log(this.state);
   }
 
   setNewPassword = () => {
@@ -228,11 +238,11 @@ class SignIn extends React.Component {
         <form className={classes.form}>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="password">Enter new password</InputLabel>
-          <Input className={classes.password} onChange={this.handleChange} name="newPassword" type="password" id="password" />
+          <Input className={classes.password} onChange={this.handleChangeSetNewPassword} name="newPassword" type="password" id="newPassword" value={this.state.newPassword} />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="password">Renter password</InputLabel>
-          <Input className={classes.password} onChange={this.handleChange} name="confirmNewPassword" type="password" id="password" />
+          <Input className={classes.password} onChange={this.handleChangeSetNewPassword} name="confirmNewPassword" type="password" id="password" value={this.state.confirmNewPassword} />
         </FormControl>
 
           <Button
@@ -258,7 +268,7 @@ class SignIn extends React.Component {
     const { classes } = this.props;
 
   return (
-    <div>
+    <div className={classes.mainpage}>
     {this.displaySignInForm(classes)}
     </div>
   );
