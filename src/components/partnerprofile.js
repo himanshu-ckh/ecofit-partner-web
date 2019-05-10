@@ -11,6 +11,8 @@ import SideTab from './sidetab';
 import '../App.css';
 import DATAGYM from '../datagym.js';
 import axios, {post} from 'axios';
+import { withRouter } from "react-router-dom";
+import { Auth } from "aws-amplify";
 
 
 const styles = theme => ({
@@ -80,7 +82,25 @@ class PartnerProfile extends React.Component {
       Data: DATAGYM,
       image: ''
     }
+    this.getCurrentAuthUser();
   }
+
+  getCurrentAuthUser = async () => {
+    let isLoggedIn = false;
+    await Auth.currentAuthenticatedUser()
+      .then(user => {
+        console.log(user);
+        isLoggedIn = true;
+      })
+      .catch(err => {
+        isLoggedIn = false;
+      });
+      if (!isLoggedIn) {
+        console.log("pushing to redirect partnersign in url");
+        this.props.history.push("/partnersignin?redirect=/");
+      }
+  };
+
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -165,4 +185,4 @@ PartnerProfile.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PartnerProfile);
+export default withRouter(withStyles(styles)(PartnerProfile));

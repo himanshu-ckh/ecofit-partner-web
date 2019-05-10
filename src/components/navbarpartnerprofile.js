@@ -38,16 +38,26 @@ const styles = {
 };
 
 class Navbarpage extends React.Component{
+  
+  actualLogout = async () => {
+    await this.logout();
+    console.log("logged out");
+    
 
-  logout = () =>{
-    alert("Do you want to logout?");
+  }
+
+  logout = async () => {
+    const logoutFlag = window.confirm("Do you want to logout?");
+    if(logoutFlag == true){
+    return (
     Auth.signOut()
     .then(data => {
-      console.log(data)
+      console.log(data);
+      this.props.history.push("/partnersignin?redirect=/");
     })
-    .catch(err => console.log(err));
-    this.props.history.push("partnersignin");
+    .catch(err => console.log(err)));
   }
+}
 
   render(){
   const { classes } = this.props;

@@ -38,7 +38,7 @@ function Navbarpage(props) {
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
           <Typography variant="h6" color="inherit">
-            <Button type="button" className={classes.button}> <Link className={classes.links} style={{ textDecoration: 'none'}} to='/'>EcoFit </Link>
+            <Button type="button" className={classes.button}> <Link className={classes.links} style={{ textDecoration: 'none'}} to='/partnersignin?redirect=/'>EcoFit </Link>
             </Button>
             <Button type="button" className={classes.button}> <Link className={classes.links} style={{ textDecoration: 'none' }} to='/joinus'>Join</Link>
             </Button>
