@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Data from '../upcomingvisit.js';
+import TextField from '@material-ui/core/TextField';
 
 
 const styles = theme => ({
@@ -35,53 +36,88 @@ const styles = theme => ({
     marginTop: 5,
     marginRight: '5%',
     marginBottom: 5,
-    marginLeft:'17%',
+    marginLeft: '17%',
     width: 150,
     height: 150,
     borderRadius: '50%',
-    justifyContent:'right',
+    justifyContent: 'right',
   },
+  search: {
+    width: '80%',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+  }
 });
 
 
 class UpComing extends React.Component {
-  state = { expanded: false, data: Data, idval: false};
+  state = { expanded: false, data: Data, idval: false, search: '', filteredResult: Data };
 
   renderUpcomingVisitCard = (classes, theme) => {
     return (
       <div className={classes.main}>
-      {this.state.data.map(p =>
-        <Card className={classes.card}>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <Typography variant="subtitle1" color="black">
-              Name: {p.name}
+        {this.state.filteredResult.map(p =>
+          <Card className={classes.card}>
+            <div className={classes.details}>
+              <CardContent className={classes.content}>
+                <Typography variant="subtitle1" color="black">
+                  Name: {p.name}
+                </Typography>
+                <Typography variant="subtitle1" color="black">
+                  Visit Date: 8th April 2019
             </Typography>
-            <Typography variant="subtitle1" color="black">
-              Visit Date: 8th April 2019
+                <Typography variant="subtitle1" color="black">
+                  Age: 22
             </Typography>
-            <Typography variant="subtitle1" color="black">
-              Age: 22
-            </Typography>
-          </CardContent>
-        </div>
-        <CardMedia
-          className={classes.cover}
-          image={p.image}
-          title="User Image"
-        />
-      </Card>
-    )}
-    </div>
+              </CardContent>
+            </div>
+            <CardMedia
+              className={classes.cover}
+              image={p.image}
+              title="User Image"
+            />
+          </Card>
+        )}
+      </div>
     )
   }
+  showSearchedResult = (value) => {
+    console.log(value);
+
+      var obj = this.state.data.filter( filt => {
+        console.log(filt.name.toLowerCase());
+        return (filt.name.toLowerCase().includes(value));
+      });
+      this.setState({filteredResult: obj});
+    }
+    
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+    this.showSearchedResult(this.state.search);
+    
+  };
 
   render() {
     const { classes, theme } = this.props;
 
     return (
       <div className={classes.main}>
-      {this.renderUpcomingVisitCard(classes, theme)}
+        <form className={classes.form}>
+          <TextField
+            id="outlined-email-input"
+            label="Search Visits"
+            className={classes.search}
+            type="search"
+            name="search"
+            onChange={this.handleChange('search')}
+            margin="normal"
+            variant="outlined"
+          />
+        </form>
+        {this.renderUpcomingVisitCard(classes, theme)}
       </div>
     );
   }

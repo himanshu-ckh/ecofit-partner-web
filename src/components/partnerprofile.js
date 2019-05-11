@@ -10,7 +10,6 @@ import NavbarPartnerProfile from './navbarpartnerprofile';
 import SideTab from './sidetab';
 import '../App.css';
 import DATAGYM from '../datagym.js';
-import axios, {post} from 'axios';
 import { withRouter } from "react-router-dom";
 import { Auth } from "aws-amplify";
 

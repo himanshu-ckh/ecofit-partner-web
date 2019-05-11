@@ -15,7 +15,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = theme => ({
   main: {
     width: 'auto',
-    marginTop: 120,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -38,7 +37,6 @@ const styles = theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
   },
   links: {
     color: 'Black',
@@ -49,7 +47,7 @@ const styles = theme => ({
     display: 'inlineBlock',
   },
   email: {
-    fontWeight:400,
+    fontWeight: 400,
   },
   password: {
     fontWeight: 400,
@@ -59,73 +57,77 @@ const styles = theme => ({
   },
   forgotpassword: {
 
-    marginTop: theme.spacing.unit ,
+    marginTop: theme.spacing.unit,
     marginLeft: theme.spacing.unit * 1,
     fontWeight: 500,
     display: 'flex',
     flexDirection: 'column',
   },
-  joinus: {
-    marginTop: theme.spacing.unit * .5,
-    marginRight: theme.spacing.unit * 1,
-    paddingLeft:  theme.spacing.unit * 2,
-    fontWeight: 500,
-    display: 'flex',
-    flexDirection: 'column',
-  }
 });
 
 class ForgotPassword extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {password: ' ', confirmpassword: ' '};
+    this.state = { email: '',password: ' ', confirmpassword: ' ' };
   }
 
   handleChange = (event) => {
     event.preventDefault();
-    this.setState({[event.target.name]: event.target.value});
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  render(){
+  render() {
 
     const { classes } = this.props;
 
-  return (
-    <div>
-    <main className={classes.main}>
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Change Password
+    return (
+      <div>
+        <main className={classes.main}>
+          <CssBaseline />
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Change Password
         </Typography>
-        <form className={classes.form} onSubmit={this.signin}>
-        <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <Input className={classes.password} onChange={this.handleChange} name="password" type="password" id="password" />
-        </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Confirm Password</InputLabel>
-            <Input className={classes.password} onChange={this.handleChange} name="confirmpassword" type="password" id="password" />
-          </FormControl>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Confirm password
+            <form className={classes.form}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Email Address</InputLabel>
+                <Input
+                  className={classes.email}
+                  onChange={this.handleChange}
+                  id="email"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <Input className={classes.password} onChange={this.handleChange} name="password" type="password" id="password" />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Confirm Password</InputLabel>
+                <Input className={classes.password} onChange={this.handleChange} name="confirmpassword" type="password" id="password" />
+              </FormControl>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.changePassword}
+              >
+                Confirm password
           </Button>
-        </form>
-      </Paper>
-    </main>
-    </div>
-  );
-}
+            </form>
+          </Paper>
+        </main>
+      </div>
+    );
+  }
 }
 
 ForgotPassword.propTypes = {

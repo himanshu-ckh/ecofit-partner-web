@@ -1,6 +1,4 @@
 import img1 from './staticfiles/golds.png';
-import img2 from './staticfiles/img1.jpeg';
-import img3 from './staticfiles/img1.jpeg';
 
 var DATAGYM = [
   {

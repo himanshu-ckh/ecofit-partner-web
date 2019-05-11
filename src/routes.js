@@ -8,9 +8,6 @@ import PartnerProfile from "./components/partnerprofile";
 import FirstTimeNewPassword from "./components/newpassword";
 import ForgotPassword from "./components/forgotpassword";
 class Routes extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <Switch>

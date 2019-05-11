@@ -81,7 +81,10 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column"
   },
-  signInForm: {}
+  signInForm: {},
+  form_hint: {
+    fontSize: '.9em'
+  }
 });
 
 class SignIn extends React.Component {
@@ -111,33 +114,35 @@ class SignIn extends React.Component {
   checkSignIn = async () => {
     //alert("akjsldaskhdlkashdlakld");
     return (
-    Auth.signIn(this.state.email, this.state.password)
-      .then(user => {
-        this.setState({ user: user });
-        console.log("successful sign in!");
-        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-          this.setState({ setNewPasswordForm: true, signInForm: false });
-        } else {
-          console.log("Not new password challenge");
-          this.props.history.push("/");
-          console.log("after history");
-        }
-        console.log(this.state.user);
-      })
-      .catch(err => {
-        console.log("error signing in!: ", err);
-        alert(err.message);
-      })
+      Auth.signIn(this.state.email, this.state.password)
+        .then(user => {
+          this.setState({ user: user });
+          console.log("successful sign in!");
+          if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+            this.setState({ setNewPasswordForm: true, signInForm: false });
+          } else {
+            console.log("Not new password challenge");
+            this.props.history.push("/");
+            console.log("after history");
+          }
+          console.log(this.state.user);
+        })
+        .catch(err => {
+          console.log("error signing in!: ", err);
+          alert(err.message);
+        })
     )
   };
 
   signin = async () => {
     await this.checkSignIn();
     console.log(this.state);
-    
+
   };
 
   setNewPassword = () => {
+    if(this.state.newPassword.length >=6 && this.state.confirmNewPassword.length >=6){
+
     if (this.state.newPassword === this.state.confirmNewPassword) {
       Auth.completeNewPassword(
         this.state.user, // the Cognito User Object
@@ -154,6 +159,10 @@ class SignIn extends React.Component {
     } else {
       alert("Password did not match. Please check again");
     }
+  }
+  else {
+    alert("Password should be atleast 6 characters long")
+  }
   };
 
   displaySignInForm = classes => {
@@ -249,6 +258,9 @@ class SignIn extends React.Component {
                 Set new password
               </Typography>
               <form className={classes.form}>
+                <Typography className={classes.form_hint} component="h5" variant="h5">
+                  Password should be at least 6 characters long
+        </Typography>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="password">Enter new password</InputLabel>
                   <Input

@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Data from '../upcomingvisit.js';
+import TextField from '@material-ui/core/TextField';
 
 
 const styles = theme => ({
@@ -41,16 +42,21 @@ const styles = theme => ({
     borderRadius: '50%',
     justifyContent:'right',
   },
+  search: {
+    width: '80%',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+  }
 });
 
 
 class VisitHistory extends React.Component {
-  state = { expanded: false, data: Data, idval: false};
+  state = { expanded: false, data: Data, idval: false, search:'', filteredResult: Data};
 
   renderUpcomingVisitCard = (classes, theme) => {
     return (
       <div className={classes.main}>
-      {this.state.data.map(p =>
+      {this.state.filteredResult.map(p =>
         <Card className={classes.card}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
@@ -76,11 +82,41 @@ class VisitHistory extends React.Component {
     )
   }
 
+  showSearchedResult = (value) => {
+    console.log(value);
+
+      var obj = this.state.data.filter( filt => {
+        console.log(filt.name.toLowerCase());
+        return (filt.name.toLowerCase().includes(value));
+      });
+      this.setState({filteredResult: obj});
+    }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+    this.showSearchedResult(this.state.search);
+  };
+
+
   render() {
     const { classes, theme } = this.props;
 
     return (
       <div className={classes.main}>
+      <form className={classes.form}>
+          <TextField
+            id="outlined-email-input"
+            label="Search Visits"
+            className={classes.search}
+            type="search"
+            name="search"
+            onChange={this.handleChange('search')}
+            margin="normal"
+            variant="outlined"
+          />
+        </form>
       {this.renderUpcomingVisitCard(classes, theme)}
       </div>
     );

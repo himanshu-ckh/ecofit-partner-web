@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { withRouter } from "react-router-dom";
 
 
 const styles = theme => ({
@@ -72,6 +73,9 @@ const styles = theme => ({
     fontWeight: 500,
     display: 'flex',
     flexDirection: 'column',
+  },
+  form_hint: {
+    fontSize: '.9em'
   }
 });
 
@@ -85,6 +89,22 @@ class NewPassword extends React.Component {
   handleChange = (event) => {
     event.preventDefault();
     this.setState({[event.target.name]: event.target.value});
+  }
+
+  checkNewPasswordLogin = () => {
+    if(this.state.password.length >=6 && this.state.confirmpassword.length >=6){
+
+    if(this.state.password == this.state.confirmpassword){
+      this.props.history.push("/");
+    }
+    else{
+      alert("Password did not match");
+    }
+  }
+
+    else{
+      alert("Password length should be more than 6 characters");
+    }
   }
 
   render(){
@@ -103,6 +123,9 @@ class NewPassword extends React.Component {
           Change Password
         </Typography>
         <form className={classes.form} onSubmit={this.signin}>
+        <Typography className={classes.form_hint} component="h5" variant="h5">
+          Password should be at least 6 characters long
+        </Typography>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input className={classes.password} onChange={this.handleChange} name="password" type="password" id="password" />
@@ -117,6 +140,7 @@ class NewPassword extends React.Component {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={this.checkNewPasswordLogin}
           >
             Confirm password
           </Button>
@@ -132,4 +156,4 @@ NewPassword.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NewPassword);
+export default withRouter(withStyles(styles)(NewPassword));
