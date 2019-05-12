@@ -79,7 +79,8 @@ class PartnerProfile extends React.Component {
     this.state = {
       expanded: false, 
       Data: DATAGYM,
-      image: ''
+      image: '',
+      user:{},
     }
     this.getCurrentAuthUser();
   }
@@ -89,6 +90,7 @@ class PartnerProfile extends React.Component {
     await Auth.currentAuthenticatedUser()
       .then(user => {
         console.log(user);
+        this.setState({user:user});
         isLoggedIn = true;
       })
       .catch(err => {
@@ -110,7 +112,7 @@ class PartnerProfile extends React.Component {
     <div className={classes.main}>
       <div className={classes.card}>
       {this.state.Data.map(p =>
-      <Card className={classes.cardmain}>
+      <Card key={p.id} className={classes.cardmain}>
         <CardMedia
           className={classes.media}
           image={p.image}
@@ -144,28 +146,12 @@ class PartnerProfile extends React.Component {
       )}
       </div>
       <div className={classes.sidetab}>
-      <SideTab />
+      <SideTab user={this.state.user} />
       </div>
       </div>
     )
   }
-
-  // onChange(e) {
-  //   let files = e.target.files;
-  //   let reader = new FileReader();
-  //   reader.readAsDataURL(files[0]);
-  //   reader.onload= (e) =>{
-  //     console.log(e.target.result);
-  //     const url = "aws url";
-  //     const formData = {file: e.target.result}; 
-  //     return post(url, formData)
-  //     .then(response =>{
-  //       console.log("result", response);
-  //     })
-  //   } 
-  // }
     
-
   render() {
     const { classes } = this.props;
 

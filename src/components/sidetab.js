@@ -9,6 +9,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import { Auth, API } from "aws-amplify";
 
 function TabContainer(props) {
   return (
@@ -31,8 +32,25 @@ const styles = theme => ({
 });
 
 class SideTab extends React.Component {
-  state = {
+  constructor(props){
+  super(props);
+  this.state = {
     value: 0,
+    user:{}
+  };
+  this.getCurrentAuthUser();
+  }
+
+
+  getCurrentAuthUser = async () => {
+    await Auth.currentAuthenticatedUser()
+      .then(user => {
+        console.log(user);
+        this.setState({user:user});
+      })
+      .catch(err => {
+        console.log(err)
+      });
   };
 
   handleChange = (event, value) => {
@@ -56,7 +74,7 @@ class SideTab extends React.Component {
                 {value === 0 && <TabContainer><UpComing /></TabContainer>}
                 {value === 1 && <TabContainer><VisitHistory /></TabContainer>}
                 {value === 2 && <TabContainer><MainProfilePage /></TabContainer>}
-                {value === 3 && <TabContainer><ProfileImages /></TabContainer>}
+                {value === 3 && <TabContainer><ProfileImages user={this.state.user} /></TabContainer>}
       </div>
     );
   }

@@ -57,16 +57,16 @@ class VisitHistory extends React.Component {
     return (
       <div className={classes.main}>
       {this.state.filteredResult.map(p =>
-        <Card className={classes.card}>
+        <Card key={p.id} className={classes.card}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
-            <Typography variant="subtitle1" color="black">
+            <Typography variant="subtitle1" color="default">
               Name: {p.name}
             </Typography>
-            <Typography variant="subtitle1" color="black">
+            <Typography variant="subtitle1" color="default">
               Visit Date: 8th April 2019
             </Typography>
-            <Typography variant="subtitle1" color="black">
+            <Typography variant="subtitle1" color="default">
               Age: 22
             </Typography>
           </CardContent>
