@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -7,6 +7,9 @@ import Data from '../upcomingvisit.js';
 import img from '../staticfiles/img3.jpeg';
 import { Auth, API } from "aws-amplify";
 import { Server } from 'tls';
+import '../App.css'
+import { ConsoleLogger } from '@aws-amplify/core';
+import FileBase64 from 'react-file-base64';
 
 
 const styles = theme => ({
@@ -35,8 +38,8 @@ const styles = theme => ({
     marginTop: 20,
     width: '90%',
     textAlign: 'center',
-    jusifyContent: 'center'
-  }
+    jusifyContent: 'center',
+  },
 });
 
 
@@ -45,15 +48,8 @@ class ProfileImages extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
       data: Data,
-      idval: false,
-      imageUploaded1: false,
       image: '',
-      imageUploaded2: false,
-      imageUploaded3: false,
-      imageUploaded4: false,
-      imageUploaded5: false,
       user: {},
       userData: {
         images: {
@@ -66,14 +62,15 @@ class ProfileImages extends React.Component {
         }
       },
       uploadImageResponse: {},
+      files: []
     }
-
-
   }
 
   componentDidMount() {
     this.getUserData();
   }
+
+  
 
   getUserData() {
     let apiName = 'PartnerService';
@@ -99,47 +96,29 @@ class ProfileImages extends React.Component {
     });
   }
 
-
-  onSubmitChangeone = (evt, filename) => {
-    evt.preventDefault();
-    console.log("Uploading");
-    console.log(evt);
-    var self = this;
-    var reader = new FileReader();
-    console.log(evt.target.files);
-    var file = evt.target.files[0];
-
-    if (evt.target.files[0].size < 307200) {
-      reader.onload = function (upload) {
-        self.setState({
-          image: upload.target.result
-        }, function () {
-          console.log(this.state.image.split(',').pop());
-
-        });
-      }
-      this.uploadImage(filename);
-    }
-    else {
-      alert("File size is too Big, please try another file")
-    }
-    reader.readAsDataURL(file);
-    console.log(this.state.image);
-    console.log("Uploaded");
+  getFiles = (event, filename) => {
+    console.log(event)
+    this.setState({ files: event[0] })
+    console.log(this.state.files);
+      this.uploadImage(filename, this.state.files.base64, this.props.user); 
   }
 
-  uploadImage(filename) {
+  uploadImage = (filename, file, user) => {
     let apiName = 'PartnerService';
     let path = '/PartnerServiceUploadImageLambda';
+    console.log("Hello");
+    file = file.split(',').pop();
+    console.log(filename);
+    console.log(file);
     let myInit = { // OPTIONAL
       body: {
-        'username': this.props.user.attributes.email,
+        'username': user.attributes.email,
         'type': 'portfolio',
         'fileName': filename,
-        'base64EncodedString': this.state.image.split(',').pop(),
+        'base64EncodedString': file,
       },
       headers: {
-        'Authorization': this.props.user.signInUserSession.accessToken.jwtToken,
+        'Authorization': user.signInUserSession.accessToken.jwtToken,
         "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       }
     }
@@ -166,6 +145,15 @@ class ProfileImages extends React.Component {
               image={this.state.userData.images[filename]}
               title="Gym Image"
             />
+            <label className="btn btn-primary">
+          <i className="fa fa-image"></i> Edit Image
+            <input ref="file" type="file" name="file"
+              className={classes.uploadfile}
+              id="file1"
+              onChange={event => this.onSubmitChangeone(event, filename)}
+              encType="multipart/form-data"
+              required />
+              </label>
           </Card>
         </div>
       );
@@ -174,13 +162,10 @@ class ProfileImages extends React.Component {
       return (
         <div className={classes.main}>
           <Card className={classes.cardmain}>
-            <input ref="file" type="file" name="file"
-              className={classes.uploadfile}
-              id="file1"
-              onChange={event => this.onSubmitChangeone(event, filename)}
-              encType="multipart/form-data"
-              required />
-          </Card>
+        <FileBase64
+        multiple={ true }
+        onDone={event => this.getFiles(event, filename)} />
+        </Card>
         </div>
       );
     }
