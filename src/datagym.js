@@ -1,4 +1,3 @@
-import img1 from './staticfiles/golds.png';
 
 var DATAGYM = [
   {
@@ -8,7 +7,8 @@ var DATAGYM = [
     email:'himanshu.c.k.h@gmail.com ',
     address: 'Electronic City Phase 1',
     city: 'Bangalore',
-    image:{img1},
+    openingHour: '12',
+    closingHour: '12',
   }
 ]
 

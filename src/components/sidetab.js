@@ -2,6 +2,7 @@ import MainProfilePage from './mainprofilepage';
 import VisitHistory from './visithistory';
 import UpComing from './upcoming';
 import ProfileImages from './profileimages';
+import PartnerProfileLeftTab from './partnerprofilelefttab'
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -63,18 +64,24 @@ class SideTab extends React.Component {
 
     return (
       <div className={classes.root}>
+      {console.log(this.state.user)}
+      
         <AppBar position="static">
-          <Tabs value={value} onChange={this.handleChange} variant="scrollable" scrollButtons="off">
-            <Tab label="Up Coming" />
+          <Tabs value={value} onChange={this.handleChange} variant="scrollable" scrollButtons="on">
+          <Tab label="Up Coming" />
+            <Tab label="Main" />
             <Tab label="History" />
             <Tab label="Profile" />
             <Tab label="Images" />
           </Tabs>
         </AppBar>
+        
                 {value === 0 && <TabContainer><UpComing /></TabContainer>}
-                {value === 1 && <TabContainer><VisitHistory /></TabContainer>}
-                {value === 2 && <TabContainer><MainProfilePage /></TabContainer>}
-                {value === 3 && <TabContainer><ProfileImages user={this.state.user} /></TabContainer>}
+                {value === 1 && <TabContainer><PartnerProfileLeftTab user={this.state.user} /></TabContainer>}
+                {value === 2 && <TabContainer><VisitHistory /></TabContainer>}
+                {value === 3 && <TabContainer><MainProfilePage /></TabContainer>}
+                {console.log(this.state.user)}
+                {value === 4 && <TabContainer><ProfileImages user={this.state.user} /></TabContainer>}
       </div>
     );
   }

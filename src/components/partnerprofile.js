@@ -11,7 +11,8 @@ import SideTab from './sidetab';
 import '../App.css';
 import DATAGYM from '../datagym.js';
 import { withRouter } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
+import FileBase64 from 'react-file-base64';
 
 
 const styles = theme => ({
@@ -70,6 +71,9 @@ const styles = theme => ({
     backgroundColor: '#DCDCDC',
     maxWidth: '100%',
     width: '100%'
+  },
+  mainCard: {
+    height: '50%'
   }
 });
 
@@ -80,7 +84,7 @@ class PartnerProfile extends React.Component {
       expanded: false, 
       Data: DATAGYM,
       image: '',
-      user:{},
+      user: {},
     }
     this.getCurrentAuthUser();
   }
@@ -106,61 +110,16 @@ class PartnerProfile extends React.Component {
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
-
-  renderGymProfileOnPartnerPage = (classes) => {
-    return(
-    <div className={classes.main}>
-      <div className={classes.card}>
-      {this.state.Data.map(p =>
-      <Card key={p.id} className={classes.cardmain}>
-        <CardMedia
-          className={classes.media}
-          image={p.image}
-          title="Gym Image"
-          
-        />
-        {/* <input type="file" name =" file" onChange={(e) => this.onChange(e)} /> */}
-        <CardContent>
-        <Typography className={classes.cardcontent} component="p">
-          {p.name}
-        </Typography>
-      </CardContent>
-        <CardContent>
-          <Typography className={classes.cardcontent} component="p">
-            {p.address}
-          </Typography>
-          </CardContent>
-          <CardContent>
-          <Typography className={classes.cardcontent} component="p">
-            {p.phoneNumber}
-          </Typography>
-        </CardContent>
-        <CardContent>
-        <Typography className={classes.cardcontent} component="p">
-          {p.city}
-        </Typography>
-        
-      </CardContent>
-      </Card>
-      
-      )}
-      </div>
-      <div className={classes.sidetab}>
-      <SideTab user={this.state.user} />
-      </div>
-      </div>
-    )
-  }
-    
+     
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.colorgrey}>
       <NavbarPartnerProfile />
-      
-      {this.renderGymProfileOnPartnerPage(classes)}
-      
+      <div className={classes.sidetab}>
+      <SideTab />
+      </div>  
       </div>
     );
   }

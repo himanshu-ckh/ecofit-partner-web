@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes, { func } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
+
 import Data from '../upcomingvisit.js';
 import img from '../staticfiles/img3.jpeg';
 import { Auth, API } from "aws-amplify";
@@ -10,17 +10,22 @@ import { Server } from 'tls';
 import '../App.css'
 import { ConsoleLogger } from '@aws-amplify/core';
 import FileBase64 from 'react-file-base64';
+import DATAGYM from '../datagym.js';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import red from '@material-ui/core/colors/red';
 
 
 const styles = theme => ({
   cardmain: {
     display: 'flex',
     marginTop: 10,
-    width: '95%',
+    width: '75%',
     height: '40%',
     maxHeight: '100%',
     marginBottom: 20,
-    marginLeft: '4%',
+    marginLeft: '12%',
     marginRight: '4%',
     display: 'inlineBlock'
   },
@@ -43,7 +48,7 @@ const styles = theme => ({
 });
 
 
-class ProfileImages extends React.Component {
+class PartnerProfileLeftTab extends React.Component {
 
   constructor(props) {
     super(props);
@@ -62,7 +67,8 @@ class ProfileImages extends React.Component {
         }
       },
       uploadImageResponse: {},
-      files: []
+      files: [],
+      Data: DATAGYM,
     }
   }
 
@@ -70,10 +76,8 @@ class ProfileImages extends React.Component {
     this.getUserData();
   }
 
-
-
   getUserData() {
-    console.log(this.props.user);
+      console.log(this.props.user);
     let apiName = 'PartnerService';
     let path = '/PartnerServiceGetUserDetailsLambda';
     let myInit = { // OPTIONAL
@@ -136,6 +140,55 @@ class ProfileImages extends React.Component {
     });
   }
 
+  renderGymData = (classes) => {
+      return(
+    <div className={classes.main}>
+      <div className={classes.card}>
+      {this.state.Data.map(p =>
+      <Card key={p.id} className={classes.cardmain}>
+        {this.checkIfImageIsUploaded(classes, 'profile')}
+        <CardContent>
+        <Typography className={classes.cardcontent} component="p">
+          {p.name}
+        </Typography>
+      </CardContent>
+        <CardContent>
+          <Typography className={classes.cardcontent} component="p">
+            {p.address}
+          </Typography>
+          </CardContent>
+          <CardContent>
+          <Typography className={classes.cardcontent} component="p">
+            {p.phoneNumber}
+          </Typography>
+        </CardContent>
+        <CardContent>
+        <Typography className={classes.cardcontent} component="p">
+          {p.city}
+        </Typography>
+        
+      </CardContent>
+      <CardContent>
+        <Typography className={classes.cardcontent} component="p">
+          {p.openingHour}
+        </Typography>
+        
+      </CardContent>
+      <CardContent>
+        <Typography className={classes.cardcontent} component="p">
+          {p.closingHour}
+        </Typography>
+        
+      </CardContent>
+      </Card>
+      
+      )}
+      </div>
+      </div>
+    )
+  
+}
+
   checkIfImageIsUploaded(classes, filename) {
     if (this.state.userData.images[filename] != null) {
       return (
@@ -152,6 +205,7 @@ class ProfileImages extends React.Component {
               multiple={true}
               onDone={event => this.getFiles(event, filename)} />
             </div>
+           
           </Card>
         </div>
       );
@@ -166,6 +220,7 @@ class ProfileImages extends React.Component {
               multiple={true}
               onDone={event => this.getFiles(event, filename)} />
             </div>
+            
             </Card>
         </div>
       );
@@ -179,14 +234,8 @@ class ProfileImages extends React.Component {
 
     return (
       <div>
-        {this.checkIfImageIsUploaded(classes, '1')}
-        {this.checkIfImageIsUploaded(classes, '2')}
-        {this.checkIfImageIsUploaded(classes, '3')}
-        {this.checkIfImageIsUploaded(classes, '4')}
-        {this.checkIfImageIsUploaded(classes, '5')}
-        {
-
-        }
+        
+        {this.renderGymData(classes)}
       </div>
     )
 
@@ -194,8 +243,8 @@ class ProfileImages extends React.Component {
   }
 }
 
-ProfileImages.propTypes = {
+PartnerProfileLeftTab.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ProfileImages);
+export default withStyles(styles)(PartnerProfileLeftTab);
