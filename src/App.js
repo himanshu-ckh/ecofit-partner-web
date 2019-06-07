@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Routes from "./routes";
 import "./App.css";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify from "aws-amplify";
 import AWSConfig from "./aws-exports";
 Amplify.configure(AWSConfig);
 

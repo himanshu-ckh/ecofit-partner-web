@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import Data from '../upcomingvisit.js';
-import img from '../staticfiles/img3.jpeg';
-import { Auth, API } from "aws-amplify";
-import { Server } from 'tls';
+import {  API } from "aws-amplify";
 import '../App.css'
-import { ConsoleLogger } from '@aws-amplify/core';
 import FileBase64 from 'react-file-base64';
 
 
@@ -67,34 +64,26 @@ class ProfileImages extends React.Component {
   }
 
   componentDidMount() {
-    this.getUserData();
-  }
-
-
-
-  getUserData() {
-    console.log(this.props.user);
-    let apiName = 'PartnerService';
-    let path = '/PartnerServiceGetUserDetailsLambda';
-    let myInit = { // OPTIONAL
-      queryStringParameters: {
-        'username': this.props.user.attributes.email
-      },
-      headers: {
-        'Authorization': this.props.user.signInUserSession.accessToken.jwtToken,
+      let apiName = 'PartnerService';
+      let path = '/PartnerServiceGetUserDetailsLambda';
+      let myInit = { // OPTIONAL
+        queryStringParameters: {
+          'username': this.props.user.attributes.email
+        },
+        headers: {
+          'Authorization': this.props.user.signInUserSession.accessToken.jwtToken,
+        }
       }
-    }
-    API.get(apiName, path, myInit).then(response => {
-      // console.log(this.state.data);
-      // Add your code here
-      this.setState({
-        userData: response.body,
+      API.get(apiName, path, myInit).then(response => {
+        // console.log(this.state.data);
+        // Add your code here
+        this.setState({
+          userData: response.body,
+        });
+        this.render();
+      }).catch(error => {
+        console.log(error)
       });
-      console.log(this.state.userData);
-      this.render();
-    }).catch(error => {
-      console.log(error)
-    });
   }
 
   getFiles = (event, filename) => {
@@ -128,9 +117,9 @@ class ProfileImages extends React.Component {
       // Add your code here
       this.setState({
         uploadImageResponse: response,
+        userData: response.body.Attributes,
       });
-      console.log(this.state.uploadImageResponse);
-      this.render();
+      console.log(response);
     }).catch(error => {
       console.log(error)
     });
@@ -174,7 +163,7 @@ class ProfileImages extends React.Component {
 
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes} = this.props;
 
 
     return (

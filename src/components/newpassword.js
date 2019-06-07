@@ -94,7 +94,7 @@ class NewPassword extends React.Component {
   checkNewPasswordLogin = () => {
     if(this.state.password.length >=6 && this.state.confirmpassword.length >=6){
 
-    if(this.state.password == this.state.confirmpassword){
+    if(this.state.password === this.state.confirmpassword){
       this.props.history.push("/");
     }
     else{

@@ -1,20 +1,16 @@
 import React from 'react';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 
 import Data from '../upcomingvisit.js';
-import img from '../staticfiles/img3.jpeg';
-import { Auth, API } from "aws-amplify";
-import { Server } from 'tls';
+import {  API } from "aws-amplify";
 import '../App.css'
-import { ConsoleLogger } from '@aws-amplify/core';
 import FileBase64 from 'react-file-base64';
 import DATAGYM from '../datagym.js';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
 
 
 const styles = theme => ({
@@ -69,15 +65,13 @@ class PartnerProfileLeftTab extends React.Component {
       uploadImageResponse: {},
       files: [],
       Data: DATAGYM,
+      dataLoadedFromAPI: null,
     }
   }
 
-  componentDidMount() {
-    this.getUserData();
-  }
-
-  getUserData() {
-      console.log(this.props.user);
+  componentDidUpdate () {
+    if (this.props.user.signInUserSession.accessToken.jwtToken) {
+    if (this.state.dataLoadedFromAPI==null) {
     let apiName = 'PartnerService';
     let path = '/PartnerServiceGetUserDetailsLambda';
     let myInit = { // OPTIONAL
@@ -88,17 +82,20 @@ class PartnerProfileLeftTab extends React.Component {
         'Authorization': this.props.user.signInUserSession.accessToken.jwtToken,
       }
     }
-    API.get(apiName, path, myInit).then(response => {
-      // console.log(this.state.data);
-      // Add your code here
-      this.setState({
-        userData: response.body,
+    
+      API.get(apiName, path, myInit).then(response => {
+        // console.log(this.state.data);
+        // Add your code here
+        this.setState({
+          userData: response.body,
+          dataLoadedFromAPI: true,
+        });
+        this.render();
+      }).catch(error => {
+        console.log(error)
       });
-      console.log(this.state.userData);
-      this.render();
-    }).catch(error => {
-      console.log(error)
-    });
+    } 
+  }
   }
 
   getFiles = (event, filename) => {
@@ -132,9 +129,9 @@ class PartnerProfileLeftTab extends React.Component {
       // Add your code here
       this.setState({
         uploadImageResponse: response,
+        userData: response.body.Attributes,
       });
       console.log(this.state.uploadImageResponse);
-      this.render();
     }).catch(error => {
       console.log(error)
     });
@@ -229,7 +226,7 @@ class PartnerProfileLeftTab extends React.Component {
 
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
 
 
     return (

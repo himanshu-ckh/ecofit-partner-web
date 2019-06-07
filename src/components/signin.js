@@ -91,16 +91,20 @@ class SignIn extends React.Component {
   static contextTypes = {
     router: PropTypes.object
   };
-  state = {
-    email: " ",
-    password: " ",
-    user: {},
-    redirect: true,
-    setNewPasswordForm: false,
-    signInForm: true,
-    newPassword: "",
-    confirmNewPassword: ""
-  };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      email: " ",
+      password: " ",
+      user: {},
+      redirect: true,
+      setNewPasswordForm: false,
+      signInForm: true,
+      newPassword: "",
+      confirmNewPassword: ""
+    };
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -111,33 +115,20 @@ class SignIn extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  checkSignIn = async () => {
-    //alert("akjsldaskhdlkashdlakld");
-    return (
+  checkSignIn =  () => {
       Auth.signIn(this.state.email, this.state.password)
         .then(user => {
           this.setState({ user: user });
-          console.log("successful sign in!");
           if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
             this.setState({ setNewPasswordForm: true, signInForm: false });
           } else {
-            console.log("Not new password challenge");
             this.props.history.push("/");
-            console.log("after history");
           }
-          console.log(this.state.user);
         })
         .catch(err => {
           console.log("error signing in!: ", err);
           alert(err.message);
         })
-    )
-  };
-
-  signin = async () => {
-    await this.checkSignIn();
-    console.log(this.state);
-
   };
 
   setNewPassword = () => {
@@ -210,7 +201,7 @@ class SignIn extends React.Component {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={this.signin}
+                  onClick={this.checkSignIn}
                 >
                   Sign in
                 </Button>

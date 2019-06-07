@@ -7,36 +7,47 @@ class ProtectedRoute extends Component {
     super(props);
     this.state = {
       value: 0,
-      user:{},
+      user:{
+        attributes:{},
+        signInUserSession:{
+          accessToken:{},
+        }
+      },
+      isLoggedIn: {},
+      userData: {
+        images: {
+          1: {},
+          2: {},
+          3: {},
+          4: {},
+          5: {},
+          profile: {},
+        }
+      },
     };
-    this.isLoggedIn = this.getCurrentAuthUser();
     }
 
-
-  getCurrentAuthUser = async () => {
-    let isLoggedIn = false;
-    await Auth.currentAuthenticatedUser()
+    componentDidMount () {
+      Auth.currentAuthenticatedUser()
       .then(user => {
-        console.log(user);
-        isLoggedIn = true;
-        this.setState({user:user});
+        this.setState({
+          user:user,
+          isLoggedIn: true,
+        });
       })
       .catch(err => {
-        isLoggedIn = false;
+        this.setState({isLoggedIn: false});
         console.log(err)
       });
-      return isLoggedIn;
-  };
-
-  render() {
 
     
-    console.log(this.state.user)
+    }
+
+  render() {
     return (
       <Route
         render={rProps => {
-          console.log(this.isLoggedIn);
-          return (this.isLoggedIn ? (
+          return (this.state.isLoggedIn ? (
             <this.props.render user={this.state.user}/> 
           ) : (
             <Redirect

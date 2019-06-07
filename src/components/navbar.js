@@ -30,7 +30,7 @@ const styles = {
   }
 };
 
-function Navbarpage(props) {
+function Navbarpage(props){
   const { classes } = props;
 
   return (

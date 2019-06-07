@@ -10,7 +10,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import { Auth, API } from "aws-amplify";
 
 function TabContainer(props) {
   return (
@@ -37,22 +36,8 @@ class SideTab extends React.Component {
   super(props);
   this.state = {
     value: 0,
-    user:{}
   };
-  this.getCurrentAuthUser();
   }
-
-
-  getCurrentAuthUser = async () => {
-    await Auth.currentAuthenticatedUser()
-      .then(user => {
-        console.log(user);
-        this.setState({user:user});
-      })
-      .catch(err => {
-        console.log(err)
-      });
-  };
 
   handleChange = (event, value) => {
     this.setState({ value });
@@ -61,11 +46,12 @@ class SideTab extends React.Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
+    const partnerProfileLeftTab = <PartnerProfileLeftTab user={this.props.user} />; 
+    
+
 
     return (
-      <div className={classes.root}>
-      {console.log(this.state.user)}
-      
+      <div className={classes.root}>    
         <AppBar position="static">
           <Tabs value={value} onChange={this.handleChange} variant="scrollable" scrollButtons="on">
           <Tab label="Up Coming" />
@@ -75,13 +61,11 @@ class SideTab extends React.Component {
             <Tab label="Images" />
           </Tabs>
         </AppBar>
-        
-                {value === 0 && <TabContainer><UpComing /></TabContainer>}
-                {value === 1 && <TabContainer><PartnerProfileLeftTab user={this.state.user} /></TabContainer>}
+                {value === 0 && <TabContainer>{partnerProfileLeftTab}</TabContainer>}
+                {value === 1 && <TabContainer><UpComing /></TabContainer>}
                 {value === 2 && <TabContainer><VisitHistory /></TabContainer>}
                 {value === 3 && <TabContainer><MainProfilePage /></TabContainer>}
-                {console.log(this.state.user)}
-                {value === 4 && <TabContainer><ProfileImages user={this.state.user} /></TabContainer>}
+                {value === 4 && <TabContainer><ProfileImages user={this.props.user} /></TabContainer>}
       </div>
     );
   }
