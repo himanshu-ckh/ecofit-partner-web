@@ -14,8 +14,7 @@ const styles = theme => ({
     display: 'flex',
     marginTop: 10,
     width: '95%',
-    height: '40%',
-    maxHeight: '100%',
+    height: '100%',
     marginBottom: 20,
     marginLeft: '4%',
     marginRight: '4%',
@@ -26,10 +25,11 @@ const styles = theme => ({
     margin: 0,
   },
   media: {
-    height: '100%',
-    width: '100%',
+    maxHeight: '100%',
+    maxWidth: '100%',
+    jusifyContent: 'center',
     paddingTop: '56.25%',
-
+    alignItems: 'center',
   },
   uploadfile: {
     marginTop: 20,
@@ -80,26 +80,21 @@ class ProfileImages extends React.Component {
         this.setState({
           userData: response.body,
         });
-        this.render();
+        console.log(this.state.userData);
       }).catch(error => {
         console.log(error)
       });
   }
 
   getFiles = (event, filename) => {
-    console.log(event)
     this.setState({ files: event[0] })
-    console.log(this.state.files);
     this.uploadImage(filename, this.state.files.base64, this.props.user);
   }
 
   uploadImage = (filename, file, user) => {
     let apiName = 'PartnerService';
     let path = '/PartnerServiceUploadImageLambda';
-    console.log("Hello");
     file = file.split(',').pop();
-    console.log(filename);
-    console.log(file);
     let myInit = { // OPTIONAL
       body: {
         'username': user.attributes.email,
@@ -112,9 +107,8 @@ class ProfileImages extends React.Component {
         "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       }
     }
-    API.post(apiName, path, myInit).then(response => {
-      // console.log(this.state.data);
-      // Add your code here
+    API.post(apiName, path, myInit)
+    .then(response => {
       this.setState({
         uploadImageResponse: response,
         userData: response.body.Attributes,
@@ -165,7 +159,6 @@ class ProfileImages extends React.Component {
   render() {
     const { classes} = this.props;
 
-
     return (
       <div>
         {this.checkIfImageIsUploaded(classes, '1')}
@@ -173,13 +166,8 @@ class ProfileImages extends React.Component {
         {this.checkIfImageIsUploaded(classes, '3')}
         {this.checkIfImageIsUploaded(classes, '4')}
         {this.checkIfImageIsUploaded(classes, '5')}
-        {
-
-        }
       </div>
     )
-
-
   }
 }
 
