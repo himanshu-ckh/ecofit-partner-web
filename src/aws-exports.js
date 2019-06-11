@@ -25,7 +25,7 @@ const awsmobile = {
     'aws_user_pools_id': 'ap-south-1_GArAzpvgV',
     'aws_user_pools_web_client_id': '64fojsp2s5fdfqs53kqasjfm2c',
     'aws_cloud_logic': 'enable',
-    'aws_cloud_logic_custom': [{"id":"9pmbfg6fn9","name":"PartnerService","endpoint":"https://9pmbfg6fn9.execute-api.ap-south-1.amazonaws.com/prod","region":"ap-south-1","paths":["/PartnerServiceGetUserDetailsLambda","/PartnerServiceUploadImageLambda"]}],
+    'aws_cloud_logic_custom': [{"id":"9pmbfg6fn9","name":"PartnerService","endpoint":"https://9pmbfg6fn9.execute-api.ap-south-1.amazonaws.com/prod","region":"ap-south-1","paths":["/PartnerServiceGetUserDetailsLambda","/PartnerServiceUploadImageLambda","/PartnerServiceGetPreviousVisitsLambda","/PartnerServiceGetUpcomingVisitsLambda"]}],
 }
 
 export default awsmobile;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, withRouter} from "react-router-dom";
 import { Auth } from "aws-amplify";
 class ProtectedRoute extends Component {
 
@@ -39,8 +39,6 @@ class ProtectedRoute extends Component {
         this.setState({isLoggedIn: false});
         console.log(err)
       });
-
-    
     }
 
   render() {
@@ -62,4 +60,4 @@ class ProtectedRoute extends Component {
   }
 }
 
-export default ProtectedRoute;
+export default withRouter(ProtectedRoute);

@@ -1,103 +1,85 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import Data from '../upcomingvisit.js';
-import TextField from '@material-ui/core/TextField';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 
 
 const styles = theme => ({
   card: {
-    display: 'flex',
+    display: "flex",
     marginTop: 10,
-    width: '85%',
-    height: '40%',
-    maxHeight: '100%',
+    width: "85%",
+    height: "40%",
+    maxHeight: "100%",
     marginBottom: 20,
-    marginLeft: '7%'
+    marginLeft: "7%"
   },
   main: {
-    display: 'inlineBlock',
-    margin: 0,
+    display: "inlineBlock",
+    margin: 0
   },
   details: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '48%',
+    display: "flex",
+    flexDirection: "column",
+    width: "48%"
   },
   content: {
-    flex: '1 0 auto',
-
+    flex: "1 0 auto"
   },
   cover: {
     marginTop: 5,
-    marginRight: '5%',
+    marginRight: "5%",
     marginBottom: 5,
-    marginLeft: '17%',
+    marginLeft: "17%",
     width: 150,
     height: 150,
-    borderRadius: '50%',
-    justifyContent: 'right',
+    borderRadius: "50%",
+    justifyContent: "right"
   },
   search: {
-    width: '80%',
+    width: "80%",
     marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   }
 });
 
-
 class UpComing extends React.Component {
-  state = { expanded: false, data: Data, idval: false, search: '', filteredResult: Data };
+  state = {
+    expanded: false,
+    idval: false,
+  };
 
   renderUpcomingVisitCard = (classes, theme) => {
     return (
       <div className={classes.main}>
-        {this.state.filteredResult.map(p =>
-          <Card key={p.id} className={classes.card}>
+        {this.props.filteredResult.map(p => (
+          <Card key={p.visitId} className={classes.card}>
             <div className={classes.details}>
               <CardContent className={classes.content}>
                 <Typography variant="subtitle1" color="default">
-                  Name: {p.name}
+                  Name: {p.customerName}
                 </Typography>
                 <Typography variant="subtitle1" color="default">
-                  Visit Date: 8th April 2019
-            </Typography>
+                  Visit Date: {p.dateOfVisit}
+                </Typography>
                 <Typography variant="subtitle1" color="default">
-                  Age: 22
-            </Typography>
+                  Phone: {p.customerPhoneNumber}
+                </Typography>
               </CardContent>
             </div>
             <CardMedia
               className={classes.cover}
-              image={p.image}
+              image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"}
               title="User Image"
             />
           </Card>
-        )}
+        ))}
       </div>
-    )
-  }
-  showSearchedResult = (value) => {
-    console.log(value);
-
-      var obj = this.state.data.filter( filt => {
-        console.log(filt.name.toLowerCase());
-        return (filt.name.toLowerCase().includes(value));
-      });
-      this.setState({filteredResult: obj});
-    }
-    
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-    this.showSearchedResult(this.state.search);
-    
+    );
   };
 
   render() {
@@ -112,7 +94,7 @@ class UpComing extends React.Component {
             className={classes.search}
             type="search"
             name="search"
-            onChange={this.handleChange('search')}
+            onChange={this.props.handleChangeUpComing("search")}
             margin="normal"
             variant="outlined"
           />
@@ -124,7 +106,7 @@ class UpComing extends React.Component {
 }
 
 UpComing.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(UpComing);
