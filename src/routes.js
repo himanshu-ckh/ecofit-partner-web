@@ -7,20 +7,14 @@ import JoinUsPage from "./components/joinuspage";
 import PartnerProfile from "./components/partnerprofile";
 import FirstTimeNewPassword from "./components/newpassword";
 import ForgotPassword from "./components/forgotpassword";
+
 class Routes extends Component {
   render() {
     return (
       <Switch>
-        <ProtectedRoute
-          exact
-          path="/"
-          render={PartnerProfile}
-        />
-        <ProppedRoute
-          exact
-          path="/partnersignin"
-          render={PartnersLoginPage}
-        />
+        <ProtectedRoute exact path="/" render={PartnerProfile} />
+
+        <ProppedRoute exact path="/partnersignin" render={PartnersLoginPage} />
 
         <Route exact path="/joinus" render={() => <JoinUsPage />} />
 

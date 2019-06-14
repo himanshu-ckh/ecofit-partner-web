@@ -42,15 +42,17 @@ class SideTab extends React.Component {
       upcomingFilteredResult: [],
       upcomingvisitsdata: [],
       checkupcomingvisit: null,
-      previousFilteredResult:[],
-      previousvistsdata:[],
+      previousFilteredResult: [],
+      previousvistsdata: [],
       checkpreviousvisits: null,
-      search: "",
+      searchupcoming: "",
+      searchprevious: "",
+      check:[],
     };
   }
 
   componentDidUpdate() {
-    if (this.props.user.signInUserSession.accessToken.jwtToken){
+    if (this.props.user.signInUserSession.accessToken.jwtToken) {
       this.getUpComingVisits();
       this.getPreviousVisits();
     }
@@ -76,13 +78,12 @@ class SideTab extends React.Component {
             checkupcomingvisit: true,
             upcomingFilteredResult: response.body
           });
-          console.log(this.state.upcomingFilteredResult);
         })
         .catch(error => {
           console.log(error);
         });
-      }
-  }
+    }
+  };
 
   getPreviousVisits = () => {
     if (this.state.checkupcomingvisit == null) {
@@ -104,47 +105,73 @@ class SideTab extends React.Component {
             checkpreviousvisits: true,
             previousFilteredResult: response.body
           });
+          let previousVisitsListData = [];
+          this.state.previousFilteredResult.map(
+            filteredListForJustVisistData => {
+              filteredListForJustVisistData.visits.map(
+                name => {
+                  previousVisitsListData.push(name);
+                }
+              )
+            }
+          )
+          this.setState({
+            previousFilteredResult: previousVisitsListData,
+            previousvistsdata: previousVisitsListData,
+          })
         })
         .catch(error => {
           console.log(error);
         });
-      }
-  }
+    }
+  };
 
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
   showSearchedResultUpComing = value => {
-    console.log(value);
-    var upcomingFilteredobj = this.state.upcomingvisitsdata.filter(filteredResultWithMatchingNameUpComing => {
-      console.log(filteredResultWithMatchingNameUpComing.customerName.toLowerCase());
-      return filteredResultWithMatchingNameUpComing.customerName.toLowerCase().includes(value);
-    });
+    var upcomingFilteredobj = this.state.upcomingvisitsdata.filter(
+      filteredResultWithMatchingNameUpComing => {
+        return filteredResultWithMatchingNameUpComing.customerName
+          .toLowerCase()
+          .includes(value);
+      }
+    );
     this.setState({ upcomingFilteredResult: upcomingFilteredobj });
-    console.log(this.state.upcomingFilteredResult);
   };
 
   handleChangeUpComing = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-    this.showSearchedResultUpComing(this.state.search);
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      function() {
+        this.showSearchedResultUpComing(this.state.searchupcoming);
+      }
+    );
   };
 
   showSearchedResultPreviousVisits = value => {
-    var previousVisitFilteredobj = this.state.upcomingvisitsdata.filter(filteredResultWithMatchingNamePrevious => {
-      console.log(filteredResultWithMatchingNamePrevious.customerName.toLowerCase());
-      return filteredResultWithMatchingNamePrevious.customerName.toLowerCase().includes(value);
-    });
+    var previousVisitFilteredobj = this.state.previousvistsdata.filter(
+      filteredResultWithMatchingNamePrevious => {
+        return filteredResultWithMatchingNamePrevious.customerName
+            .toLowerCase()
+            .includes(value);
+          }
+        )
     this.setState({ previousFilteredResult: previousVisitFilteredobj });
   };
 
   handleChangePreviousVisits = name => event => {
     this.setState({
       [name]: event.target.value
-    });
-    this.showSearchedResultPreviousVisits(this.state.search);
+    },
+    function() {
+      this.showSearchedResultPreviousVisits(this.state.searchprevious);
+    }
+    );
+    
   };
 
   render() {
@@ -168,24 +195,24 @@ class SideTab extends React.Component {
         </AppBar>
         {value === 0 && (
           <TabContainer>
-            <UpComing 
-            user={this.props.user} 
-            history={this.props.history}
-            filteredResult={this.state.upcomingFilteredResult}
-            upcomingvisitsdata={this.state.upcomingvisitsdata}
-            handleChangeUpComing={this.handleChangeUpComing}
-             />
+            <UpComing
+              user={this.props.user}
+              history={this.props.history}
+              filteredResult={this.state.upcomingFilteredResult}
+              upcomingvisitsdata={this.state.upcomingvisitsdata}
+              handleChangeUpComing={this.handleChangeUpComing}
+            />
           </TabContainer>
         )}
         {value === 1 && (
           <TabContainer>
             <VisitHistory
-            user={this.props.user} 
-            history={this.props.history}
-            filteredResult={this.state.previousFilteredResult}
-            upcomingvisitsdata={this.state.previousvistsdata}
-            handleChangePrevious={this.handleChangePreviousVisits}
-             />
+              user={this.props.user}
+              history={this.props.history}
+              filteredResult={this.state.previousFilteredResult}
+              upcomingvisitsdata={this.state.previousvistsdata}
+              handleChangePrevious={this.handleChangePreviousVisits}
+            />
           </TabContainer>
         )}
         {value === 2 && (

@@ -55,30 +55,29 @@ class VisitHistory extends React.Component {
   renderUpcomingVisitCard = (classes, theme) => {
     return (
       <div className={classes.main}>
-        {this.props.filteredResult.map(p => (
-            p.visits.map(upcomingVisits => (
-              <Card key={upcomingVisits.visitId} className={classes.card}>
+        {this.props.filteredResult.map(previousVisits => (
+              <Card key={previousVisits.visitId} className={classes.card}>
                 <div className={classes.details}>
                   <CardContent className={classes.content}>
                     <Typography variant="subtitle1" color="default">
-                      Name: {upcomingVisits.customerName}
+                      {previousVisits.customerName}
                     </Typography>
                     <Typography variant="subtitle1" color="default">
-                      Visit Date: {upcomingVisits.dateOfVisit}
+                      {previousVisits.dateOfVisit}
                     </Typography>
                     <Typography variant="subtitle1" color="default">
-                      Phone: {upcomingVisits.customerPhoneNumber}
+                      {previousVisits.customerPhoneNumber}
                     </Typography>
                   </CardContent>
                 </div>
                 <CardMedia
                   className={classes.cover}
-                  image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + upcomingVisits.customerPhoneNumber.substr(3) + "/profile_pic.jpg"}
+                  image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + previousVisits.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()}
                   title="User Image"
                 />
               </Card>
-            ))
-        ))}
+            )
+        )}
       </div>
     );
   };
@@ -94,8 +93,8 @@ class VisitHistory extends React.Component {
             label="Search Visits"
             className={classes.search}
             type="search"
-            name="search"
-            onChange={this.props.handleChangePrevious("search")}
+            name="searchprevious"
+            onChange={this.props.handleChangePrevious("searchprevious")}
             margin="normal"
             variant="outlined"
           />

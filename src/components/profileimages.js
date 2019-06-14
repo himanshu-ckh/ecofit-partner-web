@@ -18,16 +18,8 @@ const styles = () => ({
     marginRight: "4%",
     display: "inlineBlock"
   },
-  main: {
-    display: "inlineBlock",
-    margin: 0
-  },
   media: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-    jusifyContent: "center",
     paddingTop: "56.25%",
-    alignItems: "center"
   },
   uploadfile: {
     marginTop: 20,
@@ -118,11 +110,10 @@ class ProfileImages extends React.Component {
   checkIfImageIsUploaded(classes, filename) {
     if (this.state.userData.images[filename] != null) {
       return (
-        <div className={classes.main}>
           <Card className={classes.cardmain}>
             <CardMedia
               className={classes.media}
-              image={this.state.userData.images[filename]}
+              image={this.state.userData.images[filename]+"?time="+new Date()}
               title="Gym Image"
             />
             <div className="upload-btn-wrapper">
@@ -133,11 +124,9 @@ class ProfileImages extends React.Component {
               />
             </div>
           </Card>
-        </div>
       );
     } else {
       return (
-        <div className={classes.main}>
           <Card className={classes.cardmain}>
             <div className="upload-btn-wrapper">
               <button className="btn">Upload</button>
@@ -147,7 +136,6 @@ class ProfileImages extends React.Component {
               />
             </div>
           </Card>
-        </div>
       );
     }
   }

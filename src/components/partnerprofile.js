@@ -11,81 +11,53 @@ import PartnerProfileLeftTab from "./partnerprofilelefttab";
 import { Auth } from "aws-amplify";
 
 const styles = theme => ({
+  colorgrey: {
+    backgroundColor: "#DCDCDC"
+  },
   wrappingdiv: {
     margin: "auto",
-    marginRight: "6%",
     width: "100%",
     display: "flex",
     flexWrap: "wrap"
   },
-  main: {
-    marginRight: "6%",
-    width: "100%",
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  card: {
+  lefttab: {
+    width: "39%",
     maxWidth: "100%",
-    width: 350,
-    maxHeight: "100%",
-    marginLeft: "2%",
     marginTop: "1%",
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: "300",
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  cardmain: {
-    height: 450
-  },
-  cardcontent: {
-    float: "left"
+    marginLeft: "4%",
+    [theme.breakpoints.between('md', 'lg')]: {
+      width:'35%',
+      marginLeft: '5%',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      width:'65%',
+      marginLeft: '23%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width:'140%',
+      marginLeft: '23%',
+      wordWrap: 'break-word'
+    },
+    
   },
   sidetab: {
     width: "80%",
     maxWidth: "100%",
-    marginRight: "10%",
     marginTop: "1.5%",
-    marginLeft: "1%",
-    [theme.breakpoints.up(200 + theme.spacing.unit * 3 * 2)]: {
-      width: 640,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  media: {
-    height: 300,
-    width: 300,
-    paddingTop: "56.25%",
-    borderRadius: "50%",
-    marginTop: 10,
-    marginLeft: "7%",
-    marginRight: "5%"
-  },
-  actions: {
-    display: "flex"
-  },
-  avatar: {
-    backgroundColor: red[500]
-  },
-  colorgrey: {
-    backgroundColor: "#DCDCDC",
-    maxWidth: "100%",
-    width: "100%"
-  },
-  mainCard: {
-    height: "50%"
-  },
-  lefttab: {
-    width: "25%",
-    maxWidth: "100%",
-    marginTop: "1%",
-    [theme.breakpoints.up(200 + theme.spacing.unit * 3 * 2)]: {
-      width: 640,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
+    [theme.breakpoints.between('md', 'lg')]: {
+      width:'54%',
+      marginRight: '5%',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      width: '85%',
+      maxWidth:'100%',
+      marginLeft:'8%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth:'100%',
+      marginLeft:'8%',
+    },
+    
   }
 });
 
@@ -135,9 +107,7 @@ class PartnerProfile extends React.Component {
             />
           </div>
           <div className={classes.sidetab}>
-            <SideTab 
-            user={this.props.user} 
-            history={this.props.history} />
+            <SideTab user={this.props.user} history={this.props.history} />
           </div>
         </div>
       </div>

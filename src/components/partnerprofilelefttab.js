@@ -140,7 +140,7 @@ class PartnerProfileLeftTab extends React.Component {
           <Card>
             <CardMedia
               className={classes.media}
-              image={this.state.userData.images[filename]}
+              image={this.state.userData.images[filename]+"?time="+new Date()}
               title="Gym Image"
             />
             <div className="upload-btn-wrapper">
@@ -195,16 +195,6 @@ class PartnerProfileLeftTab extends React.Component {
               <CardContent>
                 <Typography className={classes.cardcontent} component="p">
                   {p.city}
-                </Typography>
-              </CardContent>
-              <CardContent>
-                <Typography className={classes.cardcontent} component="p">
-                  {p.openingHour}
-                </Typography>
-              </CardContent>
-              <CardContent>
-                <Typography className={classes.cardcontent} component="p">
-                  {p.closingHour}
                 </Typography>
               </CardContent>
             </Card>

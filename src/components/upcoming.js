@@ -7,7 +7,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
-
 const styles = theme => ({
   card: {
     display: "flex",
@@ -61,19 +60,19 @@ class UpComing extends React.Component {
             <div className={classes.details}>
               <CardContent className={classes.content}>
                 <Typography variant="subtitle1" color="default">
-                  Name: {p.customerName}
+                  {p.customerName}
                 </Typography>
                 <Typography variant="subtitle1" color="default">
-                  Visit Date: {p.dateOfVisit}
+                  {p.dateOfVisit}
                 </Typography>
                 <Typography variant="subtitle1" color="default">
-                  Phone: {p.customerPhoneNumber}
+                  {p.customerPhoneNumber}
                 </Typography>
               </CardContent>
             </div>
             <CardMedia
               className={classes.cover}
-              image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"}
+              image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()}
               title="User Image"
             />
           </Card>
@@ -93,8 +92,8 @@ class UpComing extends React.Component {
             label="Search Visits"
             className={classes.search}
             type="search"
-            name="search"
-            onChange={this.props.handleChangeUpComing("search")}
+            name="searchupcoming"
+            onChange={this.props.handleChangeUpComing("searchupcoming")}
             margin="normal"
             variant="outlined"
           />

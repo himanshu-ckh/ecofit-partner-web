@@ -14,7 +14,6 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-
 import { Auth } from "aws-amplify";
 
 const styles = theme => ({
@@ -83,7 +82,7 @@ const styles = theme => ({
   },
   signInForm: {},
   form_hint: {
-    fontSize: '.9em'
+    fontSize: ".9em"
   }
 });
 
@@ -92,7 +91,7 @@ class SignIn extends React.Component {
     router: PropTypes.object
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       email: " ",
@@ -115,45 +114,46 @@ class SignIn extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  checkSignIn =  () => {
-      Auth.signIn(this.state.email, this.state.password)
-        .then(user => {
-          this.setState({ user: user });
-          if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-            this.setState({ setNewPasswordForm: true, signInForm: false });
-          } else {
-            this.props.history.push("/");
-          }
-        })
-        .catch(err => {
-          console.log("error signing in!: ", err);
-          alert(err.message);
-        })
+  checkSignIn = () => {
+    Auth.signIn(this.state.email, this.state.password)
+      .then(user => {
+        this.setState({ user: user });
+        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+          this.setState({ setNewPasswordForm: true, signInForm: false });
+        } else {
+          this.props.history.push("/");
+        }
+      })
+      .catch(err => {
+        console.log("error signing in!: ", err);
+        alert(err.message);
+      });
   };
 
   setNewPassword = () => {
-    if(this.state.newPassword.length >=6 && this.state.confirmNewPassword.length >=6){
-
-    if (this.state.newPassword === this.state.confirmNewPassword) {
-      Auth.completeNewPassword(
-        this.state.user, // the Cognito User Object
-        this.state.newPassword // the new password
-      )
-        .then(user => {
-          // at this time the user is logged in if no MFA required
-          console.log(user);
-          this.props.history.push("/");
-        })
-        .catch(e => {
-          console.log(e);
-        });
+    if (
+      this.state.newPassword.length >= 6 &&
+      this.state.confirmNewPassword.length >= 6
+    ) {
+      if (this.state.newPassword === this.state.confirmNewPassword) {
+        Auth.completeNewPassword(
+          this.state.user, // the Cognito User Object
+          this.state.newPassword // the new password
+        )
+          .then(user => {
+            // at this time the user is logged in if no MFA required
+            console.log(user);
+            this.props.history.push("/");
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      } else {
+        alert("Password did not match. Please check again");
+      }
     } else {
-      alert("Password did not match. Please check again");
+      alert("Password should be atleast 6 characters long");
     }
-  }
-  else {
-    alert("Password should be atleast 6 characters long")
-  }
   };
 
   displaySignInForm = classes => {
@@ -249,9 +249,13 @@ class SignIn extends React.Component {
                 Set new password
               </Typography>
               <form className={classes.form}>
-                <Typography className={classes.form_hint} component="h5" variant="h5">
+                <Typography
+                  className={classes.form_hint}
+                  component="h5"
+                  variant="h5"
+                >
                   Password should be at least 6 characters long
-        </Typography>
+                </Typography>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="password">Enter new password</InputLabel>
                   <Input
