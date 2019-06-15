@@ -47,7 +47,7 @@ class SideTab extends React.Component {
       checkpreviousvisits: null,
       searchupcoming: "",
       searchprevious: "",
-      check:[],
+      check: []
     };
   }
 
@@ -108,17 +108,15 @@ class SideTab extends React.Component {
           let previousVisitsListData = [];
           this.state.previousFilteredResult.map(
             filteredListForJustVisistData => {
-              filteredListForJustVisistData.visits.map(
-                name => {
-                  previousVisitsListData.push(name);
-                }
-              )
+              filteredListForJustVisistData.visits.map(name => {
+                previousVisitsListData.push(name);
+              });
             }
-          )
+          );
           this.setState({
             previousFilteredResult: previousVisitsListData,
-            previousvistsdata: previousVisitsListData,
-          })
+            previousvistsdata: previousVisitsListData
+          });
         })
         .catch(error => {
           console.log(error);
@@ -156,22 +154,22 @@ class SideTab extends React.Component {
     var previousVisitFilteredobj = this.state.previousvistsdata.filter(
       filteredResultWithMatchingNamePrevious => {
         return filteredResultWithMatchingNamePrevious.customerName
-            .toLowerCase()
-            .includes(value);
-          }
-        )
+          .toLowerCase()
+          .includes(value);
+      }
+    );
     this.setState({ previousFilteredResult: previousVisitFilteredobj });
   };
 
   handleChangePreviousVisits = name => event => {
-    this.setState({
-      [name]: event.target.value
-    },
-    function() {
-      this.showSearchedResultPreviousVisits(this.state.searchprevious);
-    }
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      function() {
+        this.showSearchedResultPreviousVisits(this.state.searchprevious);
+      }
     );
-    
   };
 
   render() {

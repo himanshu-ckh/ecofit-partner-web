@@ -1,0 +1,15 @@
+.wrappingDivForTwoTimes {
+    display: flex;
+    flex-grow: 1,
+}
+
+.secondTime {
+    margin-left: 20%
+}
+
+.submitButton {
+    float: right;
+    margin-Right: 3%;
+    margin-bottom: 1%;
+    background-color: rgba(209, 219, 255, 1)
+}
