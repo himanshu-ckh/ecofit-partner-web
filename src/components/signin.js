@@ -4,8 +4,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -17,12 +15,9 @@ import { withRouter } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 const styles = theme => ({
-  mainpage: {
-    marginTop: "7%"
-  },
-  main: {
+  mainDivForSignInForm: {
+    marginTop: "9%",
     width: "auto",
-    marginTop: theme.spacing.unit * 3,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -44,17 +39,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     backgroundColor: theme.palette.secondary.main
   },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
   links: {
     color: "Black",
     hover: "red"
-  },
-  join: {
-    paddingTop: 10,
-    display: "inlineBlock"
   },
   email: {
     fontWeight: 400
@@ -63,7 +50,7 @@ const styles = theme => ({
     fontWeight: 400
   },
   submit: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
   },
   forgotpassword: {
     marginTop: theme.spacing.unit,
@@ -80,7 +67,6 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column"
   },
-  signInForm: {},
   form_hint: {
     fontSize: ".9em"
   }
@@ -159,8 +145,7 @@ class SignIn extends React.Component {
   displaySignInForm = classes => {
     if (this.state.signInForm === true) {
       return (
-        <div className={classes.signInForm}>
-          <main className={classes.main}>
+          <main className={classes.mainDivForSignInForm}>
             <CssBaseline />
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>
@@ -169,7 +154,7 @@ class SignIn extends React.Component {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form}>
+              <form className={classes.signInForm}>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="email">Email Address</InputLabel>
                   <Input
@@ -191,12 +176,8 @@ class SignIn extends React.Component {
                     id="password"
                   />
                 </FormControl>
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="button"
+                <Button autoFocus
+                  type={'button' | 'submit'}
                   fullWidth
                   variant="contained"
                   color="primary"
@@ -234,19 +215,17 @@ class SignIn extends React.Component {
               </form>
             </Paper>
           </main>
-        </div>
       );
     } else {
       return (
-        <div className={classes.setNewPasswordForm}>
-          <main className={classes.main}>
+          <main className={classes.setNewPasswordForm}>
             <CssBaseline />
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Set new password
+                Set a new password
               </Typography>
               <form className={classes.form}>
                 <Typography
@@ -257,7 +236,7 @@ class SignIn extends React.Component {
                   Password should be at least 6 characters long
                 </Typography>
                 <FormControl margin="normal" required fullWidth>
-                  <InputLabel htmlFor="password">Enter new password</InputLabel>
+                  <InputLabel htmlFor="password">Enter a new password</InputLabel>
                   <Input
                     className={classes.password}
                     onChange={this.handleChangeSetNewPassword}
@@ -292,7 +271,6 @@ class SignIn extends React.Component {
               </form>
             </Paper>
           </main>
-        </div>
       );
     }
   };
@@ -301,7 +279,7 @@ class SignIn extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.mainpage}>{this.displaySignInForm(classes)}</div>
+      <div className={classes.signInFormMainDiv}>{this.displaySignInForm(classes)}</div>
     );
   }
 }

@@ -8,6 +8,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./modal.css";
+import Button from "@material-ui/core/Button";
 
 const customStyles = {
   content: {
@@ -23,6 +24,11 @@ const customStyles = {
     background: "rgba(209, 219, 255, 1)",
     overlfow: "scroll"
   }
+};
+const buttonStyle = {
+  float: "right",
+  marginRight: "4%",
+  marginBottom: "2%"
 };
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
@@ -106,8 +112,6 @@ class ModalClass extends React.Component {
   }
 
   handleDateChangeOpeningFirst = (e, dayName) => {
-    console.log(e);
-    console.log(dayName);
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
@@ -117,533 +121,472 @@ class ModalClass extends React.Component {
           openingSecond: this.state.day.monday.openingSecond,
           closingFirst: this.state.day.monday.closingFirst,
           closingSecond: this.state.day.monday.closingSecond,
-          day: "monday",
+          day: "monday"
         };
         this.setState(
           {
-            day: stateDays,
-          },
-          function() {
-            console.log(this.state.day);
+            day: stateDays
           }
         );
         break;
 
       case "tuesday":
         stateDays.tuesday = {
-            openingFirst: e,
-            openingSecond: this.state.day.tuesday.openingSecond,
-            closingFirst: this.state.day.tuesday.closingFirst,
-            closingSecond: this.state.day.tuesday.closingSecond,
-            day: "tuesday"
+          openingFirst: e,
+          openingSecond: this.state.day.tuesday.openingSecond,
+          closingFirst: this.state.day.tuesday.closingFirst,
+          closingSecond: this.state.day.tuesday.closingSecond,
+          day: "tuesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "wednesday":
         stateDays.wednesday = {
-            openingFirst: e,
-            openingSecond: this.state.day.wednesday.openingSecond,
-            closingFirst: this.state.day.wednesday.closingFirst,
-            closingSecond: this.state.day.wednesday.closingSecond,
-            day: "wednesday",
+          openingFirst: e,
+          openingSecond: this.state.day.wednesday.openingSecond,
+          closingFirst: this.state.day.wednesday.closingFirst,
+          closingSecond: this.state.day.wednesday.closingSecond,
+          day: "wednesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "thursday":
         stateDays.thursday = {
-            openingFirst: e,
-            openingSecond: this.state.day.thursday.openingSecond,
-            closingFirst: this.state.day.thursday.closingFirst,
-            closingSecond: this.state.day.thursday.closingSecond,
-            day: "thursday",
+          openingFirst: e,
+          openingSecond: this.state.day.thursday.openingSecond,
+          closingFirst: this.state.day.thursday.closingFirst,
+          closingSecond: this.state.day.thursday.closingSecond,
+          day: "thursday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "friday":
         stateDays.friday = {
-            openingFirst: e,
-            openingSecond: this.state.day.friday.openingSecond,
-            closingFirst: this.state.day.friday.closingFirst,
-            closingSecond: this.state.day.friday.closingSecond,
-            day: "friday",
+          openingFirst: e,
+          openingSecond: this.state.day.friday.openingSecond,
+          closingFirst: this.state.day.friday.closingFirst,
+          closingSecond: this.state.day.friday.closingSecond,
+          day: "friday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "saturday":
         stateDays.saturday = {
-            openingFirst: e,
-            openingSecond: this.state.day.saturday.openingSecond,
-            closingFirst: this.state.day.saturday.closingFirst,
-            closingSecond: this.state.day.saturday.closingSecond,
-            day: "saturday",
+          openingFirst: e,
+          openingSecond: this.state.day.saturday.openingSecond,
+          closingFirst: this.state.day.saturday.closingFirst,
+          closingSecond: this.state.day.saturday.closingSecond,
+          day: "saturday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "sunday":
         stateDays.sunday = {
-            openingFirst: e,
-            openingSecond: this.state.day.sunday.openingSecond,
-            closingFirst: this.state.day.sunday.closingFirst,
-            closingSecond: this.state.day.sunday.closingSecond,
-            day: "sunday",
+          openingFirst: e,
+          openingSecond: this.state.day.sunday.openingSecond,
+          closingFirst: this.state.day.sunday.closingFirst,
+          closingSecond: this.state.day.sunday.closingSecond,
+          day: "sunday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
+
+      default:
     }
   };
 
   handleDateChangeClosingFirst = (e, dayName) => {
-    console.log(e);
-    console.log(dayName);
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
         stateDays.monday = {
-            openingFirst: this.state.day.monday.openingFirst,
-            openingSecond: this.state.day.monday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.monday.closingSecond,
-            day: "monday",
+          openingFirst: this.state.day.monday.openingFirst,
+          openingSecond: this.state.day.monday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.monday.closingSecond,
+          day: "monday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "tuesday":
         stateDays.tuesday = {
-            openingFirst: this.state.day.tuesday.openingFirst,
-            openingSecond: this.state.day.tuesday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.tuesday.closingSecond,
-            day: "tuesday",
+          openingFirst: this.state.day.tuesday.openingFirst,
+          openingSecond: this.state.day.tuesday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.tuesday.closingSecond,
+          day: "tuesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "wednesday":
         stateDays.wednesday = {
-            openingFirst: this.state.day.wednesday.openingFirst,
-            openingSecond: this.state.day.wednesday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.wednesday.closingSecond,
-            day: "wednesday"
+          openingFirst: this.state.day.wednesday.openingFirst,
+          openingSecond: this.state.day.wednesday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.wednesday.closingSecond,
+          day: "wednesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "thursday":
         stateDays.thursday = {
-            openingFirst: this.state.day.thursday.openingFirst,
-            openingSecond: this.state.day.thursday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.thursday.closingSecond,
-            day: "thursday"
+          openingFirst: this.state.day.thursday.openingFirst,
+          openingSecond: this.state.day.thursday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.thursday.closingSecond,
+          day: "thursday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "friday":
         stateDays.friday = {
-            openingFirst: this.state.day.friday.openingFirst,
-            openingSecond: this.state.day.friday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.friday.closingSecond,
-            day: "friday"
+          openingFirst: this.state.day.friday.openingFirst,
+          openingSecond: this.state.day.friday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.friday.closingSecond,
+          day: "friday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "saturday":
         stateDays.saturday = {
-            openingFirst: this.state.day.saturday.openingFirst,
-            openingSecond: this.state.day.saturday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.saturday.closingSecond,
-            day: "saturday"
+          openingFirst: this.state.day.saturday.openingFirst,
+          openingSecond: this.state.day.saturday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.saturday.closingSecond,
+          day: "saturday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "sunday":
         stateDays.sunday = {
-            openingFirst: this.state.day.sunday.openingFirst,
-            openingSecond: this.state.day.sunday.openingSecond,
-            closingFirst: e,
-            closingSecond: this.state.day.sunday.closingSecond,
-            day: "sunday"
+          openingFirst: this.state.day.sunday.openingFirst,
+          openingSecond: this.state.day.sunday.openingSecond,
+          closingFirst: e,
+          closingSecond: this.state.day.sunday.closingSecond,
+          day: "sunday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
+
+      default:
     }
   };
 
   handleDateChangeOpeningSecond = (e, dayName) => {
-    console.log(e);
-    console.log(dayName);
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
         stateDays.monday = {
-            openingFirst: this.state.day.monday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.monday.closingFirst,
-            closingSecond: this.state.day.monday.closingSecond,
-            day: "monday"
+          openingFirst: this.state.day.monday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.monday.closingFirst,
+          closingSecond: this.state.day.monday.closingSecond,
+          day: "monday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "tuesday":
         stateDays.tuesday = {
-            openingFirst: this.state.day.tuesday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.tuesday.closingFirst,
-            closingSecond: this.state.day.tuesday.closingSecond,
-            day: "tuesday"
+          openingFirst: this.state.day.tuesday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.tuesday.closingFirst,
+          closingSecond: this.state.day.tuesday.closingSecond,
+          day: "tuesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "wednesday":
         stateDays.wednesday = {
-            openingFirst: this.state.day.wednesday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.wednesday.closingFirst,
-            closingSecond: this.state.day.wednesday.closingSecond,
-            day: "wednesday"
+          openingFirst: this.state.day.wednesday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.wednesday.closingFirst,
+          closingSecond: this.state.day.wednesday.closingSecond,
+          day: "wednesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "thursday":
         stateDays.thursday = {
-            openingFirst: this.state.day.thursday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.thursday.closingFirst,
-            closingSecond: this.state.day.thursday.closingSecond,
-            day: "thursday"
+          openingFirst: this.state.day.thursday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.thursday.closingFirst,
+          closingSecond: this.state.day.thursday.closingSecond,
+          day: "thursday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "friday":
         stateDays.friday = {
-            openingFirst: this.state.day.friday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.friday.closingFirst,
-            closingSecond: this.state.day.friday.closingSecond,
-            day: "friday"
+          openingFirst: this.state.day.friday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.friday.closingFirst,
+          closingSecond: this.state.day.friday.closingSecond,
+          day: "friday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "saturday":
         stateDays.saturday = {
-            openingFirst: this.state.day.saturday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.saturday.closingFirst,
-            closingSecond: this.state.day.saturday.closingSecond,
-            day: "saturday"
+          openingFirst: this.state.day.saturday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.saturday.closingFirst,
+          closingSecond: this.state.day.saturday.closingSecond,
+          day: "saturday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "sunday":
         stateDays.sunday = {
-            openingFirst: this.state.day.sunday.openingFirst,
-            openingSecond: e,
-            closingFirst: this.state.day.sunday.closingFirst,
-            closingSecond: this.state.day.sunday.closingSecond,
-            day: "sunday"
+          openingFirst: this.state.day.sunday.openingFirst,
+          openingSecond: e,
+          closingFirst: this.state.day.sunday.closingFirst,
+          closingSecond: this.state.day.sunday.closingSecond,
+          day: "sunday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
+
+      default:
     }
   };
 
   handleDateChangeClosingSecond = (e, dayName) => {
-    console.log(e);
-    console.log(dayName);
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
         stateDays.monday = {
-            openingFirst: this.state.day.monday.openingFirst,
-            openingSecond: this.state.day.monday.openingFirst,
-            closingFirst: this.state.day.monday.closingFirst,
-            closingSecond: e,
-            day: "monday"
+          openingFirst: this.state.day.monday.openingFirst,
+          openingSecond: this.state.day.monday.openingFirst,
+          closingFirst: this.state.day.monday.closingFirst,
+          closingSecond: e,
+          day: "monday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "tuesday":
         stateDays.tuesday = {
-            openingFirst: this.state.day.tuesday.openingFirst,
-            openingSecond: this.state.day.tuesday.openingFirst,
-            closingFirst: this.state.day.tuesday.closingFirst,
-            closingSecond: e,
-            day: "tuesday"
+          openingFirst: this.state.day.tuesday.openingFirst,
+          openingSecond: this.state.day.tuesday.openingFirst,
+          closingFirst: this.state.day.tuesday.closingFirst,
+          closingSecond: e,
+          day: "tuesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "wednesday":
         stateDays.wednesday = {
-            openingFirst: this.state.day.wednesday.openingFirst,
-            openingSecond: this.state.day.wednesday.openingFirst,
-            closingFirst: this.state.day.wednesday.closingFirst,
-            closingSecond: e,
-            day: "wednesday"
+          openingFirst: this.state.day.wednesday.openingFirst,
+          openingSecond: this.state.day.wednesday.openingFirst,
+          closingFirst: this.state.day.wednesday.closingFirst,
+          closingSecond: e,
+          day: "wednesday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "thursday":
         stateDays.thursday = {
-            openingFirst: this.state.day.thursday.openingFirst,
-            openingSecond: this.state.day.thursday.openingFirst,
-            closingFirst: this.state.day.thursday.closingFirst,
-            closingSecond: e,
-            day: "thursday"
+          openingFirst: this.state.day.thursday.openingFirst,
+          openingSecond: this.state.day.thursday.openingFirst,
+          closingFirst: this.state.day.thursday.closingFirst,
+          closingSecond: e,
+          day: "thursday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "friday":
         stateDays.friday = {
-            openingFirst: this.state.day.friday.openingFirst,
-            openingSecond: this.state.day.friday.openingFirst,
-            closingFirst: this.state.day.friday.closingFirst,
-            closingSecond: e,
-            day: "friday"
+          openingFirst: this.state.day.friday.openingFirst,
+          openingSecond: this.state.day.friday.openingFirst,
+          closingFirst: this.state.day.friday.closingFirst,
+          closingSecond: e,
+          day: "friday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "saturday":
         stateDays.saturday = {
-            openingFirst: this.state.day.saturday.openingFirst,
-            openingSecond: this.state.day.saturday.openingFirst,
-            closingFirst: this.state.day.saturday.closingFirst,
-            closingSecond: e,
-            day: "saturday"
+          openingFirst: this.state.day.saturday.openingFirst,
+          openingSecond: this.state.day.saturday.openingFirst,
+          closingFirst: this.state.day.saturday.closingFirst,
+          closingSecond: e,
+          day: "saturday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
 
       case "sunday":
         stateDays.sunday = {
-            openingFirst: this.state.day.sunday.openingFirst,
-            openingSecond: this.state.day.sunday.openingFirst,
-            closingFirst: this.state.day.sunday.closingFirst,
-            closingSecond: e,
-            day: "sunday"
+          openingFirst: this.state.day.sunday.openingFirst,
+          openingSecond: this.state.day.sunday.openingFirst,
+          closingFirst: this.state.day.sunday.closingFirst,
+          closingSecond: e,
+          day: "sunday"
         };
         this.setState(
           {
             day: stateDays
-          },
-          function() {
-            console.log(this.state.day);
           }
         );
         break;
+
+      default:
     }
   };
 
-  submitTime = () => {
-      console.log(this.state.day.monday.openingFirst.getHours());
-  }
+  submitTime = (dayName) => {
+    let openingFirstHour = ("0" + this.state.day[dayName].openingFirst.getHours()).slice(-2);
+    let openingSecondHour = ("0" + this.state.day[dayName].openingSecond.getHours()).slice(-2);
+    let closingFirstHour = ("0" + this.state.day[dayName].closingFirst.getHours()).slice(-2);
+    let closingSecondHour = ("0" + this.state.day[dayName].closingSecond.getHours()).slice(-2);
+    let openingFirstMinutes = ("0" + this.state.day[dayName].openingFirst.getMinutes()).slice(-2);
+    let openingSecondMinutes = ("0" + this.state.day[dayName].openingSecond.getMinutes()).slice(-2);
+    let closingFirstMinutes = ("0" + this.state.day[dayName].closingFirst.getMinutes()).slice(-2);
+    let closingSecondMinutes = ("0" + this.state.day[dayName].closingSecond.getMinutes()).slice(-2);
+    let totalToSend = "" + openingFirstHour + openingFirstMinutes+ closingFirstHour + closingFirstMinutes + openingSecondHour + openingSecondMinutes + closingSecondHour + closingSecondMinutes;
+    if(openingFirstHour<=closingFirstHour) {
+      if(openingFirstMinutes<openingSecondMinutes){
+        console.log("yes");
+      }
+      else {
+        alert("Please check the Time Again");
+      }
+    }
+    else {
+      alert("Please check the time again");
+    }
+    console.log(totalToSend);
+
+  };
 
   render() {
     return (
@@ -682,7 +625,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.monday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.monday.day}
@@ -697,7 +640,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.monday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.monday.day}
@@ -707,9 +650,17 @@ class ModalClass extends React.Component {
                   </div>
                 </div>
               </Typography>
-                  
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.monday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -729,7 +680,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.tuesday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.tuesday.day}
@@ -744,7 +695,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.tuesday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.tuesday.day}
@@ -755,7 +706,16 @@ class ModalClass extends React.Component {
                 </div>
               </Typography>
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.tuesday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -775,7 +735,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.wednesday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.wednesday.day}
@@ -790,7 +750,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.wednesday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.wednesday.day}
@@ -801,7 +761,16 @@ class ModalClass extends React.Component {
                 </div>
               </Typography>
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.wednesday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -821,7 +790,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.thursday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.thursday.day}
@@ -836,7 +805,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.thursday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.thursday.day}
@@ -847,7 +816,16 @@ class ModalClass extends React.Component {
                 </div>
               </Typography>
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.thursday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -867,7 +845,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.friday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.friday.day}
@@ -882,7 +860,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.friday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.friday.day}
@@ -893,7 +871,16 @@ class ModalClass extends React.Component {
                 </div>
               </Typography>
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.friday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -913,7 +900,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.saturday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.saturday.day}
@@ -928,7 +915,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.saturday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.saturday.day}
@@ -939,7 +926,16 @@ class ModalClass extends React.Component {
                 </div>
               </Typography>
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.saturday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -959,7 +955,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.sunday.openingFirst}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.sunday.day}
@@ -974,7 +970,7 @@ class ModalClass extends React.Component {
                       selectedDate={this.state.day.sunday.openingSecond}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
-                    <br/>
+                    <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.sunday.day}
@@ -985,7 +981,16 @@ class ModalClass extends React.Component {
                 </div>
               </Typography>
             </ExpansionPanelDetails>
-            <button className="submitButton" onClick={this.submitTime}> Submit </button>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              style={buttonStyle}
+              className="submitButton"
+              onClick={ () => this.submitTime(this.state.day.sunday.day)}
+            >
+              Submit
+            </Button>
           </ExpansionPanel>
         </Modal>
       </div>

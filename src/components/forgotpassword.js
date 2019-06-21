@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Navbar from "./navbar";
 
 
 const styles = theme => ({
@@ -83,6 +84,7 @@ class ForgotPassword extends React.Component {
 
     return (
       <div>
+        <Navbar />
         <main className={classes.main}>
           <CssBaseline />
           <Paper className={classes.paper}>
@@ -106,11 +108,11 @@ class ForgotPassword extends React.Component {
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
-                <Input className={classes.password} onChange={this.handleChange} name="password" type="password" id="password" />
+                <Input className={classes.password} onChange={this.handleChange} name="password" type="password" id="newPassword1" />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Confirm Password</InputLabel>
-                <Input className={classes.password} onChange={this.handleChange} name="confirmpassword" type="password" id="password" />
+                <Input className={classes.password} onChange={this.handleChange} name="confirmpassword" type="password" id="newPassword2" />
               </FormControl>
               <Button
                 type="submit"

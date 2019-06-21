@@ -10,7 +10,7 @@ import DATAGYM from "../datagym.js";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Modal from './modal'
+import Modal from "./modal";
 
 const styles = theme => ({
   cardmain: {
@@ -24,13 +24,12 @@ const styles = theme => ({
     marginRight: "1%",
     display: "inlineBlock"
   },
-  main: {
-    //margin: 0
-  },
   media: {
+    width: 'auto',
+    height: 'auto',
     maxHeight: "100%",
     maxWidth: "100%",
-    paddingTop: "60.25%"
+    paddingTop: "100%"
   },
   uploadfile: {
     marginTop: 20,
@@ -60,7 +59,7 @@ class PartnerProfileLeftTab extends React.Component {
       uploadImageResponse: {},
       files: [],
       Data: DATAGYM,
-      dataLoadedFromAPI: null,
+      dataLoadedFromAPI: null
     };
   }
 
@@ -174,8 +173,7 @@ class PartnerProfileLeftTab extends React.Component {
 
   renderGymData = classes => {
     return (
-      <div className={classes.main}>
-        <div className={classes.card}>
+        <div className={classes.cardDataForGymLeftSide}>
           {this.state.Data.map(p => (
             <Card key={p.id} className={classes.cardmain}>
               {this.checkIfImageIsUploaded(classes, "profile")}
@@ -205,7 +203,6 @@ class PartnerProfileLeftTab extends React.Component {
             </Card>
           ))}
         </div>
-      </div>
     );
   };
 

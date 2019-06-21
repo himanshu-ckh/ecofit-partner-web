@@ -77,7 +77,10 @@ class SideTab extends React.Component {
             upcomingvisitsdata: response.body,
             checkupcomingvisit: true,
             upcomingFilteredResult: response.body
+
+            
           });
+          console.log(response);
         })
         .catch(error => {
           console.log(error);

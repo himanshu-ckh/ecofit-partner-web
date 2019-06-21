@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import red from "@material-ui/core/colors/red";
 import NavbarPartnerProfile from "./navbarpartnerprofile";
 import SideTab from "./sidetab";
 import "../App.css";
@@ -95,7 +94,7 @@ class PartnerProfile extends React.Component {
 
   render() {
     const { classes } = this.props;
-
+    
     return (
       <div className={classes.colorgrey}>
         <NavbarPartnerProfile />

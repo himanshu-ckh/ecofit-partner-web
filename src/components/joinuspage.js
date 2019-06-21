@@ -31,7 +31,6 @@ const styles = theme => ({
     paddingTop: '3%'
   },
   button: {
-    marginTop: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     marginTop: theme.spacing.unit*2,
   },

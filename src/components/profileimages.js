@@ -19,7 +19,11 @@ const styles = () => ({
     display: "inlineBlock"
   },
   media: {
-    paddingTop: "56.25%",
+    width: 'auto',
+    height: 'auto',
+    maxHeight: "100%",
+    maxWidth: "100%",
+    paddingTop: "100%"
   },
   uploadfile: {
     marginTop: 20,
