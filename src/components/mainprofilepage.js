@@ -7,13 +7,13 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginLeft: theme.spacing.unit(2),
+    marginLeft: theme.spacing.unit *2,
   },
   textField: {
     width: '90%',
 
-    marginLeft: theme.spacing.unit(2),
-    marginRight: theme.spacing.unit(2),
+    marginLeft: theme.spacing.unit *2,
+    marginRight: theme.spacing.unit *2,
   },
   dense: {
     marginTop: 16,

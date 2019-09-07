@@ -18,7 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
   heading: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "8%"
   },
   chip: {
-    margin: theme.spacing(1),
+    margin: theme.spacing.unit *1,
   },
   table: {
     minWidth: "100%",
