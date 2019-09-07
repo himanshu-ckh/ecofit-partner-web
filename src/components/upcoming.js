@@ -6,7 +6,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Avatar from '@material-ui/core/Avatar';
 import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
@@ -86,12 +85,12 @@ class UpComing extends React.Component {
       />
         {this.props.filteredResult.map(p => (
           <Card key={p.visitId} className={classes.card}>
-            <Avatar alt="User Image" src={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()} className={classes.bigAvatar} />
-            {/* <CardMedia
+            {/* <Avatar alt="User Image" src={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()} className={classes.bigAvatar} /> */}
+            <CardMedia
               className={classes.cover}
-              image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()}
+              image={`https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_${p.customerPhoneNumber.substr(3)}/profile_pic.jpg?time=${new Date()}`}
               title="User Image"
-            /> */}
+            />
             <div className={classes.details}>
               <CardContent className={classes.content}>
                 <Typography variant="h6" gutterBottom>

@@ -100,7 +100,8 @@ class SignIn extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  checkSignIn = () => {
+  checkSignIn = (e) => {
+    e.preventDefault();
     Auth.signIn(this.state.email, this.state.password)
       .then(user => {
         this.setState({ user: user });
@@ -182,7 +183,7 @@ class SignIn extends React.Component {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={this.checkSignIn}
+                  onClick={(e) => this.checkSignIn(e)}
                 >
                   Sign in
                 </Button>

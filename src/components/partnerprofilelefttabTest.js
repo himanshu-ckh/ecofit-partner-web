@@ -190,22 +190,22 @@ class PartnerProfileLeftTabTest extends React.Component {
             <Card key={this.state.userData.id} className={classes.cardmain}>
               {this.checkIfImageIsUploaded(classes, "profile")}
               <CardContent>
-                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="p">
+                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="span">
                 {this.state.userData.name}
                 </Typography>
               </CardContent>
               <CardContent>
-                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="p">
+                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="span">
                 {this.state.userData.address}
                 </Typography>
               </CardContent>
               <CardContent>
-                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="p">
+                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="span">
                 {this.state.userData.phoneNumber}
                 </Typography>
               </CardContent>
               <CardContent>
-                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="p">
+                <Typography variant="subtitle2" gutterBottom className={classes.cardcontent} component="span">
                 {this.state.userData.city}
                 </Typography>
               </CardContent>

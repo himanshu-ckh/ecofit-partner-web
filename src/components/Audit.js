@@ -190,7 +190,7 @@ export default function ControlledExpansionPanels(props) {
         <ExpansionPanelDetails>
         <Card className={classes.card}>
       <CardContent>
-        <Typography className={classes.title}  variant="subtitle2" gutterBottom gutterBottom>
+        <Typography className={classes.title}  variant="subtitle2" gutterBottom>
         <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -265,7 +265,7 @@ export default function ControlledExpansionPanels(props) {
         <ExpansionPanelDetails>
         <Card className={classes.card}>
       <CardContent>
-        <Typography className={classes.title}  variant="subtitle2" gutterBottom gutterBottom>
+        <Typography className={classes.title}  variant="subtitle2" gutterBottom>
           {state.previousPlans.map(data => {
             
             return(

@@ -5,7 +5,6 @@ import NavbarPartnerProfile from "./navbarpartnerprofile";
 import SideTab from "./sidetab";
 import "../App.css";
 import { withRouter } from "react-router-dom";
-import PartnerProfileLeftTab from "./partnerprofilelefttab";
 import { Auth } from "aws-amplify";
 import PartnerProfileLeftTabTest from "./partnerprofilelefttabTest";
 

@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { API } from "aws-amplify";
 import UpComing from "./upcoming";
 import VisitHistory from "./visithistory";
-import MainProfilePage from "./mainprofilepage";
+
 import ProfileImages from "./profileimages";
 import Audit from './Audit'
 import MainProfilePageTest from "./mainprofilepagetest";
@@ -77,7 +77,6 @@ function reducer(state, action) {
       return {
         ...state, value: action.value
       }
-      break;
     case 'renderUpComingVisit':
       return {
         ...state,
@@ -85,19 +84,16 @@ function reducer(state, action) {
         checkupcomingvisit: true,
         upcomingFilteredResult: action.response.body
       }
-      break;
     case 'updateSearchUpComing':
       return {
         ...state,
         searchupcoming: action.name
       }
-      break;
     case 'updateupcomingFilteredResult':
       return {
         ...state,
         upcomingFilteredResult: action.value
       }
-      break;
     case 'renderPreviousVisit':
       return {
         ...state,
@@ -105,33 +101,28 @@ function reducer(state, action) {
         checkpreviousvisits: true,
         previousFilteredResult: action.response.body
       }
-      break;
     case 'updateSearchPrevious':
       return {
         ...state,
         searchprevious: action.name
       }
-      break;
     case 'renderPreviousMapVisit':
       return {
         ...state,
         previousFilteredResult: action.previousFilteredResultData,
         previousvistsdata: action.previousFilteredResultData
       }
-      break;
     case 'updatePreviousFilteredResult':
       return {
         ...state,
         previousFilteredResult: action.value
       }
-      break;
     case 'getPartnerData':
           return {
               ...state,
               userData: action.response.body,
               dataLoadedFromAPI: true
           }
-        break;
     default:
   }
 }

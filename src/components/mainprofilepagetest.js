@@ -3,10 +3,6 @@ import MaterialTable from 'material-table';
 import Snackbar from '@material-ui/core/Snackbar';
 import { API } from "aws-amplify";
 
-const InitalState = {
-  user: null
-}
-
 export default function MainProfilePageTest(props) {
   const [state, setState] = React.useState({
     columns: [

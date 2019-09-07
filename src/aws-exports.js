@@ -6,7 +6,7 @@
 
 // AWS Mobile Hub Project Constants
 const awsmobile = {
-    'aws_app_analytics': 'enable',
+    'aws_app_analytics': 'disable',
     'aws_cognito_identity_pool_id': 'ap-south-1:cdedde90-87a2-477d-a100-3ccfae28eaf7',
     'aws_cognito_region': 'ap-south-1',
     'aws_content_delivery': 'enable',

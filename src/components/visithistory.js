@@ -79,7 +79,7 @@ class VisitHistory extends React.Component {
               <Card key={previousVisits.visitId} className={classes.card}>
                 <CardMedia
                   className={classes.cover}
-                  image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + previousVisits.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()}
+                  image={`https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_${previousVisits.customerPhoneNumber.substr(3)}/profile_pic.jpg?time=${new Date()}`}
                   title="User Image"
                 />
                 <div className={classes.details}>

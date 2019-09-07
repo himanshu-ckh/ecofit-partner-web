@@ -18,21 +18,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const customStyles = {
-  content: {
-    width: "87%",
-    height: "37%",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    opacity: 1,
-    background: "rgba(209, 219, 255, 1)",
-    overlfow: "scroll"
-  },
-};
 const buttonStyle = {
   float: "right",
   marginRight: "4%",
@@ -314,7 +299,6 @@ class ModalClass extends React.Component {
 
   handleDateChangeClosingFirst = (e, dayName) => {
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
-    let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
         let timeMonday = this.state.userData.workingHours.Monday
@@ -444,7 +428,7 @@ class ModalClass extends React.Component {
                     minutesSaturday = ("0" + minutesSaturday).slice(-2)
                     let currTime1Saturday = timeSaturday.slice(0,4)
                     let currTime2Saturday = timeSaturday.slice(8,16)
-                    let totalTimeSaturday = currTime1Saturday+hourSaturday.toString()+ minutesSaturday.toString()+ currTime1Saturday
+                    let totalTimeSaturday = currTime1Saturday+hourSaturday.toString()+ minutesSaturday.toString()+ currTime2Saturday
                     this.setState({
                       userData: {
                         workingHours: {
@@ -490,7 +474,6 @@ class ModalClass extends React.Component {
 
   handleDateChangeOpeningSecond = (e, dayName) => {
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
-    let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
         let timeMonday = this.state.userData.workingHours.Monday
@@ -620,7 +603,7 @@ class ModalClass extends React.Component {
                     minutesSaturday = ("0" + minutesSaturday).slice(-2)
                     let currTime1Saturday = timeSaturday.slice(0,8)
                     let currTime2Saturday = timeSaturday.slice(12,16)
-                    let totalTimeSaturday = currTime1Saturday+hourSaturday.toString()+ minutesSaturday.toString()+ currTime1Saturday
+                    let totalTimeSaturday = currTime1Saturday+hourSaturday.toString()+ minutesSaturday.toString()+ currTime2Saturday
                     this.setState({
                       userData: {
                         workingHours: {
@@ -666,7 +649,6 @@ class ModalClass extends React.Component {
 
   handleDateChangeClosingSecond = (e, dayName) => {
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
-    let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
         let timeMonday = this.state.userData.workingHours.Monday
@@ -944,7 +926,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Monday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}
@@ -1001,7 +983,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Tuesday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}
@@ -1058,7 +1040,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Wednesday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}
@@ -1115,7 +1097,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Thursday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}
@@ -1172,7 +1154,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Friday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}
@@ -1229,7 +1211,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Saturday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}
@@ -1286,7 +1268,7 @@ componentDidUpdate = () => {
               <Typography className="heading">Sunday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component={'span'}>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
                     From:(Morning){" "}

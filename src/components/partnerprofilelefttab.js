@@ -77,20 +77,18 @@ function reducer(state,action) {
                 userData: action.response.body,
                 dataLoadedFromAPI: true
             }
-            break;
         case 'setFiles':
           console.log(action.data)
             return {
                 ...state,
                 files: action.data.base64
             }
-            break;
         case 'uploadmageResponseData':
             return {
                 ...state,
                 uploadImageResponse: action.response
             }
-            break;
+        default:
     }
 }
 

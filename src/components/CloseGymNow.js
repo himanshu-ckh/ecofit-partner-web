@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { API } from "aws-amplify";
 
@@ -125,7 +125,7 @@ function CloseGymNow(props) {
         postUserDetails()
     })
 
-    if (state.workingHours.openNowOverride== true || (state.workingHours.openNowOverride == null && state.isOpen.isOpen==true)) {
+    if (state.workingHours.openNowOverride=== true || (state.workingHours.openNowOverride ===null && state.isOpen.isOpen===true)) {
         return (
             <div>
                 <Button variant="outlined" color="secondary" className={styles.button} onClick={handeleCloseNowButton}>
@@ -134,7 +134,7 @@ function CloseGymNow(props) {
             </div>
         )
     }
-    else if(state.workingHours.openNowOverride== false || (state.workingHours.openNowOverride == null && state.isOpen.isOpen==false)){
+    else if(state.workingHours.openNowOverride=== false || (state.workingHours.openNowOverride === null && state.isOpen.isOpen===false)){
         return (
             <div>
                 <Button variant="contained" color="secondary" className={styles.button} onClick={handeleOpenNowButton}>
