@@ -6,16 +6,18 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
   card: {
     display: "flex",
     marginTop: 10,
-    width: "85%",
+    width: "75%",
     height: "40%",
     maxHeight: "100%",
     marginBottom: 20,
-    marginLeft: "7%"
+    marginLeft: "12%",
+    boxShadow: '3px 3px 3px 3px lightgrey'
   },
   main: {
     display: "inlineBlock",
@@ -27,15 +29,17 @@ const styles = theme => ({
     width: "48%"
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
+    textAlign: 'left',
+    marginLeft: '10%'
   },
   cover: {
-    marginTop: 5,
+    marginTop: 15,
     marginRight: "5%",
     marginBottom: 5,
-    marginLeft: "17%",
-    width: 150,
-    height: 150,
+    marginLeft: "5%",
+    width: 90,
+    height: 90,
     borderRadius: "50%",
     justifyContent: "right"
   },
@@ -50,31 +54,49 @@ class VisitHistory extends React.Component {
   state = {
     expanded: false,
     idval: false,
+    open: true
   };
 
-  renderUpcomingVisitCard = (classes, theme) => {
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
+  };
+
+  renderPreviousVisitCard = (classes, theme) => {
+
     return (
       <div className={classes.main}>
+        <Snackbar
+        open={this.state.open}
+        onClose={this.handleClose}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={<span id="message-id">Visit History</span>}
+      />
         {this.props.filteredResult.map(previousVisits => (
               <Card key={previousVisits.visitId} className={classes.card}>
-                <div className={classes.details}>
-                  <CardContent className={classes.content}>
-                    <Typography variant="subtitle1" color="default">
-                      {previousVisits.customerName}
-                    </Typography>
-                    <Typography variant="subtitle1" color="default">
-                      {previousVisits.dateOfVisit}
-                    </Typography>
-                    <Typography variant="subtitle1" color="default">
-                      {previousVisits.customerPhoneNumber}
-                    </Typography>
-                  </CardContent>
-                </div>
                 <CardMedia
                   className={classes.cover}
                   image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + previousVisits.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()}
                   title="User Image"
                 />
+                <div className={classes.details}>
+                  <CardContent className={classes.content}>
+                    <Typography variant="h6" gutterBottom>
+                      {previousVisits.customerName}
+                    </Typography>
+                    <Typography variant="subtitle2" gutterBottom>
+                      {previousVisits.customerPhoneNumber}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {previousVisits.dateOfVisit}
+                    </Typography>
+                  </CardContent>
+                </div>
+
+                
               </Card>
             )
         )}
@@ -97,9 +119,10 @@ class VisitHistory extends React.Component {
             onChange={this.props.handleChangePrevious("searchprevious")}
             margin="normal"
             variant="outlined"
+            color="secondary"
           />
         </form>
-        {this.renderUpcomingVisitCard(classes, theme)}
+        {this.renderPreviousVisitCard(classes, theme)}
       </div>
     );
   }

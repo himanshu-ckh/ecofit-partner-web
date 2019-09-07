@@ -6,16 +6,19 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import Avatar from '@material-ui/core/Avatar';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
   card: {
     display: "flex",
     marginTop: 10,
-    width: "85%",
+    width: "75%",
     height: "40%",
     maxHeight: "100%",
     marginBottom: 20,
-    marginLeft: "7%"
+    marginLeft: "12%",
+    boxShadow: '3px 3px 3px 3px lightgrey'
   },
   main: {
     display: "inlineBlock",
@@ -27,15 +30,17 @@ const styles = theme => ({
     width: "48%"
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
+    textAlign: 'left',
+    marginLeft: '10%'
   },
   cover: {
-    marginTop: 5,
+    marginTop: 15,
     marginRight: "5%",
     marginBottom: 5,
-    marginLeft: "17%",
-    width: 150,
-    height: 150,
+    marginLeft: "5%",
+    width: 90,
+    height: 90,
     borderRadius: "50%",
     justifyContent: "right"
   },
@@ -43,6 +48,16 @@ const styles = theme => ({
     width: "80%",
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2
+  },
+  bigAvatar: {
+    marginTop: 15,
+    marginRight: "5%",
+    marginBottom: 5,
+    marginLeft: "5%",
+    width: 90,
+    height: 90,
+    borderRadius: "50%",
+    justifyContent: "right"
   }
 });
 
@@ -50,31 +65,47 @@ class UpComing extends React.Component {
   state = {
     expanded: false,
     idval: false,
+    open: true
+  };
+ handleClose = () => {
+    this.setState({
+      open: false
+    })
   };
 
   renderUpcomingVisitCard = (classes, theme) => {
     return (
       <div className={classes.main}>
+        <Snackbar
+        open={this.state.open}
+        onClose={this.handleClose}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={<span id="message-id">Up Coming</span>}
+      />
         {this.props.filteredResult.map(p => (
           <Card key={p.visitId} className={classes.card}>
-            <div className={classes.details}>
-              <CardContent className={classes.content}>
-                <Typography variant="subtitle1" color="default">
-                  {p.customerName}
-                </Typography>
-                <Typography variant="subtitle1" color="default">
-                  {p.dateOfVisit}
-                </Typography>
-                <Typography variant="subtitle1" color="default">
-                  {p.customerPhoneNumber}
-                </Typography>
-              </CardContent>
-            </div>
-            <CardMedia
+            <Avatar alt="User Image" src={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()} className={classes.bigAvatar} />
+            {/* <CardMedia
               className={classes.cover}
               image={"https://ecofit-customers.s3.ap-south-1.amazonaws.com/user_" + p.customerPhoneNumber.substr(3) + "/profile_pic.jpg"+"?time="+new Date()}
               title="User Image"
-            />
+            /> */}
+            <div className={classes.details}>
+              <CardContent className={classes.content}>
+                <Typography variant="h6" gutterBottom>
+                  {p.customerName}
+                </Typography>
+                <Typography variant="subtitle2" gutterBottom>
+                  {p.customerPhoneNumber}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {p.dateOfVisit}
+                </Typography>
+              </CardContent>
+            </div>
+            
           </Card>
         ))}
       </div>
@@ -96,6 +127,7 @@ class UpComing extends React.Component {
             onChange={this.props.handleChangeUpComing("searchupcoming")}
             margin="normal"
             variant="outlined"
+            color="secondary"
           />
         </form>
         {this.renderUpcomingVisitCard(classes, theme)}

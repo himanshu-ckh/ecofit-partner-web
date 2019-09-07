@@ -9,6 +9,14 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./modal.css";
 import Button from "@material-ui/core/Button";
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
+import { API } from "aws-amplify";
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const customStyles = {
   content: {
@@ -23,7 +31,7 @@ const customStyles = {
     opacity: 1,
     background: "rgba(209, 219, 255, 1)",
     overlfow: "scroll"
-  }
+  },
 };
 const buttonStyle = {
   float: "right",
@@ -31,12 +39,23 @@ const buttonStyle = {
   marginBottom: "2%"
 };
 
+const dialogStyle = {
+  backgroundColor: 'black'
+};
+
+const closeButtonStyle = {
+  float: "right",
+  marginRight: "4%",
+  marginBottom: "2%",
+  marginTop: '2%'
+};
+
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
 class ModalClass extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       day: {
@@ -90,136 +109,205 @@ class ModalClass extends React.Component {
           closingSecond: new Date()
         }
       },
-      modalIsOpen: false
+      modalIsOpen: false,
+      userData: {
+        workingHours: {
+          Monday: "0000000000000000",
+          Tuesday: "0000000000000000",
+          Wednesday: "0000000000000000",
+          Thursday: "0000000000000000",
+          Friday: "0000000000000000",
+          Saturday: "0000000000000000",
+          Sunday: "0000000000000000",
+          openNowOverride: "0000000000000000",
+        }
+    },
+    dataLoadedFromAPI: null,
+    totalToSend: null,
+    dayToSend: null,
     };
 
-    this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    // // this.openModal = this.openModal.bind(this);
+    // this.afterOpenModal = this.afterOpenModal.bind(this);
+    // this.closeModal = this.closeModal.bind(this);
   }
 
-  openModal() {
+  openModal = () => {
     this.setState({ modalIsOpen: true });
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = "#f00";
-  }
-
-  closeModal() {
+  closeModal = () => {
     this.setState({ modalIsOpen: false });
   }
 
   handleDateChangeOpeningFirst = (e, dayName) => {
     let dayNameFirstOpeningTime = this.state.day[dayName].day;
-    let stateDays = this.state.day;
+    console.log(dayName)
+    console.log(dayNameFirstOpeningTime)
     switch (dayNameFirstOpeningTime) {
       case "monday":
-        stateDays.monday = {
-          openingFirst: e,
-          openingSecond: this.state.day.monday.openingSecond,
-          closingFirst: this.state.day.monday.closingFirst,
-          closingSecond: this.state.day.monday.closingSecond,
-          day: "monday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
+        let timeMonday = this.state.userData.workingHours.Monday
+        let hourMonday = e.getHours()
+        hourMonday = ("0" + hourMonday).slice(-2)
+        let minutesMonday = e.getMinutes()
+        minutesMonday = ("0" + minutesMonday).slice(-2)
+        console.log(minutesMonday)
+        let currTimeMonday = timeMonday.slice(4,16)
+        let totalTimeMonday = hourMonday.toString()+minutesMonday.toString()+currTimeMonday
+        console.log(totalTimeMonday)
+        this.setState({
+          userData: {
+            workingHours: {
+              Monday: totalTimeMonday,
+              Tuesday: "0000000000000000",
+              Wednesday: "0000000000000000",
+              Thursday: "0000000000000000",
+              Friday: "0000000000000000",
+              Saturday: "0000000000000000",
+              Sunday: "0000000000000000",
+              openNowOverride: "0000000000000000",
+            }
+        }
+        })
         break;
-
-      case "tuesday":
-        stateDays.tuesday = {
-          openingFirst: e,
-          openingSecond: this.state.day.tuesday.openingSecond,
-          closingFirst: this.state.day.tuesday.closingFirst,
-          closingSecond: this.state.day.tuesday.closingSecond,
-          day: "tuesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "wednesday":
-        stateDays.wednesday = {
-          openingFirst: e,
-          openingSecond: this.state.day.wednesday.openingSecond,
-          closingFirst: this.state.day.wednesday.closingFirst,
-          closingSecond: this.state.day.wednesday.closingSecond,
-          day: "wednesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "thursday":
-        stateDays.thursday = {
-          openingFirst: e,
-          openingSecond: this.state.day.thursday.openingSecond,
-          closingFirst: this.state.day.thursday.closingFirst,
-          closingSecond: this.state.day.thursday.closingSecond,
-          day: "thursday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "friday":
-        stateDays.friday = {
-          openingFirst: e,
-          openingSecond: this.state.day.friday.openingSecond,
-          closingFirst: this.state.day.friday.closingFirst,
-          closingSecond: this.state.day.friday.closingSecond,
-          day: "friday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "saturday":
-        stateDays.saturday = {
-          openingFirst: e,
-          openingSecond: this.state.day.saturday.openingSecond,
-          closingFirst: this.state.day.saturday.closingFirst,
-          closingSecond: this.state.day.saturday.closingSecond,
-          day: "saturday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "sunday":
-        stateDays.sunday = {
-          openingFirst: e,
-          openingSecond: this.state.day.sunday.openingSecond,
-          closingFirst: this.state.day.sunday.closingFirst,
-          closingSecond: this.state.day.sunday.closingSecond,
-          day: "sunday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
+        case 'tuesday' :
+            let timeTuesday = this.state.userData.workingHours.Tuesday
+            let hourTuesday = e.getHours()
+            hourTuesday = ("0" + hourTuesday).slice(-2)
+            let minutesTuesday = e.getMinutes()
+            minutesTuesday = ("0" + minutesTuesday).slice(-2)
+            let currTimeTuesday = timeTuesday.slice(4,16)
+            let totalTimeTuesday = hourTuesday.toString()+minutesTuesday.toString()+currTimeTuesday
+            this.setState({
+              userData: {
+                workingHours: {
+                  Monday: "0000000000000000",
+                  Tuesday: totalTimeTuesday,
+                  Wednesday: "0000000000000000",
+                  Thursday: "0000000000000000",
+                  Friday: "0000000000000000",
+                  Saturday: "0000000000000000",
+                  Sunday: "0000000000000000",
+                  openNowOverride: "0000000000000000",
+                }
+            }
+            })
+          break;
+          case 'wednesday' :
+              let timeWednesday = this.state.userData.workingHours.Wednesday
+              let hourWednsday = e.getHours()
+              hourWednsday = ("0" + hourWednsday).slice(-2)
+              let minutesWednesday = e.getMinutes()
+              minutesWednesday = ("0" + minutesWednesday).slice(-2)
+              let currTimeWednesday = timeWednesday.slice(4,16)
+              let totalTimeWednesday = hourWednsday.toString()+minutesWednesday.toString()+currTimeWednesday
+              this.setState({
+                userData: {
+                  workingHours: {
+                    Monday: "0000000000000000",
+                    Tuesday: "0000000000000000",
+                    Wednesday: totalTimeWednesday,
+                    Thursday: "0000000000000000",
+                    Friday: "0000000000000000",
+                    Saturday: "0000000000000000",
+                    Sunday: "0000000000000000",
+                    openNowOverride: "0000000000000000",
+                  }
+              }
+              })
+            break;
+            case 'thursday' :
+                let timeThursday = this.state.userData.workingHours.Thursday
+                let hourThursday = e.getHours()
+                hourThursday = ("0" + hourThursday).slice(-2)
+                let minutesThursday = e.getMinutes()
+                minutesThursday = ("0" + minutesThursday).slice(-2)
+                let currTimeThursday = timeThursday.slice(4,16)
+                let totalTimeThursday = hourThursday.toString()+minutesThursday.toString()+currTimeThursday
+                this.setState({
+                  userData: {
+                    workingHours: {
+                      Monday: "0000000000000000",
+                      Tuesday: "0000000000000000",
+                      Wednesday: "0000000000000000",
+                      Thursday: totalTimeThursday,
+                      Friday: "0000000000000000",
+                      Saturday: "0000000000000000",
+                      Sunday: "0000000000000000",
+                      openNowOverride: "0000000000000000",
+                    }
+                }
+                })
+              break;
+              case 'friday' :
+                  let timeFriday = this.state.userData.workingHours.Friday
+                  let hourFriday = e.getHours()
+                  hourFriday = ("0" + hourFriday).slice(-2)
+                  let minutesFriday = e.getMinutes()
+                  minutesFriday = ("0" + minutesFriday).slice(-2)
+                  let currTimeFriday = timeFriday.slice(4,16)
+                  let totalTimeFriday = hourFriday.toString()+minutesFriday.toString()+currTimeFriday
+                  this.setState({
+                    userData: {
+                      workingHours: {
+                        Monday: "0000000000000000",
+                        Tuesday: "0000000000000000",
+                        Wednesday: "0000000000000000",
+                        Thursday: "0000000000000000",
+                        Friday: totalTimeFriday,
+                        Saturday: "0000000000000000",
+                        Sunday: "0000000000000000",
+                        openNowOverride: "0000000000000000",
+                      }
+                  }
+                  })
+                break;
+                case 'saturday' :
+                    let timeSaturday = this.state.userData.workingHours.Saturday
+                    let hourSaturday = e.getHours()
+                    hourSaturday = ("0" + hourSaturday).slice(-2)
+                    let minutesSaturday = e.getMinutes()
+                    minutesSaturday = ("0" + minutesSaturday).slice(-2)
+                    let currTimeSaturday = timeSaturday.slice(4,16)
+                    let totalTimeSaturday = hourSaturday.toString()+minutesSaturday.toString()+currTimeSaturday
+                    this.setState({
+                      userData: {
+                        workingHours: {
+                          Monday: "0000000000000000",
+                          Tuesday: "0000000000000000",
+                          Wednesday: "0000000000000000",
+                          Thursday: "0000000000000000",
+                          Friday: "0000000000000000",
+                          Saturday: totalTimeSaturday,
+                          Sunday: "0000000000000000",
+                          openNowOverride: "0000000000000000",
+                        }
+                    }
+                    })
+                  break;
+                  case 'sunday' :
+                      let timeSunday = this.state.userData.workingHours.Sunday
+                      let hourSunday = e.getHours()
+                      hourSunday = ("0" + hourSunday).slice(-2)
+                      let minutesSunday = e.getMinutes()
+                      minutesSunday = ("0" + minutesSunday).slice(-2)
+                      let currTimeSunday = timeSunday.slice(4,16)
+                      let totalTimeSunday = hourSunday.toString()+minutesSunday.toString()+currTimeSunday
+                      this.setState({
+                        userData: {
+                          workingHours: {
+                            Monday: "0000000000000000",
+                            Tuesday: "0000000000000000",
+                            Wednesday: "0000000000000000",
+                            Thursday: "0000000000000000",
+                            Friday: "0000000000000000",
+                            Saturday: "0000000000000000",
+                            Sunday: totalTimeSunday,
+                            openNowOverride: "0000000000000000",
+                          }
+                      }
+                      })
+                    break;
       default:
     }
   };
@@ -229,111 +317,174 @@ class ModalClass extends React.Component {
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
-        stateDays.monday = {
-          openingFirst: this.state.day.monday.openingFirst,
-          openingSecond: this.state.day.monday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.monday.closingSecond,
-          day: "monday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
+        let timeMonday = this.state.userData.workingHours.Monday
+        let hourMonday = e.getHours()
+        hourMonday = ("0" + hourMonday).slice(-2)
+        let minutesMonday = e.getMinutes()
+        minutesMonday = ("0" + minutesMonday).slice(-2)
+        let currTime1Monday = timeMonday.slice(0,4)
+        let currTime2Monday = timeMonday.slice(8,16)
+        let totalTimeMonday = currTime1Monday+hourMonday.toString()+ minutesMonday.toString()+ currTime2Monday
+        this.setState({
+          userData: {
+            workingHours: {
+              Monday: totalTimeMonday,
+              Tuesday: "0000000000000000",
+              Wednesday: "0000000000000000",
+              Thursday: "0000000000000000",
+              Friday: "0000000000000000",
+              Saturday: "0000000000000000",
+              Sunday: "0000000000000000",
+              openNowOverride: "0000000000000000",
+            }
+        }
+        })
         break;
-
-      case "tuesday":
-        stateDays.tuesday = {
-          openingFirst: this.state.day.tuesday.openingFirst,
-          openingSecond: this.state.day.tuesday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.tuesday.closingSecond,
-          day: "tuesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "wednesday":
-        stateDays.wednesday = {
-          openingFirst: this.state.day.wednesday.openingFirst,
-          openingSecond: this.state.day.wednesday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.wednesday.closingSecond,
-          day: "wednesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "thursday":
-        stateDays.thursday = {
-          openingFirst: this.state.day.thursday.openingFirst,
-          openingSecond: this.state.day.thursday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.thursday.closingSecond,
-          day: "thursday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "friday":
-        stateDays.friday = {
-          openingFirst: this.state.day.friday.openingFirst,
-          openingSecond: this.state.day.friday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.friday.closingSecond,
-          day: "friday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "saturday":
-        stateDays.saturday = {
-          openingFirst: this.state.day.saturday.openingFirst,
-          openingSecond: this.state.day.saturday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.saturday.closingSecond,
-          day: "saturday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "sunday":
-        stateDays.sunday = {
-          openingFirst: this.state.day.sunday.openingFirst,
-          openingSecond: this.state.day.sunday.openingSecond,
-          closingFirst: e,
-          closingSecond: this.state.day.sunday.closingSecond,
-          day: "sunday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      default:
+        case 'tuesday' :
+            let timeTuesday = this.state.userData.workingHours.Tuesday
+            let hourTuesday = e.getHours()
+            hourTuesday = ("0" + hourTuesday).slice(-2)
+            let minutesTuesday = e.getMinutes()
+            minutesTuesday = ("0" + minutesTuesday).slice(-2)
+            let currTime1Tuesday = timeTuesday.slice(0,4)
+            let currTime2Tuesday = timeTuesday.slice(8,16)
+            let totalTimeTuesday = currTime1Tuesday+hourTuesday.toString()+ minutesTuesday.toString()+ currTime2Tuesday
+            this.setState({
+              userData: {
+                workingHours: {
+                  Monday: "0000000000000000",
+                  Tuesday: totalTimeTuesday,
+                  Wednesday: "0000000000000000",
+                  Thursday: "0000000000000000",
+                  Friday: "0000000000000000",
+                  Saturday: "0000000000000000",
+                  Sunday: "0000000000000000",
+                  openNowOverride: "0000000000000000",
+                }
+            }
+            })
+          break;
+          case 'wednesday' :
+              let timeWednesday = this.state.userData.workingHours.Wednesday
+              let hourWednsday = e.getHours()
+              hourWednsday = ("0" + hourWednsday).slice(-2)
+              let minutesWednesday = e.getMinutes()
+              minutesWednesday = ("0" + minutesWednesday).slice(-2)
+              let currTime1Wednesday = timeWednesday.slice(0,4)
+              let currTime2Wednesday = timeWednesday.slice(8,16)
+              let totalTimeWednesday = currTime1Wednesday+hourWednsday.toString()+ minutesWednesday.toString()+ currTime2Wednesday
+              this.setState({
+                userData: {
+                  workingHours: {
+                    Monday: "0000000000000000",
+                    Tuesday: "0000000000000000",
+                    Wednesday: totalTimeWednesday,
+                    Thursday: "0000000000000000",
+                    Friday: "0000000000000000",
+                    Saturday: "0000000000000000",
+                    Sunday: "0000000000000000",
+                    openNowOverride: "0000000000000000",
+                  }
+              }
+              })
+            break;
+            case 'thursday' :
+                let timeThursday = this.state.userData.workingHours.Thursday
+                let hourThursday = e.getHours()
+                hourThursday = ("0" + hourThursday).slice(-2)
+                let minutesThursday = e.getMinutes()
+                minutesThursday = ("0" + minutesThursday).slice(-2)
+                let currTime1Thursday = timeThursday.slice(0,4)
+                let currTime2Thursday = timeThursday.slice(8,16)
+                let totalTimeThursday = currTime1Thursday+hourThursday.toString()+ minutesThursday.toString()+ currTime2Thursday
+                this.setState({
+                  userData: {
+                    workingHours: {
+                      Monday: "0000000000000000",
+                      Tuesday: "0000000000000000",
+                      Wednesday: "0000000000000000",
+                      Thursday: totalTimeThursday,
+                      Friday: "0000000000000000",
+                      Saturday: "0000000000000000",
+                      Sunday: "0000000000000000",
+                      openNowOverride: "0000000000000000",
+                    }
+                }
+                })
+              break;
+              case 'friday' :
+                  let timeFriday = this.state.userData.workingHours.Friday
+                  let hourFriday = e.getHours()
+                  hourFriday = ("0" + hourFriday).slice(-2)
+                  let minutesFriday = e.getMinutes()
+                  minutesFriday = ("0" + minutesFriday).slice(-2)
+                  let currTime1Friday = timeFriday.slice(0,4)
+                  let currTime2Friday = timeFriday.slice(8,16)
+                  let totalTimeFriday = currTime1Friday+hourFriday.toString()+ minutesFriday.toString()+ currTime2Friday
+                  this.setState({
+                    userData: {
+                      workingHours: {
+                        Monday: "0000000000000000",
+                        Tuesday: "0000000000000000",
+                        Wednesday: "0000000000000000",
+                        Thursday: "0000000000000000",
+                        Friday: totalTimeFriday,
+                        Saturday: "0000000000000000",
+                        Sunday: "0000000000000000",
+                        openNowOverride: "0000000000000000",
+                      }
+                  }
+                  })
+                break;
+                case 'saturday' :
+                    let timeSaturday = this.state.userData.workingHours.Saturday
+                    let hourSaturday = e.getHours()
+                    hourSaturday = ("0" + hourSaturday).slice(-2)
+                    let minutesSaturday = e.getMinutes()
+                    minutesSaturday = ("0" + minutesSaturday).slice(-2)
+                    let currTime1Saturday = timeSaturday.slice(0,4)
+                    let currTime2Saturday = timeSaturday.slice(8,16)
+                    let totalTimeSaturday = currTime1Saturday+hourSaturday.toString()+ minutesSaturday.toString()+ currTime1Saturday
+                    this.setState({
+                      userData: {
+                        workingHours: {
+                          Monday: "0000000000000000",
+                          Tuesday: "0000000000000000",
+                          Wednesday: "0000000000000000",
+                          Thursday: "0000000000000000",
+                          Friday: "0000000000000000",
+                          Saturday: totalTimeSaturday,
+                          Sunday: "0000000000000000",
+                          openNowOverride: "0000000000000000",
+                        }
+                    }
+                    })
+                  break;
+                  case 'sunday' :
+                      let timeSunday = this.state.userData.workingHours.Sunday
+                      let hourSunday = e.getHours()
+                      hourSunday = ("0" + hourSunday).slice(-2)
+                      let minutesSunday = e.getMinutes()
+                      minutesSunday = ("0" + minutesSunday).slice(-2)
+                      let currTime1Sunday = timeSunday.slice(0,4)
+                      let currTime2Sunday = timeSunday.slice(8,16)
+                      let totalTimeSunday = currTime1Sunday+hourSunday.toString()+ minutesSunday.toString()+ currTime2Sunday
+                      this.setState({
+                        userData: {
+                          workingHours: {
+                            Monday: "0000000000000000",
+                            Tuesday: "0000000000000000",
+                            Wednesday: "0000000000000000",
+                            Thursday: "0000000000000000",
+                            Friday: "0000000000000000",
+                            Saturday: "0000000000000000",
+                            Sunday: totalTimeSunday,
+                            openNowOverride: "0000000000000000",
+                          }
+                      }
+                      })
+                    break;
+                  default:
     }
   };
 
@@ -342,111 +493,174 @@ class ModalClass extends React.Component {
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
-        stateDays.monday = {
-          openingFirst: this.state.day.monday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.monday.closingFirst,
-          closingSecond: this.state.day.monday.closingSecond,
-          day: "monday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
+        let timeMonday = this.state.userData.workingHours.Monday
+        let hourMonday = e.getHours()
+        hourMonday = ("0" + hourMonday).slice(-2)
+        let minutesMonday = e.getMinutes()
+        minutesMonday = ("0" + minutesMonday).slice(-2)
+        let currTime1Monday = timeMonday.slice(0,8)
+        let currTime2Monday = timeMonday.slice(12,16)
+        let totalTimeMonday = currTime1Monday+hourMonday.toString()+ minutesMonday.toString()+ currTime2Monday
+        this.setState({
+          userData: {
+            workingHours: {
+              Monday: totalTimeMonday,
+              Tuesday: "0000000000000000",
+              Wednesday: "0000000000000000",
+              Thursday: "0000000000000000",
+              Friday: "0000000000000000",
+              Saturday: "0000000000000000",
+              Sunday: "0000000000000000",
+              openNowOverride: "0000000000000000",
+            }
+        }
+        })
         break;
-
-      case "tuesday":
-        stateDays.tuesday = {
-          openingFirst: this.state.day.tuesday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.tuesday.closingFirst,
-          closingSecond: this.state.day.tuesday.closingSecond,
-          day: "tuesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "wednesday":
-        stateDays.wednesday = {
-          openingFirst: this.state.day.wednesday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.wednesday.closingFirst,
-          closingSecond: this.state.day.wednesday.closingSecond,
-          day: "wednesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "thursday":
-        stateDays.thursday = {
-          openingFirst: this.state.day.thursday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.thursday.closingFirst,
-          closingSecond: this.state.day.thursday.closingSecond,
-          day: "thursday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "friday":
-        stateDays.friday = {
-          openingFirst: this.state.day.friday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.friday.closingFirst,
-          closingSecond: this.state.day.friday.closingSecond,
-          day: "friday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "saturday":
-        stateDays.saturday = {
-          openingFirst: this.state.day.saturday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.saturday.closingFirst,
-          closingSecond: this.state.day.saturday.closingSecond,
-          day: "saturday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "sunday":
-        stateDays.sunday = {
-          openingFirst: this.state.day.sunday.openingFirst,
-          openingSecond: e,
-          closingFirst: this.state.day.sunday.closingFirst,
-          closingSecond: this.state.day.sunday.closingSecond,
-          day: "sunday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      default:
+        case 'tuesday' :
+            let timeTuesday = this.state.userData.workingHours.Tuesday
+            let hourTuesday = e.getHours()
+            hourTuesday = ("0" + hourTuesday).slice(-2)
+            let minutesTuesday = e.getMinutes()
+            minutesTuesday = ("0" + minutesTuesday).slice(-2)
+            let currTime1Tuesday = timeTuesday.slice(0,8)
+            let currTime2Tuesday = timeTuesday.slice(12,16)
+            let totalTimeTuesday = currTime1Tuesday+hourTuesday.toString()+ minutesTuesday.toString()+ currTime2Tuesday
+            this.setState({
+              userData: {
+                workingHours: {
+                  Monday: "0000000000000000",
+                  Tuesday: totalTimeTuesday,
+                  Wednesday: "0000000000000000",
+                  Thursday: "0000000000000000",
+                  Friday: "0000000000000000",
+                  Saturday: "0000000000000000",
+                  Sunday: "0000000000000000",
+                  openNowOverride: "0000000000000000",
+                }
+            }
+            })
+          break;
+          case 'wednesday' :
+              let timeWednesday = this.state.userData.workingHours.Wednesday
+              let hourWednsday = e.getHours()
+              hourWednsday = ("0" + hourWednsday).slice(-2)
+              let minutesWednesday = e.getMinutes()
+              minutesWednesday = ("0" + minutesWednesday).slice(-2)
+              let currTime1Wednesday = timeWednesday.slice(0,8)
+              let currTime2Wednesday = timeWednesday.slice(12,16)
+              let totalTimeWednesday = currTime1Wednesday+hourWednsday.toString()+ minutesWednesday.toString()+ currTime2Wednesday
+              this.setState({
+                userData: {
+                  workingHours: {
+                    Monday: "0000000000000000",
+                    Tuesday: "0000000000000000",
+                    Wednesday: totalTimeWednesday,
+                    Thursday: "0000000000000000",
+                    Friday: "0000000000000000",
+                    Saturday: "0000000000000000",
+                    Sunday: "0000000000000000",
+                    openNowOverride: "0000000000000000",
+                  }
+              }
+              })
+            break;
+            case 'thursday' :
+                let timeThursday = this.state.userData.workingHours.Thursday
+                let hourThursday = e.getHours()
+                hourThursday = ("0" + hourThursday).slice(-2)
+                let minutesThursday = e.getMinutes()
+                minutesThursday = ("0" + minutesThursday).slice(-2)
+                let currTime1Thursday = timeThursday.slice(0,8)
+                let currTime2Thursday = timeThursday.slice(12,16)
+                let totalTimeThursday = currTime1Thursday+hourThursday.toString()+ minutesThursday.toString()+ currTime2Thursday
+                this.setState({
+                  userData: {
+                    workingHours: {
+                      Monday: "0000000000000000",
+                      Tuesday: "0000000000000000",
+                      Wednesday: "0000000000000000",
+                      Thursday: totalTimeThursday,
+                      Friday: "0000000000000000",
+                      Saturday: "0000000000000000",
+                      Sunday: "0000000000000000",
+                      openNowOverride: "0000000000000000",
+                    }
+                }
+                })
+              break;
+              case 'friday' :
+                  let timeFriday = this.state.userData.workingHours.Friday
+                  let hourFriday = e.getHours()
+                  hourFriday = ("0" + hourFriday).slice(-2)
+                  let minutesFriday = e.getMinutes()
+                  minutesFriday = ("0" + minutesFriday).slice(-2)
+                  let currTime1Friday = timeFriday.slice(0,8)
+                  let currTime2Friday = timeFriday.slice(12,16)
+                  let totalTimeFriday = currTime1Friday+hourFriday.toString()+ minutesFriday.toString()+ currTime2Friday
+                  this.setState({
+                    userData: {
+                      workingHours: {
+                        Monday: "0000000000000000",
+                        Tuesday: "0000000000000000",
+                        Wednesday: "0000000000000000",
+                        Thursday: "0000000000000000",
+                        Friday: totalTimeFriday,
+                        Saturday: "0000000000000000",
+                        Sunday: "0000000000000000",
+                        openNowOverride: "0000000000000000",
+                      }
+                  }
+                  })
+                break;
+                case 'saturday' :
+                    let timeSaturday = this.state.userData.workingHours.Saturday
+                    let hourSaturday = e.getHours()
+                    hourSaturday = ("0" + hourSaturday).slice(-2)
+                    let minutesSaturday = e.getMinutes()
+                    minutesSaturday = ("0" + minutesSaturday).slice(-2)
+                    let currTime1Saturday = timeSaturday.slice(0,8)
+                    let currTime2Saturday = timeSaturday.slice(12,16)
+                    let totalTimeSaturday = currTime1Saturday+hourSaturday.toString()+ minutesSaturday.toString()+ currTime1Saturday
+                    this.setState({
+                      userData: {
+                        workingHours: {
+                          Monday: "0000000000000000",
+                          Tuesday: "0000000000000000",
+                          Wednesday: "0000000000000000",
+                          Thursday: "0000000000000000",
+                          Friday: "0000000000000000",
+                          Saturday: totalTimeSaturday,
+                          Sunday: "0000000000000000",
+                          openNowOverride: "0000000000000000",
+                        }
+                    }
+                    })
+                  break;
+                  case 'sunday' :
+                      let timeSunday = this.state.userData.workingHours.Sunday
+                      let hourSunday = e.getHours()
+                      hourSunday = ("0" + hourSunday).slice(-2)
+                      let minutesSunday = e.getMinutes()
+                      minutesSunday = ("0" + minutesSunday).slice(-2)
+                      let currTime1Sunday = timeSunday.slice(0,8)
+                      let currTime2Sunday = timeSunday.slice(12,16)
+                      let totalTimeSunday = currTime1Sunday+hourSunday.toString()+ minutesSunday.toString()+ currTime2Sunday
+                      this.setState({
+                        userData: {
+                          workingHours: {
+                            Monday: "0000000000000000",
+                            Tuesday: "0000000000000000",
+                            Wednesday: "0000000000000000",
+                            Thursday: "0000000000000000",
+                            Friday: "0000000000000000",
+                            Saturday: "0000000000000000",
+                            Sunday: totalTimeSunday,
+                            openNowOverride: "0000000000000000",
+                          }
+                      }
+                      })
+                    break;
+                  default:
     }
   };
 
@@ -455,157 +669,271 @@ class ModalClass extends React.Component {
     let stateDays = this.state.day;
     switch (dayNameFirstOpeningTime) {
       case "monday":
-        stateDays.monday = {
-          openingFirst: this.state.day.monday.openingFirst,
-          openingSecond: this.state.day.monday.openingFirst,
-          closingFirst: this.state.day.monday.closingFirst,
-          closingSecond: e,
-          day: "monday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
+        let timeMonday = this.state.userData.workingHours.Monday
+        let hourMonday = e.getHours()
+        hourMonday = ("0" + hourMonday).slice(-2)
+        let minutesMonday = e.getMinutes()
+        minutesMonday = ("0" + minutesMonday).slice(-2)
+        let currTimeMonday = timeMonday.slice(0,12)
+        let totalTimeMonday = currTimeMonday + hourMonday.toString()+minutesMonday.toString()
+        this.setState({
+          userData: {
+            workingHours: {
+              Monday: totalTimeMonday,
+              Tuesday: "0000000000000000",
+              Wednesday: "0000000000000000",
+              Thursday: "0000000000000000",
+              Friday: "0000000000000000",
+              Saturday: "0000000000000000",
+              Sunday: "0000000000000000",
+              openNowOverride: "0000000000000000",
+            }
+        }
+        })
         break;
-
-      case "tuesday":
-        stateDays.tuesday = {
-          openingFirst: this.state.day.tuesday.openingFirst,
-          openingSecond: this.state.day.tuesday.openingFirst,
-          closingFirst: this.state.day.tuesday.closingFirst,
-          closingSecond: e,
-          day: "tuesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "wednesday":
-        stateDays.wednesday = {
-          openingFirst: this.state.day.wednesday.openingFirst,
-          openingSecond: this.state.day.wednesday.openingFirst,
-          closingFirst: this.state.day.wednesday.closingFirst,
-          closingSecond: e,
-          day: "wednesday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "thursday":
-        stateDays.thursday = {
-          openingFirst: this.state.day.thursday.openingFirst,
-          openingSecond: this.state.day.thursday.openingFirst,
-          closingFirst: this.state.day.thursday.closingFirst,
-          closingSecond: e,
-          day: "thursday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "friday":
-        stateDays.friday = {
-          openingFirst: this.state.day.friday.openingFirst,
-          openingSecond: this.state.day.friday.openingFirst,
-          closingFirst: this.state.day.friday.closingFirst,
-          closingSecond: e,
-          day: "friday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "saturday":
-        stateDays.saturday = {
-          openingFirst: this.state.day.saturday.openingFirst,
-          openingSecond: this.state.day.saturday.openingFirst,
-          closingFirst: this.state.day.saturday.closingFirst,
-          closingSecond: e,
-          day: "saturday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      case "sunday":
-        stateDays.sunday = {
-          openingFirst: this.state.day.sunday.openingFirst,
-          openingSecond: this.state.day.sunday.openingFirst,
-          closingFirst: this.state.day.sunday.closingFirst,
-          closingSecond: e,
-          day: "sunday"
-        };
-        this.setState(
-          {
-            day: stateDays
-          }
-        );
-        break;
-
-      default:
+        case 'tuesday' :
+            let timeTuesday = this.state.userData.workingHours.Tuesday
+            let hourTuesday = e.getHours()
+            hourTuesday = ("0" + hourTuesday).slice(-2)
+            let minutesTuesday = e.getMinutes()
+            minutesTuesday = ("0" + minutesTuesday).slice(-2)
+            let currTimeTuesday = timeTuesday.slice(0,12)
+            let totalTimeTuesday = currTimeTuesday + hourTuesday.toString()+minutesTuesday.toString()
+            this.setState({
+              userData: {
+                workingHours: {
+                  Monday: "0000000000000000",
+                  Tuesday: totalTimeTuesday,
+                  Wednesday: "0000000000000000",
+                  Thursday: "0000000000000000",
+                  Friday: "0000000000000000",
+                  Saturday: "0000000000000000",
+                  Sunday: "0000000000000000",
+                  openNowOverride: "0000000000000000",
+                }
+            }
+            })
+          break;
+          case 'wednesday' :
+              let timeWednesday = this.state.userData.workingHours.Wednesday
+              let hourWednsday = e.getHours()
+              hourWednsday = ("0" + hourWednsday).slice(-2)
+              let minutesWednesday = e.getMinutes()
+              minutesWednesday = ("0" + minutesWednesday).slice(-2)
+              let currTimeWednesday = timeWednesday.slice(0,12)
+              let totalTimeWednesday = currTimeWednesday + hourWednsday.toString()+minutesWednesday.toString()
+              this.setState({
+                userData: {
+                  workingHours: {
+                    Monday: "0000000000000000",
+                    Tuesday: "0000000000000000",
+                    Wednesday: totalTimeWednesday,
+                    Thursday: "0000000000000000",
+                    Friday: "0000000000000000",
+                    Saturday: "0000000000000000",
+                    Sunday: "0000000000000000",
+                    openNowOverride: "0000000000000000",
+                  }
+              }
+              })
+            break;
+            case 'thursday' :
+                let timeThursday = this.state.userData.workingHours.Thursday
+                let hourThursday = e.getHours()
+                hourThursday = ("0" + hourThursday).slice(-2)
+                let minutesThursday = e.getMinutes()
+                minutesThursday = ("0" + minutesThursday).slice(-2)
+                let currTimeThursday = timeThursday.slice(0,12)
+                let totalTimeThursday = currTimeThursday + hourThursday.toString()+minutesThursday.toString()
+                this.setState({
+                  userData: {
+                    workingHours: {
+                      Monday: "0000000000000000",
+                      Tuesday: "0000000000000000",
+                      Wednesday: "0000000000000000",
+                      Thursday: totalTimeThursday,
+                      Friday: "0000000000000000",
+                      Saturday: "0000000000000000",
+                      Sunday: "0000000000000000",
+                      openNowOverride: "0000000000000000",
+                    }
+                }
+                })
+              break;
+              case 'friday' :
+                  let timeFriday = this.state.userData.workingHours.Friday
+                  let hourFriday = e.getHours()
+                  hourFriday = ("0" + hourFriday).slice(-2)
+                  let minutesFriday = e.getMinutes()
+                  minutesFriday = ("0" + minutesFriday).slice(-2)
+                  let currTimeFriday = timeFriday.slice(0,12)
+                  let totalTimeFriday = currTimeFriday + hourFriday.toString()+minutesFriday.toString()
+                  this.setState({
+                    userData: {
+                      workingHours: {
+                        Monday: "0000000000000000",
+                        Tuesday: "0000000000000000",
+                        Wednesday: "0000000000000000",
+                        Thursday: "0000000000000000",
+                        Friday: totalTimeFriday,
+                        Saturday: "0000000000000000",
+                        Sunday: "0000000000000000",
+                        openNowOverride: "0000000000000000",
+                      }
+                  }
+                  })
+                break;
+                case 'saturday' :
+                    let timeSaturday = this.state.userData.workingHours.Saturday
+                    let hourSaturday = e.getHours()
+                    hourSaturday = ("0" + hourSaturday).slice(-2)
+                    let minutesSaturday = e.getMinutes()
+                    minutesSaturday = ("0" + minutesSaturday).slice(-2)
+                    let currTimeSaturday = timeSaturday.slice(0,12)
+                    let totalTimeSaturday = currTimeSaturday + hourSaturday.toString()+minutesSaturday.toString()
+                    this.setState({
+                      userData: {
+                        workingHours: {
+                          Monday: "0000000000000000",
+                          Tuesday: "0000000000000000",
+                          Wednesday: "0000000000000000",
+                          Thursday: "0000000000000000",
+                          Friday: "0000000000000000",
+                          Saturday: totalTimeSaturday,
+                          Sunday: "0000000000000000",
+                          openNowOverride: "0000000000000000",
+                        }
+                    }
+                    })
+                  break;
+                  case 'sunday' :
+                      let timeSunday = this.state.userData.workingHours.Sunday
+                      let hourSunday = e.getHours()
+                      hourSunday = ("0" + hourSunday).slice(-2)
+                      let minutesSunday = e.getMinutes()
+                      minutesSunday = ("0" + minutesSunday).slice(-2)
+                      let currTimeSunday = timeSunday.slice(0,12)
+                      let totalTimeSunday = currTimeSunday+hourSunday.toString()+minutesSunday.toString()
+                      this.setState({
+                        userData: {
+                          workingHours: {
+                            Monday: "0000000000000000",
+                            Tuesday: "0000000000000000",
+                            Wednesday: "0000000000000000",
+                            Thursday: "0000000000000000",
+                            Friday: "0000000000000000",
+                            Saturday: "0000000000000000",
+                            Sunday: totalTimeSunday,
+                            openNowOverride: "0000000000000000",
+                          }
+                      }
+                      })
+                    break;
+                  default:
     }
   };
 
-  submitTime = (dayName) => {
-    let openingFirstHour = ("0" + this.state.day[dayName].openingFirst.getHours()).slice(-2);
-    let openingSecondHour = ("0" + this.state.day[dayName].openingSecond.getHours()).slice(-2);
-    let closingFirstHour = ("0" + this.state.day[dayName].closingFirst.getHours()).slice(-2);
-    let closingSecondHour = ("0" + this.state.day[dayName].closingSecond.getHours()).slice(-2);
-    let openingFirstMinutes = ("0" + this.state.day[dayName].openingFirst.getMinutes()).slice(-2);
-    let openingSecondMinutes = ("0" + this.state.day[dayName].openingSecond.getMinutes()).slice(-2);
-    let closingFirstMinutes = ("0" + this.state.day[dayName].closingFirst.getMinutes()).slice(-2);
-    let closingSecondMinutes = ("0" + this.state.day[dayName].closingSecond.getMinutes()).slice(-2);
+  submitTime = (e,dayName) => {
+    e.preventDefault()
+    dayName = dayName.charAt(0).toUpperCase() + dayName.slice(1,dayName.length)
+    console.log(dayName)
+    let openingFirstHour = ("0" + this.state.userData.workingHours[dayName].slice(0,2)).slice(-2);
+    let openingSecondHour = ("0" + this.state.userData.workingHours[dayName].slice(8,10)).slice(-2);
+    let closingFirstHour = ("0" + this.state.userData.workingHours[dayName].slice(4,6)).slice(-2);
+    let closingSecondHour = ("0" + this.state.userData.workingHours[dayName].slice(12,14)).slice(-2);
+    let openingFirstMinutes = ("0" + this.state.userData.workingHours[dayName].slice(2,4)).slice(-2);
+    let openingSecondMinutes = ("0" + this.state.userData.workingHours[dayName].slice(10,12)).slice(-2);
+    let closingFirstMinutes = ("0" + this.state.userData.workingHours[dayName].slice(6,8)).slice(-2);
+    let closingSecondMinutes = ("0" + this.state.userData.workingHours[dayName].slice(14,16)).slice(-2);
     let totalToSend = "" + openingFirstHour + openingFirstMinutes+ closingFirstHour + closingFirstMinutes + openingSecondHour + openingSecondMinutes + closingSecondHour + closingSecondMinutes;
-    if(openingFirstHour<=closingFirstHour) {
-      if(openingFirstMinutes<openingSecondMinutes){
-        console.log("yes");
-      }
-      else {
-        alert("Please check the Time Again");
-      }
-    }
-    else {
-      alert("Please check the time again");
-    }
+    
     console.log(totalToSend);
 
+    this.setState({
+      totalToSend: totalToSend,
+      dayToSend: dayName
+    })
+
+    let apiName = "PartnerService";
+    let path = "/PartnerServiceUpdateWokingHoursLambda";
+
+    let myInit = {
+      headers: {
+        Authorization: this.props.user.signInUserSession.accessToken
+          .jwtToken,
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: {
+        username: this.props.user.attributes.email,
+        workingHours: totalToSend,
+        day: dayName
+      }
+    };
+    API.post(apiName, path, myInit)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
   };
+
+
+
+getUserData = () =>{
+  if (this.props.user.signInUserSession.accessToken.jwtToken) {
+    if (this.state.dataLoadedFromAPI == null) {
+      let apiName = "PartnerService";
+      let path = "/PartnerServiceGetUserDetailsLambda";
+      let myInit = {
+        // OPTIONAL
+        queryStringParameters: {
+          username: this.props.user.attributes.email
+        },
+        headers: {
+          Authorization: this.props.user.signInUserSession.accessToken
+            .jwtToken
+        }
+      };
+      API.get(apiName, path, myInit)
+        .then(response => {
+            this.setState({
+              userData: response.body,
+              dataLoadedFromAPI: true
+            })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
+  }
+
+componentDidUpdate = () => {
+    this.getUserData()
+ }
 
   render() {
     return (
       <div>
-        <button className="upload-btn-wrapper" onClick={this.openModal}>
+        <Button variant="outlined" color="secondary" onClick={this.openModal}>
           Edit Timings
-        </button>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
+        </Button>
+        <Dialog
+          open={this.state.modalIsOpen}
+          TransitionComponent={Transition}
+          keepMounted
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+          style={dialogStyle} 
         >
-          <h2 ref={subtitle => (this.subtitle = subtitle)}>
+          <h2 color="secondary" >
             Edit Timings
-            <button onClick={this.closeModal}>
-              <i className="fa fa-times" aria-hidden="true" />
-            </button>
+            <Button style={closeButtonStyle} variant="outlined" color="secondary" onClick={this.closeModal}>
+            <i className="fa fa-times" aria-hidden="true" />
+            </Button>
           </h2>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -619,32 +947,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.monday.day}
-                      selectedDate={this.state.day.monday.openingFirst}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      selectedDate={this.state.day.monday.openingFirst.setHours(this.state.userData.workingHours.Monday.substring(0,2),this.state.userData.workingHours.Monday.substring(2,4))}
+                      handleDateChange={(e) => {this.handleDateChangeOpeningFirst(e,this.state.day.monday.day)}}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.monday.day}
-                      selectedDate={this.state.day.monday.closingFirst}
+                      selectedDate={this.state.day.monday.closingFirst.setHours(this.state.userData.workingHours.Monday.substring(4,6),this.state.userData.workingHours.Monday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.monday.day}
-                      selectedDate={this.state.day.monday.openingSecond}
+                      selectedDate={this.state.day.monday.openingSecond.setHours(this.state.userData.workingHours.Monday.substring(8,10),this.state.userData.workingHours.Monday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.monday.day}
-                      selectedDate={this.state.day.monday.closingSecond}
+                      selectedDate={this.state.day.monday.closingSecond.setHours(this.state.userData.workingHours.Monday.substring(12,14),this.state.userData.workingHours.Monday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -653,13 +983,13 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
-              onClick={ () => this.submitTime(this.state.day.monday.day)}
+              onClick={ (e) => this.submitTime(e,this.state.day.monday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -674,32 +1004,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.tuesday.day}
-                      selectedDate={this.state.day.tuesday.openingFirst}
+                      selectedDate={this.state.day.tuesday.openingFirst.setHours(this.state.userData.workingHours.Tuesday.substring(0,2),this.state.userData.workingHours.Tuesday.substring(2,4))}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.tuesday.day}
-                      selectedDate={this.state.day.tuesday.closingFirst}
+                      selectedDate={this.state.day.tuesday.closingFirst.setHours(this.state.userData.workingHours.Tuesday.substring(4,6),this.state.userData.workingHours.Tuesday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.tuesday.day}
-                      selectedDate={this.state.day.tuesday.openingSecond}
+                      selectedDate={this.state.day.tuesday.openingSecond.setHours(this.state.userData.workingHours.Tuesday.substring(8,10),this.state.userData.workingHours.Tuesday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.tuesday.day}
-                      selectedDate={this.state.day.tuesday.closingSecond}
+                      selectedDate={this.state.day.tuesday.closingSecond.setHours(this.state.userData.workingHours.Tuesday.substring(12,14),this.state.userData.workingHours.Tuesday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -708,13 +1040,13 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
               onClick={ () => this.submitTime(this.state.day.tuesday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -729,32 +1061,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.wednesday.day}
-                      selectedDate={this.state.day.wednesday.openingFirst}
+                      selectedDate={this.state.day.wednesday.openingFirst.setHours(this.state.userData.workingHours.Wednesday.substring(0,2),this.state.userData.workingHours.Wednesday.substring(2,4))}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.wednesday.day}
-                      selectedDate={this.state.day.wednesday.closingFirst}
+                      selectedDate={this.state.day.wednesday.closingFirst.setHours(this.state.userData.workingHours.Wednesday.substring(4,6),this.state.userData.workingHours.Wednesday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.wednesday.day}
-                      selectedDate={this.state.day.wednesday.openingSecond}
+                      selectedDate={this.state.day.wednesday.openingSecond.setHours(this.state.userData.workingHours.Wednesday.substring(8,10),this.state.userData.workingHours.Wednesday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.wednesday.day}
-                      selectedDate={this.state.day.wednesday.closingSecond}
+                      selectedDate={this.state.day.wednesday.closingSecond.setHours(this.state.userData.workingHours.Wednesday.substring(12,14),this.state.userData.workingHours.Wednesday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -763,13 +1097,13 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
               onClick={ () => this.submitTime(this.state.day.wednesday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -784,32 +1118,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.thursday.day}
-                      selectedDate={this.state.day.thursday.openingFirst}
+                      selectedDate={this.state.day.thursday.openingFirst.setHours(this.state.userData.workingHours.Thursday.substring(0,2),this.state.userData.workingHours.Thursday.substring(2,4))}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.thursday.day}
-                      selectedDate={this.state.day.thursday.closingFirst}
+                      selectedDate={this.state.day.thursday.closingFirst.setHours(this.state.userData.workingHours.Thursday.substring(4,6),this.state.userData.workingHours.Thursday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.thursday.day}
-                      selectedDate={this.state.day.thursday.openingSecond}
+                      selectedDate={this.state.day.thursday.openingSecond.setHours(this.state.userData.workingHours.Thursday.substring(8,10),this.state.userData.workingHours.Thursday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.thursday.day}
-                      selectedDate={this.state.day.thursday.closingSecond}
+                      selectedDate={this.state.day.thursday.closingSecond.setHours(this.state.userData.workingHours.Thursday.substring(12,14),this.state.userData.workingHours.Thursday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -818,13 +1154,13 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
               onClick={ () => this.submitTime(this.state.day.thursday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -839,32 +1175,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.friday.day}
-                      selectedDate={this.state.day.friday.openingFirst}
+                      selectedDate={this.state.day.friday.openingFirst.setHours(this.state.userData.workingHours.Friday.substring(0,2),this.state.userData.workingHours.Friday.substring(2,4))}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.friday.day}
-                      selectedDate={this.state.day.friday.closingFirst}
+                      selectedDate={this.state.day.friday.closingFirst.setHours(this.state.userData.workingHours.Friday.substring(4,6),this.state.userData.workingHours.Friday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.friday.day}
-                      selectedDate={this.state.day.friday.openingSecond}
+                      selectedDate={this.state.day.friday.openingSecond.setHours(this.state.userData.workingHours.Friday.substring(8,10),this.state.userData.workingHours.Friday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.friday.day}
-                      selectedDate={this.state.day.friday.closingSecond}
+                      selectedDate={this.state.day.friday.closingSecond.setHours(this.state.userData.workingHours.Friday.substring(12,14),this.state.userData.workingHours.Friday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -873,13 +1211,13 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
               onClick={ () => this.submitTime(this.state.day.friday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -894,32 +1232,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.saturday.day}
-                      selectedDate={this.state.day.saturday.openingFirst}
+                      selectedDate={this.state.day.saturday.openingFirst.setHours(this.state.userData.workingHours.Saturday.substring(0,2),this.state.userData.workingHours.Saturday.substring(2,4))}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.saturday.day}
-                      selectedDate={this.state.day.saturday.closingFirst}
+                      selectedDate={this.state.day.saturday.closingFirst.setHours(this.state.userData.workingHours.Saturday.substring(4,6),this.state.userData.workingHours.Saturday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.saturday.day}
-                      selectedDate={this.state.day.saturday.openingSecond}
+                      selectedDate={this.state.day.saturday.openingSecond.setHours(this.state.userData.workingHours.Saturday.substring(8,10),this.state.userData.workingHours.Saturday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.saturday.day}
-                      selectedDate={this.state.day.saturday.closingSecond}
+                      selectedDate={this.state.day.saturday.closingSecond.setHours(this.state.userData.workingHours.Saturday.substring(12,14),this.state.userData.workingHours.Saturday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -928,13 +1268,13 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
               onClick={ () => this.submitTime(this.state.day.saturday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -949,32 +1289,34 @@ class ModalClass extends React.Component {
               <Typography>
                 <div className="wrappingDivForTwoTimes">
                   <div className="firstTime">
-                    From:{" "}
+                    From:(Morning){" "}
                     <GetTime
                       day={this.state.day.sunday.day}
-                      selectedDate={this.state.day.sunday.openingFirst}
+                      selectedDate={this.state.day.sunday.openingFirst.setHours(this.state.userData.workingHours.Sunday.substring(0,2),this.state.userData.workingHours.Sunday.substring(2,4))}
                       handleDateChange={this.handleDateChangeOpeningFirst}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.sunday.day}
-                      selectedDate={this.state.day.sunday.closingFirst}
+                      selectedDate={this.state.day.sunday.closingFirst.setHours(this.state.userData.workingHours.Sunday.substring(4,6),this.state.userData.workingHours.Sunday.substring(6,8))}
                       handleDateChange={this.handleDateChangeClosingFirst}
                     />
                   </div>
                   <div className="secondTime">
-                    From:{" "}
+                    From:(Evening){" "}
                     <GetTime
                       day={this.state.day.sunday.day}
-                      selectedDate={this.state.day.sunday.openingSecond}
+                      selectedDate={this.state.day.sunday.openingSecond.setHours(this.state.userData.workingHours.Sunday.substring(8,10),this.state.userData.workingHours.Sunday.substring(10,12))}
                       handleDateChange={this.handleDateChangeOpeningSecond}
                     />
+                    <br />
                     <br />
                     To :{" "}
                     <GetTime
                       day={this.state.day.sunday.day}
-                      selectedDate={this.state.day.sunday.closingSecond}
+                      selectedDate={this.state.day.sunday.closingSecond.setHours(this.state.userData.workingHours.Sunday.substring(12,14),this.state.userData.workingHours.Sunday.substring(14,16))}
                       handleDateChange={this.handleDateChangeClosingSecond}
                     />
                   </div>
@@ -983,16 +1325,16 @@ class ModalClass extends React.Component {
             </ExpansionPanelDetails>
             <Button
               type="button"
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               style={buttonStyle}
               className="submitButton"
               onClick={ () => this.submitTime(this.state.day.sunday.day)}
             >
-              Submit
+              Save
             </Button>
           </ExpansionPanel>
-        </Modal>
+          </Dialog>
       </div>
     );
   }

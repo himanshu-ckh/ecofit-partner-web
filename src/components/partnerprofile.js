@@ -4,10 +4,10 @@ import { withStyles } from "@material-ui/core/styles";
 import NavbarPartnerProfile from "./navbarpartnerprofile";
 import SideTab from "./sidetab";
 import "../App.css";
-import DATAGYM from "../datagym.js";
 import { withRouter } from "react-router-dom";
 import PartnerProfileLeftTab from "./partnerprofilelefttab";
 import { Auth } from "aws-amplify";
+import PartnerProfileLeftTabTest from "./partnerprofilelefttabTest";
 
 const styles = theme => ({
   colorgrey: {
@@ -37,7 +37,7 @@ const styles = theme => ({
       marginLeft: '23%',
       wordWrap: 'break-word'
     },
-    
+
   },
   sidetab: {
     width: "80%",
@@ -56,7 +56,7 @@ const styles = theme => ({
       maxWidth:'100%',
       marginLeft:'8%',
     },
-    
+
   }
 });
 
@@ -65,7 +65,6 @@ class PartnerProfile extends React.Component {
     super(props);
     this.state = {
       expanded: false,
-      Data: DATAGYM,
       image: "",
       user: {},
       isLoggedIn: {}
@@ -94,13 +93,13 @@ class PartnerProfile extends React.Component {
 
   render() {
     const { classes } = this.props;
-    
+
     return (
       <div className={classes.colorgrey}>
         <NavbarPartnerProfile />
         <div className={classes.wrappingdiv}>
           <div className={classes.lefttab}>
-            <PartnerProfileLeftTab
+            <PartnerProfileLeftTabTest
               user={this.props.user}
               history={this.props.history}
             />

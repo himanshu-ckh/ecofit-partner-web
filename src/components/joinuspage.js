@@ -32,13 +32,13 @@ const styles = theme => ({
   },
   button: {
     marginRight: theme.spacing.unit,
-    marginTop: theme.spacing.unit*2,
+    marginTop: theme.spacing.unit(2),
   },
   actionsContainer: {
     marginBottom: theme.spacing.unit,
   },
   resetContainer: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit(2),
   },
   paper: {
     padding: theme.spacing.unit,
@@ -49,8 +49,8 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit(2),
+    marginRight: theme.spacing.unit(2),
   },
   buttonSuccess: {
     backgroundColor: green[500],

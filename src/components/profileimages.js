@@ -114,6 +114,7 @@ class ProfileImages extends React.Component {
   checkIfImageIsUploaded(classes, filename) {
     if (this.state.userData.images[filename] != null) {
       return (
+        
           <Card className={classes.cardmain}>
             <CardMedia
               className={classes.media}

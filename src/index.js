@@ -12,7 +12,7 @@ const breakpoints = {
   tabletLandscape: 1024,
   desktop: 1200,
   desktopLarge: 1500,
-  desktopWide: 1920,
+  desktopWide: 2020,
 }
 
 ReactDOM.render(
