@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import { API } from "aws-amplify";
 import UpComing from "./upcoming";
 import VisitHistory from "./visithistory";
-
 import ProfileImages from "./profileimages";
 import Audit from './Audit'
 import MainProfilePageTest from "./mainprofilepagetest";
@@ -210,9 +209,9 @@ function SideTabTest(props) {
           let previousFilteredResultMapFunc = response.body;
           previousFilteredResultMapFunc.map(
             filteredListForJustVisistData => {
-              filteredListForJustVisistData.visits.map(name => {
-                previousVisitsListData.push(name);
-              });
+              return(filteredListForJustVisistData.visits.map(name => {
+                return (previousVisitsListData.push(name))
+              }))
             }
           );
           dispatch({ type: 'renderPreviousMapVisit', previousFilteredResultData: previousVisitsListData });
@@ -318,10 +317,11 @@ function SideTabTest(props) {
           <ProfileImages
             user={props.user}
             history={props.history}
+            userData = {state.userData}
           />
         </TabContainer>
       )}
-      {state.value === 4 && (
+      {state.value === 4  && (
         <TabContainer>
           <Audit
             user={props.user}

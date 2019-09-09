@@ -25,7 +25,8 @@ const buttonStyle = {
 };
 
 const dialogStyle = {
-  backgroundColor: 'black'
+  backgroundColor: 'black',
+  width: '100%'
 };
 
 const closeButtonStyle = {
@@ -38,7 +39,7 @@ const closeButtonStyle = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
-class ModalClass extends React.Component {
+class ModalTest extends React.Component {
   constructor(props) {
     super(props);
 
@@ -153,7 +154,9 @@ class ModalClass extends React.Component {
               openNowOverride: "0000000000000000",
             }
         }
-        })
+        }
+        )
+
         break;
         case 'tuesday' :
             let timeTuesday = this.state.userData.workingHours.Tuesday
@@ -815,8 +818,7 @@ class ModalClass extends React.Component {
     }
   };
 
-  submitTime = (e,dayName) => {
-    e.preventDefault()
+  submitTime = (dayName) => {
     dayName = dayName.charAt(0).toUpperCase() + dayName.slice(1,dayName.length)
     console.log(dayName)
     let openingFirstHour = ("0" + this.state.userData.workingHours[dayName].slice(0,2)).slice(-2);
@@ -834,32 +836,31 @@ class ModalClass extends React.Component {
     this.setState({
       totalToSend: totalToSend,
       dayToSend: dayName
-    })
+    },
+    () => this.APIcallCheck())
+  }
 
-    let apiName = "PartnerService";
-    let path = "/PartnerServiceUpdateWokingHoursLambda";
-
-    let myInit = {
-      headers: {
-        Authorization: this.props.user.signInUserSession.accessToken
-          .jwtToken,
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: {
-        username: this.props.user.attributes.email,
-        workingHours: totalToSend,
-        day: dayName
-      }
-    };
-    API.post(apiName, path, myInit)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
+  APIcallCheck = () => {
+      let apiName = "PartnerService";
+              let path = "/PartnerServiceUpdateWorkingHoursLambda";
+              let myInit = {
+                body:{
+                  username: this.props.user.attributes.email,
+        workingHours: this.state.totalToSend,
+        day: this.state.dayToSend
+                },
+                headers: {
+                  Authorization: this.props.user.signInUserSession.accessToken
+                    .jwtToken
+                }
+              };
+              API.post(apiName, path, myInit)
+                .then(response => {
+                  console.log("Result Posted")
+                })
+                .catch(error => {
+                  console.log(error);
+                });
   };
 
 
@@ -933,15 +934,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.monday.day}
                       selectedDate={this.state.day.monday.openingFirst.setHours(this.state.userData.workingHours.Monday.substring(0,2),this.state.userData.workingHours.Monday.substring(2,4))}
-                      handleDateChange={(e) => {this.handleDateChangeOpeningFirst(e,this.state.day.monday.day)}}
+                      handleDateChange={(e) => this.handleDateChangeOpeningFirst(e,this.state.day.monday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.monday.day}
                       selectedDate={this.state.day.monday.closingFirst.setHours(this.state.userData.workingHours.Monday.substring(4,6),this.state.userData.workingHours.Monday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.monday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -949,15 +951,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.monday.day}
                       selectedDate={this.state.day.monday.openingSecond.setHours(this.state.userData.workingHours.Monday.substring(8,10),this.state.userData.workingHours.Monday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) => this.handleDateChangeOpeningSecond(e,this.state.day.monday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.monday.day}
                       selectedDate={this.state.day.monday.closingSecond.setHours(this.state.userData.workingHours.Monday.substring(12,14),this.state.userData.workingHours.Monday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) => this.handleDateChangeClosingSecond(e,this.state.day.monday.day)}
                     />
                   </div>
                 </div>
@@ -969,7 +972,7 @@ componentDidUpdate = () => {
               color="secondary"
               style={buttonStyle}
               className="submitButton"
-              onClick={ (e) => this.submitTime(e,this.state.day.monday.day)}
+              onClick={ () => this.submitTime(this.state.day.monday.day)}
             >
               Save
             </Button>
@@ -990,15 +993,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.tuesday.day}
                       selectedDate={this.state.day.tuesday.openingFirst.setHours(this.state.userData.workingHours.Tuesday.substring(0,2),this.state.userData.workingHours.Tuesday.substring(2,4))}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      handleDateChange={(e) => this.handleDateChangeOpeningFirst(e,this.state.day.tuesday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.tuesday.day}
                       selectedDate={this.state.day.tuesday.closingFirst.setHours(this.state.userData.workingHours.Tuesday.substring(4,6),this.state.userData.workingHours.Tuesday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.tuesday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -1006,15 +1010,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.tuesday.day}
                       selectedDate={this.state.day.tuesday.openingSecond.setHours(this.state.userData.workingHours.Tuesday.substring(8,10),this.state.userData.workingHours.Tuesday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningSecond(e,this.state.day.tuesday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.tuesday.day}
                       selectedDate={this.state.day.tuesday.closingSecond.setHours(this.state.userData.workingHours.Tuesday.substring(12,14),this.state.userData.workingHours.Tuesday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) =>this.handleDateChangeClosingSecond(e,this.state.day.tuesday.day)}
                     />
                   </div>
                 </div>
@@ -1047,15 +1052,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.wednesday.day}
                       selectedDate={this.state.day.wednesday.openingFirst.setHours(this.state.userData.workingHours.Wednesday.substring(0,2),this.state.userData.workingHours.Wednesday.substring(2,4))}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningFirst(e,this.state.day.wednesday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.wednesday.day}
                       selectedDate={this.state.day.wednesday.closingFirst.setHours(this.state.userData.workingHours.Wednesday.substring(4,6),this.state.userData.workingHours.Wednesday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.wednesday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -1063,15 +1069,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.wednesday.day}
                       selectedDate={this.state.day.wednesday.openingSecond.setHours(this.state.userData.workingHours.Wednesday.substring(8,10),this.state.userData.workingHours.Wednesday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningSecond(e,this.state.day.wednesday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.wednesday.day}
                       selectedDate={this.state.day.wednesday.closingSecond.setHours(this.state.userData.workingHours.Wednesday.substring(12,14),this.state.userData.workingHours.Wednesday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) =>this.handleDateChangeClosingSecond(e,this.state.day.wednesday.day)}
                     />
                   </div>
                 </div>
@@ -1104,15 +1111,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.thursday.day}
                       selectedDate={this.state.day.thursday.openingFirst.setHours(this.state.userData.workingHours.Thursday.substring(0,2),this.state.userData.workingHours.Thursday.substring(2,4))}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningFirst(e,this.state.day.thursday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.thursday.day}
                       selectedDate={this.state.day.thursday.closingFirst.setHours(this.state.userData.workingHours.Thursday.substring(4,6),this.state.userData.workingHours.Thursday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.thursday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -1120,15 +1128,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.thursday.day}
                       selectedDate={this.state.day.thursday.openingSecond.setHours(this.state.userData.workingHours.Thursday.substring(8,10),this.state.userData.workingHours.Thursday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningSecond(e,this.state.day.thursday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.thursday.day}
                       selectedDate={this.state.day.thursday.closingSecond.setHours(this.state.userData.workingHours.Thursday.substring(12,14),this.state.userData.workingHours.Thursday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) =>this.handleDateChangeClosingSecond(e,this.state.day.thursday.day)}
                     />
                   </div>
                 </div>
@@ -1161,15 +1170,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.friday.day}
                       selectedDate={this.state.day.friday.openingFirst.setHours(this.state.userData.workingHours.Friday.substring(0,2),this.state.userData.workingHours.Friday.substring(2,4))}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningFirst(e,this.state.day.friday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.friday.day}
                       selectedDate={this.state.day.friday.closingFirst.setHours(this.state.userData.workingHours.Friday.substring(4,6),this.state.userData.workingHours.Friday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.friday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -1177,15 +1187,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.friday.day}
                       selectedDate={this.state.day.friday.openingSecond.setHours(this.state.userData.workingHours.Friday.substring(8,10),this.state.userData.workingHours.Friday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningSecond(e,this.state.day.friday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.friday.day}
                       selectedDate={this.state.day.friday.closingSecond.setHours(this.state.userData.workingHours.Friday.substring(12,14),this.state.userData.workingHours.Friday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) =>this.handleDateChangeClosingSecond(e,this.state.day.friday.day)}
                     />
                   </div>
                 </div>
@@ -1218,15 +1229,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.saturday.day}
                       selectedDate={this.state.day.saturday.openingFirst.setHours(this.state.userData.workingHours.Saturday.substring(0,2),this.state.userData.workingHours.Saturday.substring(2,4))}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningFirst(e,this.state.day.saturday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.saturday.day}
                       selectedDate={this.state.day.saturday.closingFirst.setHours(this.state.userData.workingHours.Saturday.substring(4,6),this.state.userData.workingHours.Saturday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.saturday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -1234,15 +1246,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.saturday.day}
                       selectedDate={this.state.day.saturday.openingSecond.setHours(this.state.userData.workingHours.Saturday.substring(8,10),this.state.userData.workingHours.Saturday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningSecond(e,this.state.day.saturday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.saturday.day}
                       selectedDate={this.state.day.saturday.closingSecond.setHours(this.state.userData.workingHours.Saturday.substring(12,14),this.state.userData.workingHours.Saturday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) =>this.handleDateChangeClosingSecond(e,this.state.day.saturday.day)}
                     />
                   </div>
                 </div>
@@ -1275,15 +1288,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.sunday.day}
                       selectedDate={this.state.day.sunday.openingFirst.setHours(this.state.userData.workingHours.Sunday.substring(0,2),this.state.userData.workingHours.Sunday.substring(2,4))}
-                      handleDateChange={this.handleDateChangeOpeningFirst}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningFirst(e,this.state.day.sunday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.sunday.day}
                       selectedDate={this.state.day.sunday.closingFirst.setHours(this.state.userData.workingHours.Sunday.substring(4,6),this.state.userData.workingHours.Sunday.substring(6,8))}
-                      handleDateChange={this.handleDateChangeClosingFirst}
+                      handleDateChange={(e) =>this.handleDateChangeClosingFirst(e,this.state.day.sunday.day)}
                     />
                   </div>
                   <div className="secondTime">
@@ -1291,15 +1305,16 @@ componentDidUpdate = () => {
                     <GetTime
                       day={this.state.day.sunday.day}
                       selectedDate={this.state.day.sunday.openingSecond.setHours(this.state.userData.workingHours.Sunday.substring(8,10),this.state.userData.workingHours.Sunday.substring(10,12))}
-                      handleDateChange={this.handleDateChangeOpeningSecond}
+                      handleDateChange={(e) =>this.handleDateChangeOpeningSecond(e,this.state.day.sunday.day)}
                     />
                     <br />
-                    <br />
+                    
                     To :{" "}
+                    <br />
                     <GetTime
                       day={this.state.day.sunday.day}
                       selectedDate={this.state.day.sunday.closingSecond.setHours(this.state.userData.workingHours.Sunday.substring(12,14),this.state.userData.workingHours.Sunday.substring(14,16))}
-                      handleDateChange={this.handleDateChangeClosingSecond}
+                      handleDateChange={(e) =>this.handleDateChangeClosingSecond(e,this.state.day.sunday.day)}
                     />
                   </div>
                 </div>
@@ -1322,4 +1337,4 @@ componentDidUpdate = () => {
   }
 }
 
-export default ModalClass;
+export default ModalTest;

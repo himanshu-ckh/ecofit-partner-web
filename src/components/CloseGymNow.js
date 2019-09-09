@@ -129,7 +129,7 @@ function CloseGymNow(props) {
         return (
             <div>
                 <Button variant="outlined" color="secondary" className={styles.button} onClick={handeleCloseNowButton}>
-                    Close Now
+                    Close Gym Now
                 </Button>
             </div>
         )
@@ -138,7 +138,7 @@ function CloseGymNow(props) {
         return (
             <div>
                 <Button variant="contained" color="secondary" className={styles.button} onClick={handeleOpenNowButton}>
-                    Open Now
+                    Open Gym Now
                 </Button>
             </div>
         )

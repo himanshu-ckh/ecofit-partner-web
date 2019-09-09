@@ -10,8 +10,9 @@ import DATAGYM from "../datagym.js";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Modal from "./modal";
 import CloseGymNow from './CloseGymNow'
+import ModalTest from './modalTest'
+import ChangePassword from './ChangePasswordInside'
 
 const styles = theme => ({
   cardmain: {
@@ -158,7 +159,7 @@ class PartnerProfileLeftTabTest extends React.Component {
               title="Gym Image"
             />
             <div className="upload-btn-wrapper">
-              <button className="btn">Edit<i className="far fa-edit"></i></button>
+              <button className="btn">Edit       <i className="far fa-edit"></i></button>
               <FileBase64
                 multiple={true}
                 onDone={event => this.getFiles(event, filename)}
@@ -172,7 +173,7 @@ class PartnerProfileLeftTabTest extends React.Component {
         <div className={classes.main}>
           <Card className={classes.cardmain}>
             <div className="upload-btn-wrapper">
-              <button className="btn">Upload</button>
+              <button className="btn">Upload      <i class="fa fa-upload" aria-hidden="true"></i></button>
               <FileBase64
                 multiple={true}
                 onDone={event => this.getFiles(event, filename)}
@@ -213,7 +214,10 @@ class PartnerProfileLeftTabTest extends React.Component {
                     <CloseGymNow user={this.props.user}/>
                   </CardContent>
                   <CardContent>
-                  <Modal user={this.props.user} userData={this.state.userData} />
+                  <ModalTest user={this.props.user} userData={this.state.userData} />
+                  </CardContent>
+                  <CardContent>
+                  <ChangePassword user={this.props.user} userData={this.state.userData} />
                   </CardContent>
             </Card>
         </div>

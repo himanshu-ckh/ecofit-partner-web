@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
 import Data from "../upcomingvisit.js";
 import { API } from "aws-amplify";
 import "../App.css";
 import FileBase64 from "react-file-base64";
+import { Carousel } from 'react-bootstrap';
 
 const styles = () => ({
   cardmain: {
@@ -114,27 +114,31 @@ class ProfileImages extends React.Component {
   checkIfImageIsUploaded(classes, filename) {
     if (this.state.userData.images[filename] != null) {
       return (
-        
-          <Card className={classes.cardmain}>
-            <CardMedia
-              className={classes.media}
-              image={this.state.userData.images[filename]+"?time="+new Date()}
-              title="Gym Image"
-            />
-            <div className="upload-btn-wrapper">
-              <button className="btn">Edit</button>
-              <FileBase64
-                multiple={true}
-                onDone={event => this.getFiles(event, filename)}
-              />
-            </div>
-          </Card>
+                <div>
+                  <img
+                  className="d-block w-100"
+                  src={this.state.userData.images[filename]+"?time="+new Date()}
+                  alt="Slides"
+                />
+                <Carousel.Caption>
+                <div className="upload-btn-wrapper">
+                  <button className="btn">Edit      <i className="far fa-edit"></i></button>
+                  <FileBase64
+                    multiple={true}
+                    onDone={event => this.getFiles(event, filename)}
+                  />
+                  </div>
+                </Carousel.Caption>
+                </div>
+                
+              
       );
     } else {
       return (
+        
           <Card className={classes.cardmain}>
-            <div className="upload-btn-wrapper">
-              <button className="btn">Upload</button>
+            <div className="upload-btn-wrappers">
+              <button className="btn">Upload     <i class="fa fa-upload" aria-hidden="true"></i></button>
               <FileBase64
                 multiple={true}
                 onDone={event => this.getFiles(event, filename)}
@@ -150,11 +154,24 @@ class ProfileImages extends React.Component {
 
     return (
       <div>
-        {this.checkIfImageIsUploaded(classes, "1")}
-        {this.checkIfImageIsUploaded(classes, "2")}
-        {this.checkIfImageIsUploaded(classes, "3")}
-        {this.checkIfImageIsUploaded(classes, "4")}
-        {this.checkIfImageIsUploaded(classes, "5")}
+        <Carousel
+        interval = '3000'>
+              <Carousel.Item>
+                {this.checkIfImageIsUploaded(classes, "1")}
+                </Carousel.Item>
+                <Carousel.Item>
+                {this.checkIfImageIsUploaded(classes, "2")}
+                </Carousel.Item>
+                <Carousel.Item>
+                {this.checkIfImageIsUploaded(classes, "3")}
+                </Carousel.Item>
+                <Carousel.Item>
+                {this.checkIfImageIsUploaded(classes, "4")}
+                </Carousel.Item>
+                <Carousel.Item>
+                {this.checkIfImageIsUploaded(classes, "5")}
+                </Carousel.Item>
+              </Carousel>
       </div>
     );
   }

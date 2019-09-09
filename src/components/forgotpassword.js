@@ -11,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Navbar from "./navbar";
+import { Auth } from 'aws-amplify';
+import { Link } from "react-router-dom";
 
 
 const styles = theme => ({
@@ -64,13 +66,37 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  verificationCode: {
+    fontWeight: 400,
+  },
+  chip: {
+    margin: theme.spacing(1),
+    width: '100%',
+    height: '50px',
+    color: '#2e7d32',
+    fontWeight: 'bold'
+  },
+  links: {
+    color: "White",
+  },
+  linkButton: {
+    marginTop: '10px'
+  }
 });
+
+
 
 class ForgotPassword extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { email: '',password: ' ', confirmpassword: ' ' };
+    this.state = { 
+      email: '',
+      password: ' ', 
+      confirmpassword: ' ',
+      verificationCode: ' ',
+      checkStatus: 0
+    };
   }
 
   handleChange = (event) => {
@@ -78,23 +104,41 @@ class ForgotPassword extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  render() {
+  sendVerifiactionCode = (e) => {
+    e.preventDefault()
+    Auth.forgotPassword(this.state.email)
+    .then(
+      data => 
+      this.setState({
+        checkStatus: 1
+      })
+      )
+    .catch(
+      err => 
+      console.log(err)
+      );
+  }
 
-    const { classes } = this.props;
+  updatePassword = (e) => {
+    e.preventDefault()
+    if(this.state.confirmpassword === this.state.password) {
+      Auth.forgotPasswordSubmit(this.state.email, this.state.verificationCode, this.state.confirmpassword)
+    .then(data => 
+      this.setState({
+      checkStatus: 2
+    }))
+    .catch(err => console.log(err));
+    }
+    else {
+      alert ("Password Do not Match!! Please check the Password again")
+    }
+  }
 
+  chekFormStatus = (classes) => {
+    if (this.state.checkStatus === 0)
     return (
       <div>
-        <Navbar />
-        <main className={classes.main}>
-          <CssBaseline />
-          <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Change Password
-        </Typography>
-            <form className={classes.form}>
+        <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
                 <Input
@@ -104,6 +148,44 @@ class ForgotPassword extends React.Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                />
+              </FormControl>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={(e) => this.sendVerifiactionCode(e)}
+              >
+                Send Verification Code
+          </Button>
+              </form>
+      </div>
+    )
+    else if(this.state.checkStatus === 1) {
+      return (
+        <div>
+          <form className={classes.form}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Email Address</InputLabel>
+                <Input
+                  className={classes.email}
+                  onChange={this.handleChange}
+                  id="email"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Verification Code</InputLabel>
+                <Input
+                  className={classes.verificationCode}
+                  onChange={this.handleChange}
+                  id="verificationCode"
+                  name="verificationCode"
+                  autoComplete="verificationCode"
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -120,11 +202,56 @@ class ForgotPassword extends React.Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={this.changePassword}
+                onClick={(e) => this.updatePassword(e)}
               >
-                Confirm password
+                Update Password
           </Button>
             </form>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div className={classes.chip}>
+          Password reset was successful!!
+          <br />
+          <div className={classes.linkButton}>
+            <Button 
+            variant="contained"
+            color="primary">
+            <Link
+                        className={classes.links}
+                        style={{ textDecoration: "none" }}
+                        to="/"
+                      >
+                        Login
+                        </Link>
+            </Button>
+          
+          </div>
+          
+        </div>
+      )
+    }
+  }
+
+  render() {
+
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <Navbar />
+        <main className={classes.main}>
+          <CssBaseline />
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Recover Password
+        </Typography>
+        {this.chekFormStatus(classes)}   
           </Paper>
         </main>
       </div>
