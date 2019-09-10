@@ -40,11 +40,7 @@ const styles = theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-  },
-  links: {
-    color: 'Black',
-    hover: 'red'
-  },
+  },  
   join: {
     paddingTop: 10,
     display: 'inlineBlock',
@@ -122,13 +118,18 @@ class ForgotPassword extends React.Component {
   updatePassword = (e) => {
     e.preventDefault()
     if(this.state.confirmpassword === this.state.password) {
-      Auth.forgotPasswordSubmit(this.state.email, this.state.verificationCode, this.state.confirmpassword)
+      if(this.state.confirmpassword.length>=6) {
+        Auth.forgotPasswordSubmit(this.state.email, this.state.verificationCode, this.state.confirmpassword)
     .then(data => 
       this.setState({
       checkStatus: 2
     }))
     .catch(err => console.log(err));
     }
+    else {
+      alert("Password should be of at least 6 characters")
+    }
+      }
     else {
       alert ("Password Do not Match!! Please check the Password again")
     }

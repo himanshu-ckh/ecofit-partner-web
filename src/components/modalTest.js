@@ -25,7 +25,7 @@ const buttonStyle = {
 };
 
 const dialogStyle = {
-  backgroundColor: 'black',
+  // backgroundColor: 'black',
   width: '100%'
 };
 
@@ -35,6 +35,10 @@ const closeButtonStyle = {
   marginBottom: "2%",
   marginTop: '2%'
 };
+
+const headingStyle = {
+  paddingLeft: '4%'
+}
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
@@ -912,7 +916,7 @@ componentDidUpdate = () => {
           aria-describedby="alert-dialog-slide-description"
           style={dialogStyle} 
         >
-          <h2 color="secondary" >
+          <h2 style={headingStyle} color="secondary" >
             Edit Timings
             <Button style={closeButtonStyle} variant="outlined" color="secondary" onClick={this.closeModal}>
             <i className="fa fa-times" aria-hidden="true" />

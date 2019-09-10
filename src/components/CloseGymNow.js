@@ -1,6 +1,12 @@
 import React, { useReducer, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { API } from "aws-amplify";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const InitialState = {
     workingHours:{
@@ -11,7 +17,9 @@ const InitialState = {
         nextStatus: null,
     },
     dataLoadedFromAPI: null,
-    gymOpenStatus: true
+    gymOpenStatus: true,
+    closeGymNowDialog:false,
+    openGymNowDialog:false,
 }
 
 function CloseGymNow(props) {
@@ -39,6 +47,39 @@ function CloseGymNow(props) {
                     }
                 }
             }
+            case 'closeGymNowDialog': {
+                return {
+                    ...state,
+                    closeGymNowDialog: true
+                }
+            }
+            case 'closeModalGym': {
+                return {
+                    ...state,
+                    closeGymNowDialog: false
+                }
+            }
+
+            case 'closeModal': {
+                return {
+                    ...state,
+                    closeGymNowDialog: false
+                }
+            }
+
+            case 'openGymNowDialog': {
+                return {
+                    ...state,
+                    openGymNowDialog: true
+                }
+            }
+
+            case 'closeModalGym2': {
+                return {
+                    ...state,
+                    openGymNowDialog: false
+                }
+            }
             default:
         }
     }
@@ -63,12 +104,35 @@ function CloseGymNow(props) {
 
     const handeleCloseNowButton = (e) => {
         e.preventDefault();
-        setgymCloseNowStatus()
+        dispatch({type: 'closeGymNowDialog'})   
     }
 
     const handeleOpenNowButton = (e) => {
         e.preventDefault();
+        dispatch({type: 'openGymNowDialog'}) 
+        
+    }
+
+    const handleCloseGymDisagre = (e) => {
+        e.preventDefault();
+        dispatch({type: 'closeModalGym'})
+    }
+
+    const handleCloseGymAgree = (e) => {
+        e.preventDefault();
+        setgymCloseNowStatus()
+        dispatch({type: 'closeModalGym'})
+    }
+
+    const handleOpenGymDisagre = (e) => {
+        e.preventDefault();
+        dispatch({type: 'closeModalGym2'})
+    }
+
+    const handleOpenGymAgree = (e) => {
+        e.preventDefault();
         setgymOpenNowStatus()
+        dispatch({type: 'closeModalGym2'})
     }
 
     const getUserDetails = () => {
@@ -131,6 +195,27 @@ function CloseGymNow(props) {
                 <Button variant="outlined" color="secondary" className={styles.button} onClick={handeleCloseNowButton}>
                     Close Gym Now
                 </Button>
+                <Dialog
+                    open={state.closeGymNowDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    >
+                    <DialogTitle id="alert-dialog-title">{'Close Gym for the Day'}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Close Gym For Whole Day!!.
+                        If you need to open gym again, please select this again.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleCloseGymDisagre} color="primary">
+                        Disagree
+                    </Button>
+                    <Button onClick={handleCloseGymAgree} color="primary" autoFocus>
+                        Agree
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }
@@ -140,6 +225,27 @@ function CloseGymNow(props) {
                 <Button variant="contained" color="secondary" className={styles.button} onClick={handeleOpenNowButton}>
                     Open Gym Now
                 </Button>
+                <Dialog
+                    open={state.openGymNowDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    >
+                    <DialogTitle id="alert-dialog-title">{"Open Gym for the day"}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Open Gym for Now!!
+                        Want to close the Gym again, please click the same.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleOpenGymDisagre} color="primary">
+                        Disagree
+                    </Button>
+                    <Button onClick={handleOpenGymAgree} color="primary" autoFocus>
+                        Agree
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }

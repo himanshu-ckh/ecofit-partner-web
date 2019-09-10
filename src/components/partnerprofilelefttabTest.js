@@ -39,6 +39,10 @@ const styles = theme => ({
     width: "90%",
     textAlign: "center",
     jusifyContent: "center"
+  },
+  cardcontent: {
+    paddingTop: '0',
+    paddingBottom: '0'
   }
 });
 
@@ -107,10 +111,13 @@ class PartnerProfileLeftTabTest extends React.Component {
   }
 
   getFiles = (event, filename) => {
-    console.log(event);
     this.setState({ files: event[0] });
-    console.log(this.state.files);
-    this.uploadImage(filename, this.state.files.base64, this.props.user);
+    if(this.state.files.name.split('.')[1]==="jpeg" || this.state.files.name.split('.')[1]==="jpg" || this.state.files.name.split('.')[1]==="png") {
+      this.uploadImage(filename, this.state.files.base64, this.props.user);
+    }
+    else {
+      alert("Please select a file with .jpeg or .png or .jpg format")
+    }
   };
 
   uploadImage = (filename, file, user) => {
@@ -173,7 +180,7 @@ class PartnerProfileLeftTabTest extends React.Component {
         <div className={classes.main}>
           <Card className={classes.cardmain}>
             <div className="upload-btn-wrapper">
-              <button className="btn">Upload      <i class="fa fa-upload" aria-hidden="true"></i></button>
+              <button className="btn">Upload      <i className="fa fa-upload" aria-hidden="true"></i></button>
               <FileBase64
                 multiple={true}
                 onDone={event => this.getFiles(event, filename)}

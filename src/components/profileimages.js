@@ -79,7 +79,13 @@ class ProfileImages extends React.Component {
 
   getFiles = (event, filename) => {
     this.setState({ files: event[0] });
+    if(this.state.files.name.split('.')[1]==="jpeg" || this.state.files.name.split('.')[1]==="jpg" || this.state.files.name.split('.')[1]==="png") {
+      
     this.uploadImage(filename, this.state.files.base64, this.props.user);
+    }
+    else {
+      alert("Please select a file with .jpeg or .png or .jpg format")
+    }
   };
 
   uploadImage = (filename, file, user) => {

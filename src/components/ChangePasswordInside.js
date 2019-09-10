@@ -22,7 +22,7 @@ const InitalState = {
 };
 
 const dialogStyle = {
-  backgroundColor: 'black',
+  // backgroundColor: 'black',
   width: '100%'
 };
 
@@ -65,10 +65,6 @@ const useStyles = makeStyles(theme => ({
     },
     form: {
       width: '100%', // Fix IE 11 issue.
-    },
-    links: {
-      color: 'Black',
-      hover: 'red'
     },
     join: {
       paddingTop: 10,
@@ -181,12 +177,17 @@ export default function ChangePasswordInside (props) {
       e.preventDefault()
       console.log(state.currentPassword, state.confirmNewPassword)
       if(state.newpassword === state.confirmNewPassword) {
+        if(state.newpassword.length>=6) {
           Auth.changePassword(props.user, state.currentPassword, state.confirmNewPassword)
           .then(data => 
             dispatch({
               type: 'passwordSetSuccesful',
           }))
           .catch(err => console.log(err));
+        }
+          else {
+            alert("Password should be of at least 6 characters")
+          }
       }
       else {
         alert("Password Do not Match!! Please check the Password again")
@@ -209,7 +210,7 @@ export default function ChangePasswordInside (props) {
                 </FormControl>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="password">New Password</InputLabel>
-                  <Input className={classes.password} onChange={(e) =>handleChangeNewPassword(e)} name="newpassword" type="password" id="newPassword2" />
+                  <Input className={classes.password} onChange={(e) =>handleChangeNewPassword(e)} name="newpassword" type="password" id="newPassword1" />
                 </FormControl>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="password">Confirm Password</InputLabel>

@@ -26,6 +26,12 @@ const useStyles = makeStyles(theme => ({
     flexBasis: '33.33%',
     flexShrink: 0,
   },
+  heading2: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+    paddingLeft: '2%'
+  },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
@@ -260,7 +266,7 @@ export default function ControlledExpansionPanels(props) {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography className={classes.heading}>Previous Plans</Typography>
+          <Typography className={classes.heading2}>Previous Plans</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
         <Card className={classes.card}>

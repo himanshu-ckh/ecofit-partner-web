@@ -274,7 +274,7 @@ function SideTabTest(props) {
           variant="scrollable"
           scrollButtons="on"
         >
-          <Tab label="Up Coming" />
+          <Tab label="UpComing" />
           <Tab label="History" />
           <Tab label="Profile" />
           <Tab label="Images" />

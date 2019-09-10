@@ -109,6 +109,14 @@ export default function MainProfilePageTest(props) {
             }, 300);
           }),
       }}
+      options = {
+        {
+          pageSize :'8',
+          pageSizeOptions: [8,12,15]
+        }
+    
+        
+      }
     />
     </div>
     
