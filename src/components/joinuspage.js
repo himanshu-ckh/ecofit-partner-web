@@ -53,17 +53,17 @@ const styles = theme => ({
     },
   },
   button: {
-    marginRight: theme.spacing.unit,
-    marginTop: theme.spacing.unit *2,
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   actionsContainer: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
   resetContainer: {
-    padding: theme.spacing.unit *2,
+    padding: theme.spacing(2),
   },
   paper: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     margin: "auto",
 
   },
@@ -71,8 +71,8 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit *2,
-    marginRight: theme.spacing.unit *2,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
   buttonSuccess: {
     backgroundColor: green[500],

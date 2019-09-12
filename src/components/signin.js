@@ -18,9 +18,9 @@ const styles = theme => ({
   mainDivForSignInForm: {
     marginTop: "9%",
     width: "auto",
-    marginLeft: theme.spacing.unit *3,
-    marginRight: theme.spacing.unit *3,
-    [theme.breakpoints.up(400 + theme.spacing.unit *3 *2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(3)*2)]: {
       width: 500,
       marginLeft: "auto",
       marginRight: "auto"
@@ -28,15 +28,15 @@ const styles = theme => ({
     opacity: ".9"
   },
   paper: {
-    marginTop: theme.spacing.unit *3,
+    marginTop: theme.spacing(3),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit *2}px ${theme.spacing.unit *3}px ${theme
-      .spacing.unit *3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme
+      .spacing(3)}px`
   },
   avatar: {
-    margin: theme.spacing.unit,
+    // margin: theme.spacing,
     backgroundColor: theme.palette.secondary.main
   },
   links: {
@@ -50,19 +50,19 @@ const styles = theme => ({
     fontWeight: 400
   },
   submit: {
-    marginTop: theme.spacing.unit *2,
+    marginTop: theme.spacing(2),
   },
   forgotpassword: {
-    marginTop: theme.spacing.unit,
-    marginLeft: theme.spacing.unit *1,
+    // marginTop: theme.spacing,
+    marginLeft: theme.spacing(1),
     fontWeight: 500,
     display: "flex",
     flexDirection: "column"
   },
   joinus: {
-    marginTop: theme.spacing.unit * 0.5,
-    marginRight: theme.spacing.unit * 1,
-    paddingLeft: theme.spacing.unit * 2,
+    marginTop: theme.spacing(.5),
+    marginRight: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
     fontWeight: 500,
     display: "flex",
     flexDirection: "column"

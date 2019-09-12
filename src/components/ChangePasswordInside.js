@@ -43,9 +43,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles(theme => ({
     main: {
       width: 'auto',
-      marginLeft: theme.spacing.unit *3,
-      marginRight: theme.spacing.unit *3,
-      [theme.breakpoints.up(400 + theme.spacing.unit *3 *2)]: {
+      marginLeft: theme.spacing(3),
+      marginRight: theme.spacing(3),
+      [theme.breakpoints.up(400 + theme.spacing(3) *2)]: {
         width: 500,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -53,14 +53,14 @@ const useStyles = makeStyles(theme => ({
       opacity: '.9',
     },
     paper: {
-      marginTop: theme.spacing.unit *8,
+      marginTop: theme.spacing(8),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: `${theme.spacing.unit *2}px ${theme.spacing.unit *3}px ${theme.spacing.unit *3}px`,
+      padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
     },
     avatar: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       backgroundColor: theme.palette.secondary.main,
     },
     form: {
@@ -77,12 +77,12 @@ const useStyles = makeStyles(theme => ({
       fontWeight: 400,
     },
     submit: {
-      marginTop: theme.spacing.unit *2,
+      marginTop: theme.spacing(2),
     },
     forgotpassword: {
   
-      marginTop: theme.spacing.unit,
-      marginLeft: theme.spacing.unit *1,
+      marginTop: theme.spacing(1),
+      marginLeft: theme.spacing(1),
       fontWeight: 500,
       display: 'flex',
       flexDirection: 'column',
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
       marginTop: '10px'
     },
     chip: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       height: '50px',
       color: '#2e7d32',
       fontWeight: 'bold'

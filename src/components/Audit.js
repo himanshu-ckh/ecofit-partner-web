@@ -18,7 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
   heading: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: "80%",
   },
   chip: {
-    margin: theme.spacing.unit *1,
+    margin: theme.spacing(1),
   },
   table: {
     minWidth: "100%",
@@ -279,8 +279,8 @@ export default function ControlledExpansionPanels(props) {
           {state.previousPlans.map(data => {
             
             return(
-              <div>
-              <Table className={classes.table}>
+              <div key={data.planId}>
+              <Table  className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>Plans Details</TableCell>
