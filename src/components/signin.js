@@ -178,7 +178,7 @@ class SignIn extends React.Component {
                   />
                 </FormControl>
                 <Button autoFocus
-                  type={'button' | 'submit'}
+                  type='submit'
                   fullWidth
                   variant="contained"
                   color="primary"

@@ -38,14 +38,18 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     minWidth: "80%",
-    marginLeft: "8%"
   },
   chip: {
     margin: theme.spacing.unit *1,
   },
   table: {
     minWidth: "100%",
+    flexGrow: 1,
   },
+  expansionPanelDetails: {
+    padding: 0,
+    display: 'block'
+  }
 }));
 
 const InitialState = {
@@ -193,7 +197,7 @@ export default function ControlledExpansionPanels(props) {
         >
           <Typography className={classes.heading}>Current Plan</Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails className={classes.expansionPanelDetails}>
         <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.title}  variant="subtitle2" gutterBottom>
@@ -268,7 +272,7 @@ export default function ControlledExpansionPanels(props) {
         >
           <Typography className={classes.heading2}>Previous Plans</Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails className={classes.expansionPanelDetails}>
         <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.title}  variant="subtitle2" gutterBottom>

@@ -18,12 +18,12 @@ const styles = theme => ({
   cardmain: {
     flexGrow: 1,
     marginTop: 10,
-    width: "80%",
+    width: "100%",
     height: "40%",
     maxHeight: "100%",
     marginBottom: 20,
-    marginLeft: "2%",
-    marginRight: "1%",
+    // marginLeft: "2%",
+    // marginRight: "1%",
     boxShadow: '5px 5px 5px 5px lightgrey'
 
   },

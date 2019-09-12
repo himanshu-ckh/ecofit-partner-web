@@ -111,12 +111,20 @@ export default function MainProfilePageTest(props) {
       }}
       options = {
         {
-          pageSize :'8',
-          pageSizeOptions: [8,12,15]
+          pageSize : 8,
+          pageSizeOptions: [8,12,15],
+          paging : false
         }
-    
+      }
+      style={
+        {
+          width: "100%",
+          flexGrow: 1,
+        }
         
       }
+      
+
     />
     </div>
     

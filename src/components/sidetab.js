@@ -14,7 +14,7 @@ import MainProfilePageTest from "./mainprofilepagetest";
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div">
       {props.children}
     </Typography>
   );
@@ -30,7 +30,7 @@ const styles = theme => ({
     width: "100%",
     backgroundColor: theme.palette.background.paper,
     display: "inlineBlock",
-    marginLeft: "1%",
+    // marginLeft: "1%",
     boxShadow: '5px 5px 5px 5px lightgrey'
   }
 });

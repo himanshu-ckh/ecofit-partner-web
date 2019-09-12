@@ -144,7 +144,7 @@ class ProfileImages extends React.Component {
         
           <Card className={classes.cardmain}>
             <div className="upload-btn-wrappers">
-              <button className="btn">Upload     <i class="fa fa-upload" aria-hidden="true"></i></button>
+              <button className="btn">Upload     <i className="fa fa-upload" aria-hidden="true"></i></button>
               <FileBase64
                 multiple={true}
                 onDone={event => this.getFiles(event, filename)}

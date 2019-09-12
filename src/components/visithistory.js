@@ -17,7 +17,10 @@ const styles = theme => ({
     maxHeight: "100%",
     marginBottom: 20,
     marginLeft: "12%",
-    boxShadow: '3px 3px 3px 3px lightgrey'
+    boxShadow: '3px 3px 3px 3px lightgrey',
+    [theme.breakpoints.down('sm')]: {
+      width:'80%',
+    },
   },
   main: {
     display: "inlineBlock",
@@ -26,7 +29,10 @@ const styles = theme => ({
   details: {
     display: "flex",
     flexDirection: "column",
-    width: "48%"
+    width: "48%",
+    [theme.breakpoints.down('sm')]: {
+      maxWidth:'30%',
+    },
   },
   content: {
     flex: "1 0 auto",
@@ -41,7 +47,13 @@ const styles = theme => ({
     width: 90,
     height: 90,
     borderRadius: "50%",
-    justifyContent: "right"
+    justifyContent: "right",
+    [theme.breakpoints.down('sm')]: {
+      maxWidth:'100%',
+      marginLeft:'2%',
+      width: 50,
+      height: 50
+    },
   },
   search: {
     width: "80%",

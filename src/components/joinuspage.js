@@ -27,8 +27,30 @@ import { Media } from 'react-breakpoints';
 
 const styles = theme => ({
   root: {
-    width: '90%',
-    paddingTop: '3%'
+    paddingTop: '3%',
+    [theme.breakpoints.up('lg')]: {
+      width: '76%',
+    
+    marginLeft: '12%',
+    marginRight: '12%',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '53%',
+    
+    marginLeft: '23%',
+    marginRight: '23%',
+    },
+    // [theme.breakpoints.between('md', 'lg')]: {
+    //   width: '76%',
+    //   marginLeft: '12%',
+    //   marginRight: '12%',
+    //   // marginLeft: '5%',
+    // },
+    [theme.breakpoints.between('sm', 'md')]: {
+      width: '76%',
+      marginLeft: '12%',
+      marginRight: '12%',
+    },
   },
   button: {
     marginRight: theme.spacing.unit,
@@ -71,7 +93,7 @@ const styles = theme => ({
 class VerticalLinearStepper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {activeStep: 0, price: 2500, loading: false, success: false, snackOpen: false, lat: ' ', long: ' ',};
+    this.state = {activeStep: 0, loading: false, success: false,open: false, snackOpen: false, lat: null, long: null,};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -87,8 +109,7 @@ class VerticalLinearStepper extends React.Component {
     contactPersonName: '',
     contactPersonEmail: '',
     contactPersonNumber: '',
-    contactPersonDesignation: '',
-    price: '2500'
+    contactPersonDesignation: '', 
   };
 
   handleChange(event) {
@@ -379,13 +400,13 @@ class VerticalLinearStepper extends React.Component {
       <Media>
       {({ breakpoints, currentBreakpoint }) =>
           breakpoints[currentBreakpoint] > breakpoints.mobileLandscape ? (
-            <Stepper activeStep={activeStep} orientation="horizontal">
+            <Stepper activeStep={activeStep} orientation="vertical">
               {steps.map((label, index) => {
                 return (
                   <Step key={label} >
                     <StepLabel >{label}</StepLabel>
                     <StepContent>
-                      <Typography>{this.getStepContent(index,this.state.lat, this.state.long)}</Typography>
+                      <Typography component={'span'}>{this.getStepContent(index,this.state.lat, this.state.long)}</Typography>
                       <div className={classes.actionsContainer}>
                         <div>
                           <Button

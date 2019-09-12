@@ -14,7 +14,6 @@ export default function GetTime(props) {
         mask={[/\d/, /\d/, ":", /\d/, /\d/, " ", /a|p/i, "M"]}
         value={props.selectedDate}
         onChange={(e) => props.handleDateChange(e, props.day)}
-        disableOpenOnEnter
       />
     </MuiPickersUtilsProvider>
   );

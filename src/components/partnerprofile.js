@@ -13,47 +13,65 @@ const styles = theme => ({
     backgroundColor: "#DCDCDC"
   },
   wrappingdiv: {
-    margin: "auto",
+    // margin: "auto",
     width: "100%",
-    display: "flex",
-    flexWrap: "wrap"
+    // display: "flex",
+    // flexWrap: "wrap",
+    overflow:'hidden',
+    
   },
   lefttab: {
-    width: "39%",
-    maxWidth: "100%",
+    // width: "39%",
+    // maxWidth: "100%",
     marginTop: "1%",
-    marginLeft: "4%",
+    marginLeft: "5%",
+    marginRight: '5%',
+    float:'left', 
+    [theme.breakpoints.up('lg')]: {
+      width:'35%',
+      // marginLeft: '5%',
+    },
     [theme.breakpoints.between('md', 'lg')]: {
       width:'35%',
-      marginLeft: '5%',
+      // marginLeft: '5%',
     },
     [theme.breakpoints.between('sm', 'md')]: {
-      width:'65%',
-      marginLeft: '23%',
+      float: 'none',
+    // marginRight:0,
+    width:'auto',
+    // marginLeft:'7%',
     },
     [theme.breakpoints.down('sm')]: {
-      width:'140%',
-      marginLeft: '23%',
-      wordWrap: 'break-word'
+      // width:'140%',
+      // marginLeft: '14%',
+      // wordWrap: 'break-word'
+      float: 'none',
+    // marginRight:0,
+    width:'auto',
+    // marginLeft:'16%',
     },
 
   },
   sidetab: {
-    width: "80%",
-    maxWidth: "100%",
+    // width: "80%",
+    // maxWidth: "100%",
+    marginRight: '5%',
     marginTop: "1.5%",
+    marginLeft: "5%",
+    overflow:'hidden',
     [theme.breakpoints.between('md', 'lg')]: {
-      width:'54%',
-      marginRight: '5%',
+      // width:'54%',
+      // marginRight: '5%',
     },
     [theme.breakpoints.between('sm', 'md')]: {
-      width: '85%',
-      maxWidth:'100%',
-      marginLeft:'8%',
+      // width: '85%',
+      // maxWidth:'100%',
+      // marginLeft:'17%',
     },
     [theme.breakpoints.down('sm')]: {
-      maxWidth:'100%',
-      marginLeft:'8%',
+    //   float: 'none',
+    // marginRight:0,
+    // width:'auto'
     },
 
   }
